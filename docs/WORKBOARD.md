@@ -13,6 +13,17 @@ Validate an automated B2B invoice follow-up product for small agencies and consu
 - Distinct reminder-stage labels currently generate the same reminder text.
 - No measured customer-demand or revenue evidence exists.
 
+## Active work — 2026-10-04
+
+[PR #1 — stage-specific reminder previews](https://github.com/RodrigoCalleia/cobro-agent/pull/1) is open on `fix/reminder-stages-2026-10-04`, head `b57bb34b8cdb824a646055340ac024873ace400c`. Continue this PR before starting competing product changes.
+
+- Implementation complete on the branch: shared rules, different friendly/direct subjects and bodies, blocked-state and identity guards.
+- 27 Node tests passed; engine and inline UI syntax checks passed. Independent QA reran the tests and closed its missing-identity finding.
+- The three product/test files fetched from the PR head exactly matched the tested local contents.
+- Main's product code remains unchanged pending integration. Browser verification is pending because Chromium and the agent-browser CLI were unavailable; no visual pass is claimed.
+- [Dated implementation report](https://github.com/RodrigoCalleia/cobro-agent/blob/fix/reminder-stages-2026-10-04/docs/reports/2026-10-04-reminder-stages.md) records the result, limitations and handoff.
+- Next coordinator action: review/integrate the verified change and complete browser verification when a runtime is available. Then resolve authorized commercial hosting access and pilot interest capture. No hosting account or deployment was created in this cycle.
+
 ## Working roles
 
 - Coordinator: select the next useful task, integrate bounded work, check evidence and report.
