@@ -4,25 +4,25 @@
 
 Validate an automated B2B invoice follow-up product for small agencies and consultancies. The owner observes and comments; the coordinating agent chooses and executes routine work within the granted access.
 
-## Verified status — 2026-10-04
+## Verified status — 2026-10-05
 
 - Interactive prototype is stored in index.html.
 - Fictional invoices, manual test-invoice entry, decision rules, reminder preview, simulated payment and JSON export exist.
 - Runtime state is in memory and resets on reload. The simulation date is fixed and labelled.
 - No deployment is recorded. No persistent leads, authentication, live email delivery, reply handling or billing are connected.
-- Distinct reminder-stage labels currently generate the same reminder text.
+- Friendly (1–7 overdue days) and direct (8–30 days) decisions now generate different preview subjects and bodies. Blocked decisions do not produce a preview.
 - No measured customer-demand or revenue evidence exists.
 
-## Active work — 2026-10-04
+## Latest integration — 2026-10-05
 
-[PR #1 — stage-specific reminder previews](https://github.com/RodrigoCalleia/cobro-agent/pull/1) is open on `fix/reminder-stages-2026-10-04`, head `b57bb34b8cdb824a646055340ac024873ace400c`. Continue this PR before starting competing product changes.
+[PR #1 — stage-specific reminder previews](https://github.com/RodrigoCalleia/cobro-agent/pull/1) was merged into `main` at `3a659f41e213a06dd31d9263da18a12a2ae24ad3`.
 
-- Implementation complete on the branch: shared rules, different friendly/direct subjects and bodies, blocked-state and identity guards.
-- 27 Node tests passed; engine and inline UI syntax checks passed. Independent QA reran the tests and closed its missing-identity finding.
-- The three product/test files fetched from the PR head exactly matched the tested local contents.
-- Main's product code remains unchanged pending integration. Browser verification is pending because Chromium and the agent-browser CLI were unavailable; no visual pass is claimed.
-- [Dated implementation report](https://github.com/RodrigoCalleia/cobro-agent/blob/fix/reminder-stages-2026-10-04/docs/reports/2026-10-04-reminder-stages.md) records the result, limitations and handoff.
-- Next coordinator action: review/integrate the verified change and complete browser verification when a runtime is available. Then resolve authorized commercial hosting access and pilot interest capture. No hosting account or deployment was created in this cycle.
+- The merged product/test blobs match the previously tested PR head: 27 Node tests passed before integration, and independent QA re-executed all 27 test functions in V8 during integration review.
+- GitHub had no hosted checks, statuses or reviews; do not describe this as CI-verified.
+- The workboard-only commit that landed on `main` after the PR branch was created was preserved.
+- Browser/mobile verification is still pending because no working browser runtime was available. No visual pass is claimed.
+- [Integration report](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/reports/2026-10-05-integration-review.md) records evidence, limitations and handoff.
+- Next coordinator action: verify the integrated browser flow, then resolve authorized commercial hosting and persistent pilot-interest capture. Keep external delivery, subscriptions and deployment blocked until their own prerequisites are verified.
 
 ## Working roles
 
@@ -35,7 +35,7 @@ Subagents are task-scoped, not continuously running. Use only available capabili
 
 ## Ordered backlog
 
-1. Make reminder preview text match the chosen stage; extract testable behavior and run targeted checks. Keep preview separate from actual delivery.
+1. Completed 2026-10-05: reminder preview text now matches friendly/direct stages and has targeted checks. Delivery remains separate and unimplemented.
 2. Select lawful commercial hosting with minimal fixed cost; document verified terms, access and deployment blockers. No paid subscription without account authorization.
 3. Define an honest pilot offer and build persistent interest capture. Enable a success message only after confirmed storage. Do not expose customer data in this public repository.
 4. Publish and verify mobile/desktop flow once a suitable host and access exist.
