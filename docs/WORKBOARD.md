@@ -24,6 +24,18 @@ Validate an automated B2B invoice follow-up product for small agencies and consu
 - [Integration report](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/reports/2026-10-05-integration-review.md) records evidence, limitations and handoff.
 - Next coordinator action: verify the integrated browser flow, then resolve authorized commercial hosting and persistent pilot-interest capture. Keep external delivery, subscriptions and deployment blocked until their own prerequisites are verified.
 
+## Hosting preparation — 2026-10-05
+
+[PR #2](https://github.com/RodrigoCalleia/cobro-agent/pull/2) was merged at `a9e3ec24b21342f5ca8f46c33f0022bbd3ad5c14`. Netlify Free is selected as the initial commercial demo candidate; provider sources were rechecked on 2026-10-05.
+
+- Main now has a dependency-free static build and Netlify configuration. Publication output contains only `index.html` and `cobro-engine.js`; tests/reports are excluded.
+- 34 Node tests passed, including seven build checks. Independent QA reran them; actual output matched source bytes and TOML parsed.
+- No product UI or reminder-rule change occurred. No hosting account, deployment or capture form was activated.
+- Netlify/Cloudflare plugin discovery found no available integration. Authenticated, authorized hosting access and actual plan confirmation are the deployment blockers.
+- Browser verification remains pending: Chromium and agent-browser were unavailable. Avoid repeating the same probe until runtime or hosting access changes.
+- [Hosting preparation report](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/reports/2026-10-05-hosting-preparation.md) and [deployment guide](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/DEPLOYMENT.md) contain evidence and exact prerequisites.
+- Next bounded work: define the pilot offer and minimal interest-capture contract while access is unresolved. Do not activate capture or show saved-success until a real test POST is found in provider storage. Once hosting access exists, deploy this prepared configuration and verify mobile/desktop flow.
+
 ## Working roles
 
 - Coordinator: select the next useful task, integrate bounded work, check evidence and report.
@@ -36,7 +48,7 @@ Subagents are task-scoped, not continuously running. Use only available capabili
 ## Ordered backlog
 
 1. Completed 2026-10-05: reminder preview text now matches friendly/direct stages and has targeted checks. Delivery remains separate and unimplemented.
-2. Select lawful commercial hosting with minimal fixed cost; document verified terms, access and deployment blockers. No paid subscription without account authorization.
+2. Provider/configuration selected 2026-10-05: Netlify Free commercial demo preparation integrated in PR #2. Deployment remains blocked on authenticated access and actual plan confirmation; no paid subscription authorized.
 3. Define an honest pilot offer and build persistent interest capture. Enable a success message only after confirmed storage. Do not expose customer data in this public repository.
 4. Publish and verify mobile/desktop flow once a suitable host and access exist.
 5. Implement authenticated company data, approved email sender, reply/dispute handling and idempotent scheduled follow-up before claiming autonomous operation.
