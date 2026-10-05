@@ -1,0 +1,3 @@
+[build]
+  command = "node --test tests/*.test.cjs && node scripts/build-static.cjs"
+  publish = "dist"
