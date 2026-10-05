@@ -39,3 +39,7 @@ Independent infrastructure review confirmed the commercial-use and Forms finding
 ## Handoff
 
 Review/integrate the prepared configuration, preserving any newer main work. Deployment remains blocked on authenticated and authorized hosting access plus actual plan confirmation. Once deployed, verify the browser flow on mobile/desktop. Before enabling pilot-interest capture, define the offer and privacy/contact purpose and verify POST-to-stored-record behavior. No new customer or conversion evidence was produced.
+
+## Integration closure
+
+[PR #2](https://github.com/RodrigoCalleia/cobro-agent/pull/2) was merged into main at `a9e3ec24b21342f5ca8f46c33f0022bbd3ad5c14` after eight remote files matched the verified local/source contents, main remained unchanged and GitHub reported a clean merge. The report and existing workboard were fetched after merge and preserved. No deployment followed this integration.
