@@ -9,9 +9,13 @@ Open index.html with cobro-engine.js in the same directory to explore invoice pr
 Run the dependency-free rule and preview checks with Node.js:
 
 ```sh
-node --test tests/cobro-engine.test.cjs
+node --test tests/*.test.cjs
 ```
 
 These checks cover both stage boundaries, blocked states, invalid identities/dates, and invoice-state rechecks. They do not verify browser layout or email delivery.
 
 No live email delivery, payment processing, authentication or persistent customer storage are connected. This prototype is not ready for commercial operation.
+
+## Demo deployment preparation
+
+`node scripts/build-static.cjs` creates `dist` with only the two demo assets. Netlify configuration runs the checks before building. See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for provider evidence and access/verification requirements. No public deployment or lead capture is connected yet.
