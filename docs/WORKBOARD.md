@@ -88,13 +88,15 @@ Netlify project `cobro-agent-rodrigo` was created on the authenticated Free plan
 
 ## Cached-build repair — 2026-10-06
 
-Prepared on isolated branch `fix/netlify-cached-config-2026-10-06` from `54b647bfdf3bec9fca8c2858ff4d2d0e52068663`.
+[PR #6](https://github.com/RodrigoCalleia/cobro-agent/pull/6) was merged at `b68bd7ce44b0adcc39353881cc0c3389a92e063e` from isolated branch `fix/netlify-cached-config-2026-10-06`.
 
 - Builder accepts only an existing regular dist/netlify.toml identical byte-for-byte to the regular repository config; the copy is preserved. Unknown entries, changed copies and symlinks still stop before asset writes.
-- All 65 local tests passed; independent QA reran all 65 without a blocking defect. Clean output contains two byte-identical demo assets.
-- Hosted preview and cached provider behavior remain pending; inspect actual checks before merge. This does not activate capture or change the demo UI.
+- All 65 local tests passed; independent QA reran all 65 without a blocking defect. Clean output contains two byte-identical demo assets. Product UI and source assets are unchanged.
+- Actual GitHub Netlify preview status was successful before merging; Redirect/Header/Pages checks completed neutral. Preview deploy `6ac571697e7cd40008e93b64`: https://deploy-preview-6--cobro-agent-rodrigo.netlify.app .
+- Explicit cache restore/retry and hosted test count remain unverified: this browser session presents Log in and no usable deploy logs. Do not equate the green preview with verified restored-cache reproduction.
+- Post-merge production confirmation remains pending. The previous public deploy is the last verified production state; capture is still disabled.
 - [Cycle report](reports/2026-10-06-cached-build-fix.md).
-- Next: inspect the preview and cached rebuild, then integrate the pinned SDK through a disabled trusted route and complete the notice/contact gates before synthetic storage testing.
+- Next: verify cached rebuild when authenticated deploy access is available; meanwhile pin the SDK and prepare a disabled trusted route. Complete notice/responsible-party/public-contact gates before exposing capture or performing synthetic private storage checks.
 
 ## Working roles
 
