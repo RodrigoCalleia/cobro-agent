@@ -60,6 +60,18 @@ Netlify project `cobro-agent-rodrigo` was created on the authenticated Free plan
 - [Deployment report](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/reports/2026-10-06-netlify-private-deployment.md).
 - Next action: complete mobile and separate anonymous-session checks, then implement persistent pilot-interest capture against docs/PILOT.md. Hosting access, Free plan confirmation and public visibility are resolved. Contact capture, real invoice operation, email and billing remain unfinished.
 
+## Pilot-interest validation foundation — 2026-10-06
+
+[PR #4](https://github.com/RodrigoCalleia/cobro-agent/pull/4) was merged at `4b492e5c3c7ab893606228f9deee0762d0dc1d26` from isolated branch `product/pilot-interest-validation-2026-10-06`.
+
+- Implemented strict request validation for the three permitted capture fields, including affirmative boolean permission, syntax/length/type checks, control/newline rejection and an extra-field allowlist.
+- 44 local Node tests passed (34 existing, 10 capture tests), syntax and static-build checks passed. The published demo assets are unchanged; no hosted-test or mobile pass is claimed for this step.
+- Independent QA found acceptance of Unicode line/paragraph separators; the fix and regression cases passed, and QA rechecked the four affected cases.
+- This module is preparation only: there is no deployed capture endpoint, input form, stored lead, automatic email or saved-success UI. It does not activate Netlify Forms.
+- Current capture blockers: private storage and its inspection/deletion path, responsible party/contact channel and approved notice. Server metadata, notice binding, body-size/rate controls, retry/duplicate handling and storage-confirmation checks still require implementation.
+- [Cycle report](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/reports/2026-10-06-interest-validation.md).
+- Next bounded work: verify a private storage path and choose the smallest server integration; complete the capture activation gates before exposing inputs. Mobile and separate anonymous-session verification remain pending.
+
 ## Working roles
 
 - Coordinator: select the next useful task, integrate bounded work, check evidence and report.
@@ -73,7 +85,7 @@ Subagents are task-scoped, not continuously running. Use only available capabili
 
 1. Completed 2026-10-05: reminder preview text now matches friendly/direct stages and has targeted checks. Delivery remains separate and unimplemented.
 2. Hosting published 2026-10-06: Netlify Free plan confirmed, production deploy verified and public visibility explicitly approved/completed; no paid subscription activated.
-3. Offer defined 2026-10-06 as a visible, unavailable hypothesis; docs/PILOT.md specifies scope and capture gates. Persistent interest capture remains incomplete. Implement trusted validation/private storage; enable saved-success only after confirmed storage. Do not expose customer data in this public repository.
+3. Offer defined 2026-10-06 as a visible, unavailable hypothesis; docs/PILOT.md specifies scope and capture gates. Request-validation foundation merged in PR #4; no capture endpoint is active. Persistent interest capture remains incomplete. Connect trusted validation/private storage; enable saved-success only after confirmed storage. Do not expose customer data in this public repository.
 4. Public deployment and desktop flow verified 2026-10-06. Complete a separate anonymous-session check and mobile flow verification.
 5. Implement authenticated company data, approved email sender, reply/dispute handling and idempotent scheduled follow-up before claiming autonomous operation.
 6. Connect subscription billing after seller identity and payment account authorization.

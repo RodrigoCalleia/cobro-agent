@@ -22,3 +22,7 @@ There is no endpoint, visible contact input, new form, stored lead, email notifi
 Before activation: connect a real server boundary, bind permission to the displayed notice/version, generate private metadata, implement body-size/rate controls and duplicate/retry handling, verify retention/deletion, and independently confirm a tagged synthetic request in private provider storage before deleting it. Separate anonymous-session and mobile checks remain pending.
 
 No purchases, subscriptions, third-party messages, real invoices or customer records were used. No customer-demand, income or spending result is inferred from tests.
+
+## Integration review
+
+Independent QA rechecked the four separator cases after correction and confirmed rejection without echoing values. The PR's four changed files matched the locally tested content. Main was still at the initial base and PR #4 was mergeable/clean before integration. PR #4 merged at `4b492e5c3c7ab893606228f9deee0762d0dc1d26`. Recording/merge commits use [skip netlify] because neither published asset nor deployment configuration changed; the 44-test result above is local, not a new hosted-build claim.
