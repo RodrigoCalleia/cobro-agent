@@ -1,0 +1,97 @@
+'use strict';
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const {createPilotInterestStore} = require('../server/pilot-interest-store.cjs');
+const id = '11111111-1111-4111-8111-111111111111';
+const record = extra => ({contact_email: 'pilot@example.test', contact_permission: true, request_id: id, received_at: '2026-10-06T15:00:00.000Z', notice_version: 'synthetic-v1', ...extra});
+function fixture(overrides = {}, environment = 'test') {
+  const values = new Map(), calls = [];
+  const provider = {
+    async setJSON(key, value, options) {
+      calls.push(['setJSON', key, options]);
+      if (values.has(key)) return {modified: false};
+      values.set(key, structuredClone(value)); return {modified: true};
+    },
+    async get(key, options) { calls.push(['get', key, options]); return values.has(key) ? structuredClone(values.get(key)) : null; },
+    async delete(key) { calls.push(['delete', key]); values.delete(key); },
+    ...overrides
+  };
+  const adapter = createPilotInterestStore({environment, getStore: options => { calls.push(['getStore', options]); return provider; }});
+  return {adapter, values, calls};
+}
+test('test and production stores use distinct fixed names and strong consistency', () => {
+  assert.deepEqual(fixture().calls[0], ['getStore', {name: 'cobro-pilot-interest-test-v1', consistency: 'strong'}]);
+  assert.deepEqual(fixture({}, 'production').calls[0], ['getStore', {name: 'cobro-pilot-interest-production-v1', consistency: 'strong'}]);
+});
+test('preview, missing and arbitrary contexts cannot open a store', () => {
+  for (const environment of [undefined, 'deploy-preview', 'branch-deploy', 'custom']) {
+    assert.throws(() => createPilotInterestStore({environment, getStore: () => assert.fail('must not open store')}));
+  }
+});
+test('confirms only after matching strongly consistent read, using an opaque key', async () => {
+  const f = fixture();
+  assert.deepEqual(await f.adapter.create(record()), {state: 'stored-confirmed', request_id: id, created: true});
+  assert.deepEqual(f.calls[1], ['setJSON', `requests/${id}`, {onlyIfNew: true}]);
+  assert.deepEqual(f.calls[2], ['get', `requests/${id}`, {type: 'json', consistency: 'strong'}]);
+  assert.equal(JSON.stringify(f.calls).includes('pilot@example.test'), false);
+});
+test('retry of same trusted record creates one logical request', async () => {
+  const f = fixture(); await f.adapter.create(record());
+  assert.deepEqual(await f.adapter.create(record()), {state: 'stored-confirmed', request_id: id, created: false});
+  assert.equal(f.values.size, 1);
+});
+test('concurrent retries use create-if-new rather than read-then-write', async () => {
+  const f = fixture(); const results = await Promise.all([f.adapter.create(record()), f.adapter.create(record())]);
+  assert.equal(results.filter(r => r.created === true).length, 1);
+  assert.equal(f.values.size, 1);
+});
+test('same ID with changed contact or notice is a conflict and never overwrites', async () => {
+  const f = fixture(); await f.adapter.create(record());
+  for (const extra of [{contact_email: 'other@example.test'}, {notice_version: 'synthetic-v2'}, {business_name: 'Ficticio'}]) {
+    assert.deepEqual(await f.adapter.create(record(extra)), {state: 'conflict'});
+  }
+  assert.deepEqual(await f.adapter.read(id), record());
+});
+test('missing, mismatched or unavailable reads never claim confirmed storage', async () => {
+  for (const get of [async () => null, async () => ({other: true}), async () => {throw Error('private provider failure');}]) {
+    const result = await fixture({get}).adapter.create(record());
+    assert.notEqual(result.state, 'stored-confirmed');
+    assert.equal(JSON.stringify(result).includes('private provider failure'), false);
+  }
+});
+test('ambiguous write failure is unverified; retry with same ID can recover', async () => {
+  let stored = null, first = true;
+  const f = fixture({setJSON: async (key, value) => {
+    if (first) {first = false; stored = structuredClone(value); throw Error('timeout after write');}
+    return {modified: false};
+  }, get: async () => stored});
+  assert.deepEqual(await f.adapter.create(record()), {state: 'received-unverified'});
+  assert.deepEqual(await f.adapter.create(record()), {state: 'stored-confirmed', request_id: id, created: false});
+});
+test('invalid records and arbitrary keys are rejected before provider calls', async () => {
+  const f = fixture();
+  for (const extra of [{contact_permission: false}, {request_id: 'pilot@example.test'}, {received_at: 'yesterday'}, {notice_version: ''}, {invoices: []}]) {
+    await assert.rejects(f.adapter.create(record(extra)), /Invalid private record/);
+  }
+  for (const key of ['../private', 'pilot@example.test', undefined]) {
+    assert.throws(() => f.adapter.read(key)); await assert.rejects(f.adapter.delete(key));
+  }
+  assert.equal(f.calls.length, 1);
+});
+test('deletion is confirmed only after strong read returns null', async () => {
+  const f = fixture(); await f.adapter.create(record());
+  assert.deepEqual(await f.adapter.delete(id), {state: 'deleted-confirmed'});
+  assert.equal(f.values.size, 0);
+  assert.deepEqual(f.calls.at(-1), ['get', `requests/${id}`, {type: 'json', consistency: 'strong'}]);
+});
+test('failed deletion or remaining record is never confirmed', async () => {
+  const unchanged = fixture({delete: async () => {}}); await unchanged.adapter.create(record());
+  assert.deepEqual(await unchanged.adapter.delete(id), {state: 'delete-unverified'});
+  assert.deepEqual(await fixture({delete: async () => {throw Error('private');}}).adapter.delete(id), {state: 'delete-unverified'});
+});
+test('snapshots and normalizes request before asynchronous storage work', async () => {
+  const f = fixture(), input = record({contact_email: ' pilot@example.test ', business_name: ' Ficticio '});
+  const pending = f.adapter.create(input); input.contact_email = 'changed@example.test';
+  assert.equal((await pending).state, 'stored-confirmed');
+  assert.equal((await f.adapter.read(id)).contact_email, 'pilot@example.test');
+});

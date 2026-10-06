@@ -72,3 +72,7 @@ The demo is published. `server/validate-pilot-interest.cjs` provides dependency-
 
 Resolve the capture activation gates and provider capabilities, then connect this validator to the smallest trusted capture flow. Notice/version association, server-generated identifiers/timestamps, private persistence, duplicate/retry handling, body-size/rate controls, retention/deletion and confirmation still require implementation and end-to-end verification. Keep interest capture and live invoice operation as separate milestones.
 
+
+## Storage integration preparation — 2026-10-06
+
+Netlify Blobs is selected as the candidate within the existing account. [Storage integration](INTEREST_STORAGE.md) records current official evidence, authenticated empty-state inspection and the prepared server-only adapter. Same-ID create-only writes, matching strong reads and deletion confirmation are tested with an injected in-memory provider. No SDK, endpoint or live storage was activated; private provider write/read/delete remains unverified. This does not complete the capture activation gates or count as customer demand.
