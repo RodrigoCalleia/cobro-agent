@@ -9,7 +9,7 @@ Validate an automated B2B invoice follow-up product for small agencies and consu
 - Interactive prototype is stored in index.html.
 - Fictional invoices, manual test-invoice entry, decision rules, reminder preview, simulated payment and JSON export exist.
 - Runtime state is in memory and resets on reload. The simulation date is fixed and labelled.
-- No deployment is recorded. No persistent leads, authentication, live email delivery, reply handling or billing are connected.
+- A private Netlify production deploy is recorded; authenticated desktop flow is verified. Public visibility is awaiting explicit approval, and mobile verification is pending. No persistent leads, product authentication, live email delivery, reply handling or billing are connected.
 - Friendly (1–7 overdue days) and direct (8–30 days) decisions now generate different preview subjects and bodies. Blocked decisions do not produce a preview.
 - No measured customer-demand or revenue evidence exists.
 - The demo includes a pilot proposal labelled as an unvalidated, unavailable offer. Its CTA opens the existing simulation; there is no enrollment or contact capture.
@@ -46,7 +46,19 @@ Validate an automated B2B invoice follow-up product for small agencies and consu
 - 34 Node tests passed; static build, HTML structure/anchor, script syntax and publication-asset checks passed. Browser/mobile verification remains pending.
 - Capture contract requires a trusted validation boundary, explicit contact permission and notice association, private storage, safe duplicate/error handling and a matching stored-record read before saved-success claims.
 - [Cycle report](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/reports/2026-10-06-pilot-offer.md).
-- Hosting access/actual plan confirmation remains the publication blocker. Next bounded action: with access, publish and verify; while blocked, resolve the trusted capture implementation and privacy-notice prerequisites. Capture remains incomplete and must not be counted as demand.
+- That hosting-access blocker was resolved later in this session; see the private-deployment section below. Public visibility approval is now pending. Capture remains incomplete and must not be counted as demand.
+
+## Private Netlify deployment — 2026-10-06
+
+Netlify project `cobro-agent-rodrigo` was created on the authenticated Free plan after owner-approved GitHub authorization and app installation limited to cobro-agent.
+
+- Deploy `6ac50050db1a952bf7e9bd8a` is published from `e204d8d82225c4bc39b5e9a4476fa6822c26995e`.
+- Site: https://cobro-agent-rodrigo.netlify.app/ — currently private; authenticated access verified. Do not call this a public demo.
+- Actual Netlify build log: 34 tests passed, zero failed, two demo assets built. Dashboard reported currently published.
+- Deployed desktop checks passed for friendly/direct preview, fictional invoice creation, simulated payment, dispute suppression, reset and parsed JSON export. Mobile and anonymous-access checks remain pending.
+- “Make public” is prepared but automatic review rejected execution without explicit approval for public access. No visibility bypass occurred.
+- [Deployment report](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/reports/2026-10-06-netlify-private-deployment.md).
+- Current blocker/next action: explicit public-visibility approval, then complete the existing dialog and verify access/mobile flow. Hosting account and plan confirmation are resolved for this session. Contact capture, real invoice operation, email and billing remain unfinished.
 
 ## Working roles
 
@@ -60,9 +72,9 @@ Subagents are task-scoped, not continuously running. Use only available capabili
 ## Ordered backlog
 
 1. Completed 2026-10-05: reminder preview text now matches friendly/direct stages and has targeted checks. Delivery remains separate and unimplemented.
-2. Provider/configuration selected 2026-10-05: Netlify Free commercial demo preparation integrated in PR #2. Deployment remains blocked on authenticated access and actual plan confirmation; no paid subscription authorized.
+2. Hosting created 2026-10-06: Netlify Free plan confirmed and private production deploy verified. Public visibility awaits explicit approval; no paid subscription authorized.
 3. Offer defined 2026-10-06 as a visible, unavailable hypothesis; docs/PILOT.md specifies scope and capture gates. Persistent interest capture remains incomplete. Implement trusted validation/private storage; enable saved-success only after confirmed storage. Do not expose customer data in this public repository.
-4. Publish and verify mobile/desktop flow once a suitable host and access exist.
+4. Private deployment and desktop flow verified 2026-10-06. Complete public visibility after explicit approval, then verify public access and mobile flow.
 5. Implement authenticated company data, approved email sender, reply/dispute handling and idempotent scheduled follow-up before claiming autonomous operation.
 6. Connect subscription billing after seller identity and payment account authorization.
 7. Validate the offer and record real acquisition/conversion evidence. Draft outreach materials; sending external messages requires explicit recipient/action authorization.
