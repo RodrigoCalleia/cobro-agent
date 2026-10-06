@@ -72,6 +72,20 @@ Netlify project `cobro-agent-rodrigo` was created on the authenticated Free plan
 - [Cycle report](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/reports/2026-10-06-interest-validation.md).
 - Next bounded work: verify a private storage path and choose the smallest server integration; complete the capture activation gates before exposing inputs. Mobile and separate anonymous-session verification remain pending.
 
+## Private storage preparation — 2026-10-06
+
+[PR #5](https://github.com/RodrigoCalleia/cobro-agent/pull/5) was merged at `ee8f563c6797757d34a0fb24a8ff7190e98be7d1` from isolated branch `product/private-interest-store-2026-10-06`.
+
+- Netlify Blobs selected as the minimum candidate within the existing account. Authenticated Blobs UI is accessible and empty; no private provider record was created.
+- Prepared a server-only injected storage adapter: fixed separate test/production names, preview rejection, conditional create-only writes, same-ID retry protection, exact strong-read confirmation and confirmed deletion.
+- 56 local tests passed. Independent QA reran 12 storage tests; infrastructure review checked current official API documentation and its concurrency wording limitation.
+- Initial preview `6ac519f6d293ba0007b737c9` passed all 56 tests but build failed on unexpected `dist/netlify.toml`. GitHub preview checks reported failure. This hosted state was inspected after merge; future cycles must inspect hosted checks before merging.
+- Retried preview without cache: `6ac51a9b13dca981d3e54700` succeeded at 12:58 local with 56 passing tests and two demo assets produced. Netlify's deploy browser includes an additional 103-byte netlify.toml provider/config artifact. No unknown-output or symlink guard was weakened.
+- Cached-build recurrence is not tested. Before the next product deployment, confirm cached rebuild behavior or retain the documented clean-cache recovery; do not label the initial failing preview successful.
+- No SDK, capture endpoint/form, live storage, notice activation or customer data was connected. Product demo assets are unchanged; production remains the previously published demo.
+- [Cycle report](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/reports/2026-10-06-private-storage-preparation.md) and [storage integration](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/INTEREST_STORAGE.md).
+- Next: verify cached build behavior, integrate the pinned SDK from a disabled trusted route, complete notice/responsible-party/public-contact gates, then perform synthetic private write/read/delete. Mobile and separate anonymous-session checks remain pending.
+
 ## Working roles
 
 - Coordinator: select the next useful task, integrate bounded work, check evidence and report.
@@ -85,7 +99,7 @@ Subagents are task-scoped, not continuously running. Use only available capabili
 
 1. Completed 2026-10-05: reminder preview text now matches friendly/direct stages and has targeted checks. Delivery remains separate and unimplemented.
 2. Hosting published 2026-10-06: Netlify Free plan confirmed, production deploy verified and public visibility explicitly approved/completed; no paid subscription activated.
-3. Offer defined 2026-10-06 as a visible, unavailable hypothesis; docs/PILOT.md specifies scope and capture gates. Request-validation foundation merged in PR #4; no capture endpoint is active. Persistent interest capture remains incomplete. Connect trusted validation/private storage; enable saved-success only after confirmed storage. Do not expose customer data in this public repository.
+3. Offer defined 2026-10-06 as a visible, unavailable hypothesis; docs/PILOT.md specifies scope and capture gates. Request-validation foundation (PR #4) and tested storage adapter preparation (PR #5) are merged; no capture endpoint or live storage is active. Persistent interest capture remains incomplete. Connect trusted validation/private storage; enable saved-success only after confirmed storage. Do not expose customer data in this public repository.
 4. Public deployment and desktop flow verified 2026-10-06. Complete a separate anonymous-session check and mobile flow verification.
 5. Implement authenticated company data, approved email sender, reply/dispute handling and idempotent scheduled follow-up before claiming autonomous operation.
 6. Connect subscription billing after seller identity and payment account authorization.
