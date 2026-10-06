@@ -39,7 +39,7 @@ Validate an automated B2B invoice follow-up product for small agencies and consu
 
 ## Pilot offer preparation — 2026-10-06
 
-Prepared a visible proposal and [pilot/capture contract](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/PILOT.md) on isolated branch `product/pilot-offer-2026-10-06`.
+[PR #3](https://github.com/RodrigoCalleia/cobro-agent/pull/3) was merged at `69066b740390b44e2c4569034762b85ab5ee3c2a` after independent QA and unchanged-main checks. It adds a visible proposal and [pilot/capture contract](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/PILOT.md) from isolated branch `product/pilot-offer-2026-10-06`.
 
 - Hypothesis: small B2B agencies/consultancies; 30-day pilot, one business, up to 50 outstanding invoices, US$29 total. No active offer, checkout or demand result is claimed.
 - CTA links only to the fictional-data simulation. No contact collection, enrollment, reservation, delivery or payment was activated.
