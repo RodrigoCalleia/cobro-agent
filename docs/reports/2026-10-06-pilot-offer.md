@@ -34,3 +34,7 @@ No authenticated authorized Netlify session is available in this work cycle; acc
 Next: publish the prepared demo when hosting access exists, verify mobile/desktop behavior, then implement private capture after responsible-party/contact/notice details, trusted validation and provider capabilities are resolved. Do not accept a live paid pilot until data isolation, authorized email, response suppression, privacy and payment prerequisites are verified.
 
 Creating this proposal is not lead capture or customer validation. No new customer, purchase or revenue evidence was produced.
+
+## Integration closure
+
+[PR #3](https://github.com/RodrigoCalleia/cobro-agent/pull/3) was merged at `69066b740390b44e2c4569034762b85ab5ee3c2a`. All five remote files matched the verified local contents, main remained at the inspected base, and GitHub reported a clean merge. Integration used an expected-head guard. The five files were fetched from main after merge and matched again. No deployment or capture activation followed.
