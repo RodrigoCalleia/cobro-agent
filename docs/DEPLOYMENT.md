@@ -6,7 +6,7 @@ Verified deployment on 2026-10-06: Netlify Free plan confirmed in the authentica
 
 `netlify.toml` runs `node --test tests/*.test.cjs && node scripts/build-static.cjs` and publishes `dist`. The build has no third-party dependencies and copies exactly `index.html` and `cobro-engine.js`, without transforming their contents. Tests, reports and build sources are not copied into the publish directory. Generated output is ignored by Git.
 
-The build validates its inputs before writing. It rejects symlinked assets/directories and unexpected output entries rather than deleting them or publishing them. If it stops, inspect the named entry before deciding how to handle it.
+The build validates its inputs before writing. It rejects symlinked assets/directories and unexpected output entries rather than deleting them or publishing them. The sole additional permitted entry is an existing regular `dist/netlify.toml` whose bytes exactly match the regular repository `netlify.toml`. That copy is preserved without rewriting it; a clean build still creates only the two demo assets. A different copy, missing source config, directory or symlink is rejected before any asset is replaced. This exception accommodates an observed publish artifact; it does not establish its origin or guarantee cache behavior on the provider. If the build stops, inspect the named entry before deciding how to handle it.
 
 ## Provider evidence
 

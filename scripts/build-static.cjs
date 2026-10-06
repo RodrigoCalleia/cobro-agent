@@ -14,7 +14,15 @@ function buildStatic(root=path.resolve(__dirname,'..')) {
  if(fs.existsSync(output)){
   if(!fs.lstatSync(output).isDirectory())throw new Error('dist must be a regular directory');
   for(const entry of fs.readdirSync(output)){
-   if(!assets.includes(entry)||!fs.lstatSync(path.join(output,entry)).isFile())
+   const destination=path.join(output,entry);
+   const regular=fs.lstatSync(destination).isFile();
+   // A previously observed publish artifact may remain, but only as an exact
+   // copy of the repository's public config. Never rewrite or remove it.
+   if(entry==='netlify.toml'&&regular){
+    const source=path.join(root,entry);
+    if(fs.lstatSync(source).isFile()&&fs.readFileSync(destination).equals(fs.readFileSync(source)))continue;
+   }
+   if(!assets.includes(entry)||!regular)
     throw new Error('Unexpected dist entry; inspect it before rebuilding: '+entry);
   }
  }
