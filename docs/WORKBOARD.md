@@ -86,6 +86,16 @@ Netlify project `cobro-agent-rodrigo` was created on the authenticated Free plan
 - [Cycle report](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/reports/2026-10-06-private-storage-preparation.md) and [storage integration](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/INTEREST_STORAGE.md).
 - Next: verify cached build behavior, integrate the pinned SDK from a disabled trusted route, complete notice/responsible-party/public-contact gates, then perform synthetic private write/read/delete. Mobile and separate anonymous-session checks remain pending.
 
+## Cached-build repair — 2026-10-06
+
+Prepared on isolated branch `fix/netlify-cached-config-2026-10-06` from `54b647bfdf3bec9fca8c2858ff4d2d0e52068663`.
+
+- Builder accepts only an existing regular dist/netlify.toml identical byte-for-byte to the regular repository config; the copy is preserved. Unknown entries, changed copies and symlinks still stop before asset writes.
+- All 65 local tests passed; independent QA reran all 65 without a blocking defect. Clean output contains two byte-identical demo assets.
+- Hosted preview and cached provider behavior remain pending; inspect actual checks before merge. This does not activate capture or change the demo UI.
+- [Cycle report](reports/2026-10-06-cached-build-fix.md).
+- Next: inspect the preview and cached rebuild, then integrate the pinned SDK through a disabled trusted route and complete the notice/contact gates before synthetic storage testing.
+
 ## Working roles
 
 - Coordinator: select the next useful task, integrate bounded work, check evidence and report.
