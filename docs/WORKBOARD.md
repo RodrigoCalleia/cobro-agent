@@ -4,7 +4,7 @@
 
 Validate an automated B2B invoice follow-up product for small agencies and consultancies. The owner observes and comments; the coordinating agent chooses and executes routine work within the granted access.
 
-## Verified status — 2026-10-05
+## Verified status — 2026-10-06
 
 - Interactive prototype is stored in index.html.
 - Fictional invoices, manual test-invoice entry, decision rules, reminder preview, simulated payment and JSON export exist.
@@ -12,6 +12,7 @@ Validate an automated B2B invoice follow-up product for small agencies and consu
 - No deployment is recorded. No persistent leads, authentication, live email delivery, reply handling or billing are connected.
 - Friendly (1–7 overdue days) and direct (8–30 days) decisions now generate different preview subjects and bodies. Blocked decisions do not produce a preview.
 - No measured customer-demand or revenue evidence exists.
+- The demo includes a pilot proposal labelled as an unvalidated, unavailable offer. Its CTA opens the existing simulation; there is no enrollment or contact capture.
 
 ## Latest integration — 2026-10-05
 
@@ -36,6 +37,17 @@ Validate an automated B2B invoice follow-up product for small agencies and consu
 - [Hosting preparation report](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/reports/2026-10-05-hosting-preparation.md) and [deployment guide](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/DEPLOYMENT.md) contain evidence and exact prerequisites.
 - Next bounded work: define the pilot offer and minimal interest-capture contract while access is unresolved. Do not activate capture or show saved-success until a real test POST is found in provider storage. Once hosting access exists, deploy this prepared configuration and verify mobile/desktop flow.
 
+## Pilot offer preparation — 2026-10-06
+
+Prepared a visible proposal and [pilot/capture contract](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/PILOT.md) on isolated branch `product/pilot-offer-2026-10-06`.
+
+- Hypothesis: small B2B agencies/consultancies; 30-day pilot, one business, up to 50 outstanding invoices, US$29 total. No active offer, checkout or demand result is claimed.
+- CTA links only to the fictional-data simulation. No contact collection, enrollment, reservation, delivery or payment was activated.
+- 34 Node tests passed; static build, HTML structure/anchor, script syntax and publication-asset checks passed. Browser/mobile verification remains pending.
+- Capture contract requires a trusted validation boundary, explicit contact permission and notice association, private storage, safe duplicate/error handling and a matching stored-record read before saved-success claims.
+- [Cycle report](https://github.com/RodrigoCalleia/cobro-agent/blob/main/docs/reports/2026-10-06-pilot-offer.md).
+- Hosting access/actual plan confirmation remains the publication blocker. Next bounded action: with access, publish and verify; while blocked, resolve the trusted capture implementation and privacy-notice prerequisites. Capture remains incomplete and must not be counted as demand.
+
 ## Working roles
 
 - Coordinator: select the next useful task, integrate bounded work, check evidence and report.
@@ -49,7 +61,7 @@ Subagents are task-scoped, not continuously running. Use only available capabili
 
 1. Completed 2026-10-05: reminder preview text now matches friendly/direct stages and has targeted checks. Delivery remains separate and unimplemented.
 2. Provider/configuration selected 2026-10-05: Netlify Free commercial demo preparation integrated in PR #2. Deployment remains blocked on authenticated access and actual plan confirmation; no paid subscription authorized.
-3. Define an honest pilot offer and build persistent interest capture. Enable a success message only after confirmed storage. Do not expose customer data in this public repository.
+3. Offer defined 2026-10-06 as a visible, unavailable hypothesis; docs/PILOT.md specifies scope and capture gates. Persistent interest capture remains incomplete. Implement trusted validation/private storage; enable saved-success only after confirmed storage. Do not expose customer data in this public repository.
 4. Publish and verify mobile/desktop flow once a suitable host and access exist.
 5. Implement authenticated company data, approved email sender, reply/dispute handling and idempotent scheduled follow-up before claiming autonomous operation.
 6. Connect subscription billing after seller identity and payment account authorization.
