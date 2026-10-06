@@ -1,6 +1,6 @@
-# Demo hosting preparation
+# Demo hosting
 
-Verified on 2026-10-05. Provider choice for the initial commercial demo: Netlify Free, subject to authenticated account access and confirmation of the account's actual plan.
+Verified deployment on 2026-10-06: Netlify Free plan confirmed in the authenticated account. Public demo: https://cobro-agent-rodrigo.netlify.app/ . GitHub app installation is restricted to cobro-agent. No paid upgrade was activated.
 
 ## Repository configuration
 
@@ -14,7 +14,7 @@ The build validates its inputs before writing. It rejects symlinked assets/direc
 - Current pricing describes Free with a monthly credit limit. The pricing page is authoritative for quota and pause behavior; check the actual account plan before the first deploy: https://www.netlify.com/pricing/
 - File-based build command and publish-directory configuration: https://docs.netlify.com/build/configure-builds/file-based-configuration/
 
-No account was created or connected and no deployment occurred. Plugin discovery for Netlify/Cloudflare returned no available integration in this session. A public demo URL cannot be reported until a real deploy is observed.
+Production deploy `6ac50050db1a952bf7e9bd8a` was published from `e204d8d82225c4bc39b5e9a4476fa6822c26995e`. Its actual Netlify log recorded 34 passing tests and two built demo assets. The owner subsequently approved public visibility; Netlify confirmed “Your project is public” and “Anyone can visit your production site.” The deployed URL loaded the expected heading after reload. Desktop simulation checks passed; a separate anonymous-session check and mobile verification remain pending. See [deployment report](reports/2026-10-06-netlify-private-deployment.md).
 
 ## Future pilot-interest capture
 
@@ -33,4 +33,4 @@ Sources:
 
 ## Next coordinator action
 
-Review/integrate this configuration, then use authorized hosting access when available. After an actual deployment, verify the browser flow on mobile and desktop against that deployed version. Enable lead capture only after its end-to-end storage check. Vercel Hobby remains excluded for this commercial project.
+Complete mobile and separate anonymous-session checks on the published demo. Enable lead capture only after its end-to-end storage check. Vercel Hobby remains excluded for this commercial project.

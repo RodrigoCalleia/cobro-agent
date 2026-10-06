@@ -1,4 +1,6 @@
-# Netlify private deployment — 2026-10-06
+# Netlify deployment — 2026-10-06
+
+Current status: public visibility was explicitly approved and enabled on 2026-10-06. This report retains the initial private-stage evidence and records the public closure below.
 
 ## Verified result
 
@@ -10,7 +12,7 @@ Production deploy `6ac50050db1a952bf7e9bd8a` is published from `e204d8d82225c4bc
 - Dashboard: https://app.netlify.com/projects/cobro-agent-rodrigo/overview
 - Deploy details: https://app.netlify.com/projects/cobro-agent-rodrigo/deploys/6ac50050db1a952bf7e9bd8a
 
-**Visibility remains private.** The authenticated browser could open the demo after an access redirect; anonymous/public access is not verified or enabled. Do not advertise this as a public demo.
+Initial visibility was private. At that stage the authenticated browser opened the demo after an access redirect. Public visibility was enabled later, as recorded below.
 
 ## Configuration and hosted verification
 
@@ -36,13 +38,19 @@ Using only fictional data:
 
 No mobile viewport check, anonymous-access check or contact-storage check is claimed. Observed console errors concerned browser-extension metadata; no application failure was observed in the exercised interactions. Real invoices and contact data were not used.
 
-## Remaining approval and handoff
+## Initial approval boundary
 
 Netlify defaults this project to private. Its “Make public” dialog proposes access for anyone on the internet while deploy previews remain private to the team.
 
-Automatic approval review rejected the visibility-change action because explicit owner approval for public access was not present. Visibility was not changed; no workaround or indirect execution was attempted. The prepared dialog remains the final approval step.
+Automatic approval review rejected the visibility-change action because explicit owner approval for public access was not present. At that point visibility was not changed; no workaround or indirect execution was attempted. The existing dialog was retained for explicit approval.
 
-Next: obtain explicit approval for public visibility, complete that existing dialog, verify the resulting public-access state and real demo URL, then complete mobile checks. Persistent interest capture and live operation remain separate unfinished milestones.
+## Public-visibility closure — 2026-10-06
+
+The owner explicitly approved the pending public action. The existing “Make public” dialog completed successfully. Netlify displayed the Public badge, “Your project is public” and “Anyone can visit your production site”; deploy previews remain private to the team. A screenshot of that success state was retained for the owner.
+
+Reloading https://cobro-agent-rodrigo.netlify.app/ displayed “Menos seguimiento. Más claridad sobre tu caja.” The product source remains the published commit above; this step changed visibility, not product code. A separate anonymous-session retrieval was not completed, and mobile verification remains pending. No claim of those additional checks is made.
+
+Next: mobile and separate anonymous-session checks, then persistent interest capture with its required storage verification. No external messages, purchases, paid subscriptions, real invoices, contact capture or payment processing were activated.
 
 ## Documentation update
 

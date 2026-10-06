@@ -16,9 +16,9 @@ These checks cover both stage boundaries, blocked states, invalid identities/dat
 
 No live email delivery, payment processing, authentication or persistent customer storage are connected. This prototype is not ready for commercial operation.
 
-## Demo deployment preparation
+## Public demo
 
-`node scripts/build-static.cjs` creates `dist` with only the two demo assets. Netlify configuration runs the checks before building. See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for provider evidence and access/verification requirements. No public deployment or lead capture is connected yet.
+`node scripts/build-static.cjs` creates `dist` with only the two demo assets. Netlify configuration runs the checks before building. See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for provider evidence and access/verification requirements. The public fictional-data demo is available at https://cobro-agent-rodrigo.netlify.app/ (published 2026-10-06 on Netlify Free). The hosted build passed 34 tests and the deployed desktop simulation was exercised. Mobile verification and persistent lead capture remain pending.
 
 ## Proposed pilot
 
