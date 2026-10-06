@@ -14,7 +14,7 @@ The future pilot would provide an authenticated review queue, reminders approved
 
 The demo has fictional invoices, deterministic prioritization, reminder previews, simulated payment and decision export. It uses a fixed simulation date and in-memory state. It does not register interest, send emails, persist records or accept money. No AI model is connected.
 
-The visible proposal links only to the existing simulation. There is no contact form, signup, reservation, trial activation or checkout. Hosting publication and visual verification remain pending.
+The visible proposal links only to the existing simulation. There is no contact form, signup, reservation, trial activation or checkout. Hosting publication is complete at https://cobro-agent-rodrigo.netlify.app/ on Netlify Free. The desktop simulation was verified; mobile and separate anonymous-session checks remain pending.
 
 ## Validation sequence
 
@@ -68,5 +68,7 @@ UI states: editing; submitting; rejected; failed; received-unverified; stored-co
 
 ## Next bounded implementation
 
-Once authorized hosting access exists, publish the prepared demo and verify it. Resolve the capture activation gates and provider capabilities, then implement the smallest trusted capture flow. Keep interest capture and live invoice operation as separate milestones.
+The demo is published. `server/validate-pilot-interest.cjs` provides dependency-free request validation for a future trusted server boundary; it is not deployed as an endpoint and does not store requests. It only accepts the three allowed fields, requires boolean permission, and rejects control characters, malformed or oversized fields and client-supplied metadata. Email syntax checks are conservative ASCII checks, not ownership verification. Business names remain literal text and must be rendered using safe text APIs.
+
+Resolve the capture activation gates and provider capabilities, then connect this validator to the smallest trusted capture flow. Notice/version association, server-generated identifiers/timestamps, private persistence, duplicate/retry handling, body-size/rate controls, retention/deletion and confirmation still require implementation and end-to-end verification. Keep interest capture and live invoice operation as separate milestones.
 
