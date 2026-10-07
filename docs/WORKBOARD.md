@@ -98,6 +98,17 @@ Netlify project `cobro-agent-rodrigo` was created on the authenticated Free plan
 - [Cycle report](reports/2026-10-06-cached-build-fix.md).
 - Next: verify cached rebuild when authenticated deploy access is available; meanwhile pin the SDK and prepare a disabled trusted route. Complete notice/responsible-party/public-contact gates before exposing capture or performing synthetic private storage checks.
 
+## SDK and disabled route preparation — 2026-10-06
+
+Prepared on isolated branch `product/disabled-interest-route-2026-10-06` from `f8d096dcf884de7cc7876d4215bcac449e500a81`.
+
+- Pinned official @netlify/blobs 11.1.1 and dependency lock; Node 24.x selected. Added a lazy server-only connection gated by trusted current published production Context for this project.
+- Netlify function entry returns 503/unavailable in every context, without consuming requests, importing SDK, opening storage or logging contacts. No env flag or form enables capture.
+- Guarded unexpected conditional PUT errors in the installed SDK before false success. All 77 local tests passed, with 12 new runtime/actual-SDK transport cases; independent QA reran all 77.
+- SDK tests use an in-process transport. No real provider record, customer contact, invoice, email or billing was activated. Demo assets and netlify.toml are unchanged.
+- Hosted preview/function execution remains pending. Check actual checks before merge. [Cycle report](reports/2026-10-06-disabled-interest-route.md).
+- Next: add bounded parsing and trusted metadata/notice binding behind the disabled entry; complete deadlines/abuse/retry/privacy gates, then synthetic deployed private write/read/delete.
+
 ## Working roles
 
 - Coordinator: select the next useful task, integrate bounded work, check evidence and report.

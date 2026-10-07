@@ -38,3 +38,20 @@ Create uses `onlyIfNew` and confirms only after a strong JSON read exactly match
 - Complete real mobile/desktop form checks. A mocked storage test is not provider acceptance evidence.
 
 No real contact input or stored-success message should be exposed before the activation gates in docs/PILOT.md pass.
+
+## SDK and disabled route preparation — 2026-10-06
+
+The official `@netlify/blobs` package is now pinned to 11.1.1 in package.json and package-lock.json; all resolved dependencies have integrity hashes. Node 24.x is selected for the build. The initial injected adapter remains intact. `server/netlify-interest-store.cjs` lazily connects it to the installed SDK only for trusted Netlify Context identifying the current published production deploy of cobro-agent-rodrigo. It rejects unknown, preview, unpublished and wrong-site contexts before importing the SDK. This guard expects platform-supplied server metadata, not a reconstructed request object; it is not operator authentication. SDK credentials remain runtime-managed and are not committed.
+
+The pinned SDK's inspected conditional setJSON implementation treats any response except 412 as modified. The integration wraps its transport so a PUT response other than 200 or 412 throws before that implementation can report success. Actual SDK tests prove matching strong reads, create-only retries, conflicts and deletion with an in-process transport; they also prove unexpected PUT responses never confirm success even if a matching record already exists. This is compatibility evidence, not live provider persistence.
+
+`netlify/functions/pilot-interest.mjs` is the deployed entry candidate. It always returns HTTP 503 and `state: unavailable`, without reading request/context, loading the SDK, accessing records or scheduling work. It exposes no read/delete actions and has no activation environment flag. No form or client call is added. Activation requires a reviewed code change after the capture gates.
+
+77 local tests passed, including 12 runtime/SDK cases; independent QA reran all 77. The real provider write/read/delete test, HTTP function execution and actual function runtime/credential wiring still require separate evidence. SDK retries currently allow five 5-second delays; add a bounded deadline/AbortSignal before activation. Body/rate controls, trusted notice/metadata binding, deduplication across IDs, authenticated inspection/deletion, retention and privacy/contact gates remain unfinished.
+
+Sources checked 2026-10-06:
+- https://docs.netlify.com/build/data-and-storage/netlify-blobs/
+- https://docs.netlify.com/build/functions/api/
+- https://docs.netlify.com/build/functions/get-started/
+- https://docs.netlify.com/build/configure-builds/manage-dependencies/
+- https://github.com/netlify/primitives/issues/741 (corroborated by inspection of the installed 11.1.1 code).
