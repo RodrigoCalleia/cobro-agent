@@ -189,3 +189,16 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - Netlify preview status is successful for duplicate-key product commit `7b79b606436fbd4f0f92dc20d01c29f6ed887ade`, deploy `6ac5e153c6dd45000846098d`; Redirect/Header/Pages checks completed neutral. Hosted test logs, parsing/handler execution and storage acceptance remain unverified. Main documentation ancestry is synchronized into the isolated branch to resolve report/board conflicts, with product code still unmerged.
 - [Guide in PR branch](https://github.com/RodrigoCalleia/cobro-agent/blob/product/disabled-interest-route-2026-10-06/docs/REQUEST_BOUNDARY.md) and [cycle report](reports/2026-10-07-request-boundary.md). Exact hosted status is recorded in the report after commit.
 - Existing authenticated Netlify preview-handler blocker was not re-probed without changed access evidence. PR #7 remains open pending unavailable-handler verification; actual provider write/read/delete is unverified. Next bounded work: trusted notice/version and server-metadata binding; logical-submission deduplication, rate/privacy/retention gates and commercial validation preparation remain separate.
+
+## Trusted metadata preparation — 2026-10-07
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its existing isolated branch. No competing product PR was started.
+
+- Added an unused server-only record preparer requiring a trusted bounded notice version and generating a cryptographic UUID v4 plus canonical received-at timestamp. It revalidates and copies only the three permitted contact fields.
+- Client-supplied ID, timestamp, notice version, network metadata and extra fields fail before trusted generation. Output matches the guarded private-store record contract.
+- Independent QA found and drove fixes for overwritten Date methods, rejected async dependencies and Proxy/revoked clock error leakage. Final verification: 15 targeted tests, 129/129 full tests and 25 extra adversarial cases passed; static build still contains only two demo assets.
+- Public handler remains unconditional 503 and does not import the reader, preparer or storage path. No form, stored contact, email, billing, customer, demand or revenue evidence is activated.
+- [Metadata-binding guide in PR branch](https://github.com/RodrigoCalleia/cobro-agent/blob/product/disabled-interest-route-2026-10-06/docs/METADATA_BINDING.md) distinguishes completed server metadata generation from uncompleted notice approval/display proof. The responsible party, public withdrawal/deletion contact, privacy notice, rate controls, cross-submission deduplication, retention/operator access and real provider acceptance remain gates.
+- Netlify marked exact product commit `f3d68dc6c7cdfc33a4e39402bed07ebe1e073ce4` successful in deploy preview `6ac60b44e207e5000799b4c1`; Redirect/Header/Pages checks completed neutral. This is hosted-build evidence, not handler, notice-display or provider acceptance.
+- [Cycle report](reports/2026-10-07-trusted-metadata.md).
+- PR #7 remains open pending authenticated hosted 503 verification. Next bounded work: server-only logical retry identity/deduplication design, unless verified responsible-party/contact facts become available for the immutable notice contract.
