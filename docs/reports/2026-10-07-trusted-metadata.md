@@ -30,4 +30,4 @@ Next bounded work: design and test a server-only logical retry identity boundary
 
 PR: https://github.com/RodrigoCalleia/cobro-agent/pull/7
 
-Hosted status for the exact product commit is recorded after the isolated branch update; a green build does not prove handler execution, rendered-notice association or provider persistence.
+Netlify marked exact product commit `f3d68dc6c7cdfc33a4e39402bed07ebe1e073ce4` successful in deploy preview `6ac60b44e207e5000799b4c1`; Redirect/Header/Pages checks completed neutral. This confirms the hosted build for that source, not test-log counts, authenticated handler execution, rendered-notice association or provider persistence.
