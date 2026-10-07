@@ -186,6 +186,40 @@ test('deadline aborts hanging transport and late saved response is ignored', asy
   assert.equal(c.getState().state, 'received-unverified');
 });
 
+test('a deadline timer firing before the monotonic boundary remains a timeout', async () => {
+  let fireTimer, request, finishTransport, cleared, now = 0;
+  const context = vm.createContext({
+    AbortController,
+    performance: {now: () => now},
+    setTimeout: callback => {fireTimer = callback; return 1;},
+    clearTimeout: handle => {cleared = handle;},
+    capture: value => {request = value;},
+    retain: resolve => {finishTransport = resolve;}
+  });
+  vm.runInContext(fs.readFileSync(require.resolve('../client/pilot-interest-controller.js'), 'utf8'), context);
+  const submission = vm.runInContext(`(() => {
+    const c = createPilotInterestController({noticeVersion:'pilot-v1',timeoutMs:15,
+      generateToken:()=> '${first}',transport:request=> {
+        capture(request); return new Promise(resolve=>retain(resolve));
+      }});
+    c.setDraft({contact_email:'synthetic@example.test',business_name:'Fictional Agency',contact_permission:true});
+    globalThis.controller = c;
+    return c.submit();
+  })()`, context);
+  // Timers can fire before performance.now() reaches the calculated deadline.
+  // Advance to just short of the deadline without relying on real timer jitter.
+  now = 14.5;
+  fireTimer();
+  const result = await submission;
+  assert.equal(result.state, 'received-unverified');
+  assert.equal(result.code, 'request_timeout');
+  assert.equal(request.signal.aborted, true);
+  assert.equal(cleared, 1);
+  finishTransport(vm.runInContext(`({status:200,body:{state:'stored-confirmed'}})`, context));
+  await Promise.resolve(); await Promise.resolve();
+  assert.equal(vm.runInContext('controller.getState().code', context), 'request_timeout');
+});
+
 test('token factory failures are generic and dispatch nothing', async () => {
   for (const generateToken of [() => 'INVALID', () => {throw new Error('private');}, () => Promise.reject(new Error('private'))]) {
     let calls = 0; const c = configured(async () => {calls++; return saved();}, {generateToken});

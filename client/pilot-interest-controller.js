@@ -114,7 +114,7 @@ function createPilotInterestController(configuration = {}) {
       token = candidate;
     }
     const abort = new AbortController();
-    let stop, timer;
+    let stop, timer, timeoutTriggered = false;
     const interrupted = new Promise(resolve => { stop = () => resolve({state: 'received-unverified', code: 'request_interrupted'}); });
     const run = {abort, stop};
     const deadline = clock() + timeoutMs;
@@ -124,6 +124,9 @@ function createPilotInterestController(configuration = {}) {
     }), body, signal: abort.signal});
     const timedOut = new Promise(resolve => {
       timer = setTimeout(() => {
+        // Preserve the timer's cause even if the monotonic clock is just short
+        // of the boundary when this callback runs.
+        timeoutTriggered = true;
         // Resolve before abort callbacks: they cannot turn expiration into success.
         resolve({state: 'received-unverified', code: 'request_timeout'});
         abort.abort();
@@ -139,8 +142,9 @@ function createPilotInterestController(configuration = {}) {
       const outcome = await Promise.race([work, interrupted, timedOut]);
       if (!disposed && revision === attemptRevision && active === run) {
         // Classification/getters may have aborted, edited or consumed the budget.
-        if (abort.signal.aborted || clock() >= deadline) {
-          state = 'received-unverified'; code = clock() >= deadline ? 'request_timeout' : 'request_interrupted';
+        const deadlineExpired = timeoutTriggered || clock() >= deadline;
+        if (abort.signal.aborted || deadlineExpired) {
+          state = 'received-unverified'; code = deadlineExpired ? 'request_timeout' : 'request_interrupted';
         } else {
           state = outcome.state; code = outcome.code;
           if (code === 'notice_mismatch') {
