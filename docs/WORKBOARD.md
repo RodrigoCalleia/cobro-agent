@@ -158,3 +158,10 @@ This repository is public. Keep credentials, private finances, personal data, re
 ## Initial QA report
 
 A read-only review of index.html at blob 93dfa447c8a09251be68782c2c3fc7b243497627 found that stage labels do not change preview text, the prototype has no persistent commercial-interest capture, and operational integrations remain absent. The fixed date and simulated payment are explicitly labelled.
+
+## Working brand — 2026-10-06
+
+- Coordinator selected **Rondacobro** with tagline **Tus cobros, en orden** after the owner's naming request. [Brand brief](BRAND.md) records positioning and copy rules.
+- This is a working commercial name, not a legal entity/trademark registration. Preliminary exact-name web research produced no relevant commercial match in returned results; domain, handle and trademark availability remain unverified. No purchase or registration was made.
+- Documentation only: deployed demo, repository name, Netlify URL and active PR #7 are unchanged. Commercial demand and payment remain unverified.
+- [Decision report](reports/2026-10-06-working-brand.md).
