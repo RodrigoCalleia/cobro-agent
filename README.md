@@ -4,6 +4,8 @@ Interactive B2B invoice follow-up prototype using fictional data and determinist
 
 Open index.html with cobro-engine.js in the same directory to explore invoice prioritization, reminder previews and simulated payments. Reminder text is friendly at 1–7 overdue days and direct at 8–30 days. Blocked decisions do not produce a preview.
 
+This branch adds “Simular seguimiento” for unpaid fictional invoices: edit a dispute, optional payment promise or last contact, then see the decision and reminder availability change. The existing invoice identity, amount and due date are preserved. Dates use the labelled fixed simulation clock; changes remain in memory until reload/reset and never send a message. Paid invoices cannot be edited. Native browser/mobile verification of this increment is pending; do not infer it is published from a successful preview build.
+
 ## Verification
 
 Run the dependency-free rule and preview checks with Node.js:

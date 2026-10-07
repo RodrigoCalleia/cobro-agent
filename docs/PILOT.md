@@ -16,6 +16,10 @@ The demo has fictional invoices, deterministic prioritization, reminder previews
 
 The visible proposal links only to the existing simulation. There is no contact form, signup, reservation, trial activation or checkout. Hosting publication is complete at https://cobro-agent-rodrigo.netlify.app/ on Netlify Free. The desktop simulation was verified; mobile and separate anonymous-session checks remain pending.
 
+### Prepared demo follow-up editing — 2026-10-07
+
+The separate demo branch adds “Simular seguimiento” for existing unpaid fictional invoices. A dispute, payment promise or last-contact date can be changed or cleared, recalculating the same invoice's decision and preview availability. Financial/identity fields remain unchanged; paid invoices are protected. All dates are evaluated against the fixed labelled simulation date, with no hour-level contact timestamps, message delivery or persistent history. Local rules and injected DOM simulation are checked; native browser/mobile verification and integration/publication remain pending. This is a demonstration of the review/context workflow, not evidence of customer demand or actual autonomous collection.
+
 ## Validation sequence
 
 1. Publish the fictional-data demo on an authorized commercial host and verify the mobile/desktop flow.
