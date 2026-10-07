@@ -80,6 +80,10 @@ Open PR #7 now additionally prepares `server/read-pilot-interest.cjs`: fixed 409
 
 Open PR #7 also prepares `server/prepare-pilot-interest-record.cjs`: the future trusted server boundary must supply a bounded notice version, while cryptographic UUID and canonical received-at time default to server generation. Client metadata and extra fields are rejected. [Metadata-binding guide](METADATA_BINDING.md) records the future integration order and remaining limits. No approved notice, rendered-version proof, form, provider record or lead is created.
 
+### Same-origin preflight preparation — 2026-10-07
+
+Open PR #7 additionally prepares `server/pilot-interest-preflight.cjs`: POST plus a single trusted canonical HTTPS Origin are checked before body consumption. [Preflight guide](PREFLIGHT.md) records the exact behavior and future ordering. Origin is not authentication and can be forged by non-browser clients. The helper remains unused; browser/route integration, native rate enforcement, privacy/notice gates and real storage acceptance are pending.
+
 ### Retry identity preparation — 2026-10-07
 
 Open PR #7 now prepares `server/pilot-interest-retry-id.cjs`: a canonical random client token is converted with a runtime-only HMAC secret into a stable opaque server UUID. A later retry with the same identity and logical fields confirms the original stored record and timestamp; changed contact, business, permission or notice remains a conflict. [Retry-identity guide](RETRY_IDENTITY.md) records the protocol and rotation boundary. Route/header integration, secret provisioning, browser token lifecycle, rate controls and unique-business deduplication remain pending; capture is still disabled.

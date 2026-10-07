@@ -2,6 +2,8 @@
 
 Decision date: 2026-10-07. `server/read-pilot-interest.cjs` is an unused server helper in open PR #7, not an activated HTTP route. The existing public function still returns unconditional 503/unavailable without importing this helper or reading input. No form, contact storage, sender or saved-success claim is enabled.
 
+Prepared future ordering: the unused [same-origin preflight](PREFLIGHT.md) checks method and browser Origin before this reader consumes input. That composition has local synthetic coverage but is not connected to the public handler. Neither helper provides authentication or native rate enforcement.
+
 ## Contract
 
 Trusted server code calls `readPilotInterest(request, {timeoutMs})` with a native Fetch Request. Only POST with `application/json` and optional `charset=utf-8` (case-insensitive, optionally quoted) is accepted. Other MIME parameters/types and non-identity content encodings are rejected before body reading. There is no attachment or compressed-body support.
