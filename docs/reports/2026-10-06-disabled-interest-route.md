@@ -18,7 +18,9 @@ Prepared on isolated branch `product/disabled-interest-route-2026-10-06` from ma
 - Actual installed SDK is exercised through an in-process transport and reserved synthetic fixtures. Create-only headers, strong read URLs, create/retry/conflict/read/delete and seven unexpected write statuses are checked. No real provider record or live network storage request is involved.
 - Disabled handler tests include a request/context proxy that throws on any access and a global network tripwire. A valid synthetic POST remains unconsumed, and responses disclose only unavailable.
 - Syntax checks, static build, dependency lock/integrity checks passed. Two static assets match their unchanged sources byte for byte. Dependencies/server code stay outside dist.
-- Hosted build/handler results will be recorded in the closing update. Local tests are not a real private write/read/delete acceptance result.
+- GitHub's Netlify deploy-preview status was successful for product commit `475f69de8b888adc2d4fcc03f2bb1a3ffff7dc9f`: "Deploy Preview ready!". Redirect/Header/Pages checks completed neutral, with no failures. Deploy detail: https://app.netlify.com/projects/cobro-agent-rodrigo/deploys/6ac58e96e0440600085f0cae .
+- Direct HTTP GET to the preview function returned 401 with a Login Redirect page. Authentication intercepted the request before the handler; this is not a verified 503 response and is not classified as a function failure. POST and hosted function execution were not verified.
+- PR #7 remains open until its hosted unavailable response can be checked with authorized authenticated access. Production was not advanced by this change. Local tests are not a real private write/read/delete acceptance result.
 
 ## Limitations and next bounded task
 
@@ -37,3 +39,9 @@ No purchase, subscription activation, third-party message, invoice or revenue tr
 - https://github.com/netlify/primitives/issues/741
 
 Package version/engine and return behavior were additionally verified from npm metadata and the installed package, not an obsolete standalone repository release list.
+
+## Persistent result and review status
+
+[PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) contains the SDK/route changes. [Preview](https://deploy-preview-7--cobro-agent-rodrigo.netlify.app) has a successful build status but currently protects direct HTTP access. Closing documentation changes do not change the tested product sources; the successful status above applies to the exact product commit, not a claim that all later documentation commits ran hosted tests.
+
+Next coordinator action: continue this open PR and verify HTTP 503/unavailable without a stored-success claim. Preserve preview protection; do not disable authentication to obtain a pass. Once the handler is verified, inspect latest checks and unchanged-source/main state before integration. Other capture work can proceed in this branch while activation remains disabled, but do not claim capture is operating.

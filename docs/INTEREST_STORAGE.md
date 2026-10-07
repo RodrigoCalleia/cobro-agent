@@ -16,7 +16,7 @@ The provider documentation describes atomic conditional writes but its troublesh
 
 ## Prepared adapter
 
-`server/pilot-interest-store.cjs` accepts an injected `getStore` implementation. No SDK package is installed by this change, no function is deployed and no SDK compatibility/integration test is claimed.
+`server/pilot-interest-store.cjs` accepts an injected `getStore` implementation. The original dependency-free adapter is unchanged. SDK compatibility preparation and the disabled function entry are described below; real runtime storage access remains unverified.
 
 Server code selects `production` or `test` and opens the fixed corresponding namespace with strong consistency. All other contexts, including previews, are rejected before opening storage. A future route must derive this context from trusted Netlify runtime configuration, never browser input. A namespace is not a separate account/access-control boundary: authorized site code can still open other stores.
 
@@ -28,7 +28,7 @@ Create uses `onlyIfNew` and confirms only after a strong JSON read exactly match
 
 ## Still required before activation
 
-- Install and pin the official SDK, verify its actual conditional-write return contract and connect the adapter from an authorized server function.
+- Verify real SDK runtime/credential wiring and private write/read/delete. The package is pinned and its conditional-write transport is guarded in the preparation below; local compatibility tests do not complete provider acceptance.
 - Complete the approved notice, responsible party and public withdrawal/deletion contact channel. No private account email is adopted as a public contact.
 - Generate trusted metadata and preserve the displayed notice association.
 - Implement request-size/rate limits, route authentication for operator actions and client-safe timeouts/errors.
