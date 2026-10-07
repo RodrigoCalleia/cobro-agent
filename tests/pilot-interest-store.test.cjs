@@ -40,6 +40,38 @@ test('retry of same trusted record creates one logical request', async () => {
   assert.deepEqual(await f.adapter.create(record()), {state: 'stored-confirmed', request_id: id, created: false});
   assert.equal(f.values.size, 1);
 });
+test('same ID and logical payload confirm the original timestamp on a later retry', async () => {
+  const f = fixture(); await f.adapter.create(record());
+  assert.deepEqual(await f.adapter.create(record({received_at: '2026-10-06T15:05:00.000Z'})), {
+    state: 'stored-confirmed', request_id: id, created: false
+  });
+  assert.equal((await f.adapter.read(id)).received_at, '2026-10-06T15:00:00.000Z');
+});
+test('same ID cannot confirm an earlier timestamp', async () => {
+  const f = fixture();
+  await f.adapter.create(record({received_at: '2026-10-06T15:05:00.000Z'}));
+  assert.deepEqual(await f.adapter.create(record()), {state: 'conflict'});
+  assert.equal((await f.adapter.read(id)).received_at, '2026-10-06T15:05:00.000Z');
+});
+test('retry timestamp ordering uses instants rather than ISO lexical order', async () => {
+  const later = fixture();
+  await later.adapter.create(record({received_at: '9999-12-31T23:59:59.999Z'}));
+  assert.equal((await later.adapter.create(record({received_at: '+010000-01-01T00:00:00.000Z'}))).state, 'stored-confirmed');
+
+  const earlier = fixture();
+  await earlier.adapter.create(record({received_at: '+010000-01-01T00:00:00.000Z'}));
+  assert.deepEqual(await earlier.adapter.create(record({received_at: '2026-10-06T15:00:00.000Z'})), {state: 'conflict'});
+});
+test('provider-normalized stored fields never confirm a write or retry', async () => {
+  for (const modified of [true, false]) {
+    const expected = record();
+    const f = fixture({
+      setJSON: async () => ({modified}),
+      get: async () => ({...expected, contact_email: ` ${expected.contact_email} `})
+    });
+    assert.deepEqual(await f.adapter.create(expected), {state: 'conflict'});
+  }
+});
 test('concurrent retries use create-if-new rather than read-then-write', async () => {
   const f = fixture(); const results = await Promise.all([f.adapter.create(record()), f.adapter.create(record())]);
   assert.equal(results.filter(r => r.created === true).length, 1);

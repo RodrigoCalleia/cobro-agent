@@ -5,6 +5,10 @@ const idPattern = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0
 const fields = new Set(['contact_email', 'business_name', 'contact_permission', 'request_id', 'received_at', 'notice_version']);
 
 function validId(id) { return typeof id === 'string' && idPattern.test(id); }
+function logicalRecord(record) {
+  const {received_at: ignored, ...identity} = record;
+  return identity;
+}
 function canonicalRecord(record) {
   if (!record || typeof record !== 'object' || Array.isArray(record) ||
       ![Object.prototype, null].includes(Object.getPrototypeOf(record)) ||
@@ -40,7 +44,15 @@ function createPilotInterestStore({getStore, environment}) {
         const write = await store.setJSON(key, value, {onlyIfNew: true});
         const stored = await read(value.request_id);
         if (!write || typeof write.modified !== 'boolean' || stored === null) return {state: 'received-unverified'};
-        if (!isDeepStrictEqual(stored, value)) return {state: 'conflict'};
+        let storedValue;
+        try { storedValue = canonicalRecord(stored); }
+        catch { return {state: 'conflict'}; }
+        if (!isDeepStrictEqual(storedValue, stored)) return {state: 'conflict'};
+        const matches = write.modified
+          ? isDeepStrictEqual(storedValue, value)
+          : isDeepStrictEqual(logicalRecord(storedValue), logicalRecord(value)) &&
+            Date.parse(storedValue.received_at) <= Date.parse(value.received_at);
+        if (!matches) return {state: 'conflict'};
         return {state: 'stored-confirmed', request_id: value.request_id, created: write.modified};
       } catch {
         return {state: 'received-unverified'};

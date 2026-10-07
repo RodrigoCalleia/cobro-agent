@@ -22,7 +22,7 @@ Server code selects `production` or `test` and opens the fixed corresponding nam
 
 `create(record)` revalidates the contact fields and accepts only an opaque UUID v4, canonical received-at timestamp and bounded notice-version identifier alongside them. The calling server must generate the identifier/timestamp and verify association with the exact notice the user saw. Adapter syntax checks do not prove those values were generated correctly or that a notice is approved.
 
-Create uses `onlyIfNew` and confirms only after a strong JSON read exactly matches the normalized record. Repeating the same record/ID does not overwrite it or increment a created count. A changed record under the same ID returns conflict. Read/write failures or missing reads never return stored-confirmed; raw provider errors/contact data are not included in create/delete results.
+Create uses `onlyIfNew` and confirms only after a strong JSON read is already canonical and matches the logical record. Repeating an existing ID with the same contact, business, permission and notice confirms the first record when the new timestamp is equal or later; the first stored timestamp is preserved and the created count is not incremented. An earlier timestamp, noncanonical stored field or any other changed field under the same ID returns conflict. A newly created record still requires an exact readback match. Read/write failures or missing reads never return stored-confirmed; raw provider errors/contact data are not included in create/delete results.
 
 `read(id)` is private operator functionality and returns sensitive data to its trusted caller. Do not expose it as a public read endpoint. Keys contain opaque identifiers, never email addresses. `delete(id)` reports confirmation only after a strong read returns null.
 
@@ -32,7 +32,7 @@ Create uses `onlyIfNew` and confirms only after a strong JSON read exactly match
 - Complete the approved notice, responsible party and public withdrawal/deletion contact channel. No private account email is adopted as a public contact.
 - Trusted UUID/timestamp and server-configured notice-version preparation now exist in the unused module documented by [METADATA_BINDING.md](METADATA_BINDING.md). Still approve the notice and prove the deployed page displayed the exact matching version.
 - Implement request-size/rate limits, route authentication for operator actions and client-safe timeouts/errors.
-- Implement retry identity plus unique-business/request deduplication: current same-ID protection does not deduplicate different IDs.
+- Connect the prepared retry-identity module to the future route and provision/version its runtime secret. This handles repeated use of one client token; unique-business/request deduplication across different tokens remains unresolved.
 - Implement retention and verify deletion; the 90-day maximum remains a proposal.
 - Exercise a deployed synthetic request with a reserved-domain email, independently inspect the matching private record, delete it and verify absence. Keep contacts out of public reports/screenshots.
 - Complete real mobile/desktop form checks. A mocked storage test is not provider acceptance evidence.
@@ -67,3 +67,11 @@ Signals are forwarded to fetch and aborted on expiry/completion. SDK internal re
 Local regression tests use the actual installed SDK with in-process synthetic transports, covering stalled/late PUTs, stuck JSON, private read failure, late delete confirmation, closed-budget retries, concurrent calls, timer-blocking transport/body reads and invalid deadline/record values. No real provider storage is accessed and the public handler remains unconditionally disabled. See docs/reports/2026-10-06-storage-deadline.md for current verification and hosted limitations.
 
 Node reference checked 2026-10-06: https://nodejs.org/docs/latest-v24.x/api/perf_hooks.html#performancenow .
+
+## Retry identity preparation — 2026-10-07
+
+PR #7 additionally prepares a server-only HMAC mapping from a canonical client `Idempotency-Key` UUID to an opaque stable request UUID. The secret requires at least 32 runtime bytes, is copied at configuration, and is never committed or returned. Invalid tokens fail without body consumption. See [RETRY_IDENTITY.md](RETRY_IDENTITY.md).
+
+The adapter accepts a timestamp-only difference when a conditional write reports an existing record and the strongly read logical record otherwise matches; it confirms the first timestamp and reports `created: false`. New writes still require exact confirmation. Changes to contact, business, permission or notice conflict. This does not deduplicate separate tokens, rate-limit submissions or prove a provider operation.
+
+The full local suite contains 141 passing tests and the static build still produces only two demo assets. The public handler remains unconditional 503. Independent QA and hosted build evidence are recorded in `docs/reports/2026-10-07-retry-identity.md`.

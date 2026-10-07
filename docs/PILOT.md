@@ -70,7 +70,7 @@ UI states: editing; submitting; rejected; failed; received-unverified; stored-co
 
 The demo is published. `server/validate-pilot-interest.cjs` provides dependency-free request validation for a future trusted server boundary; it is not deployed as an endpoint and does not store requests. It only accepts the three allowed fields, requires boolean permission, and rejects control characters, malformed or oversized fields and client-supplied metadata. Email syntax checks are conservative ASCII checks, not ownership verification. Business names remain literal text and must be rendered using safe text APIs.
 
-Resolve the capture activation gates and provider capabilities, then connect these prepared modules to the smallest trusted capture flow. Server-generated UUID/timestamp and server-configured notice-version preparation now exist behind the disabled route. Approved notice content, proof that the deployed page rendered the matching version, private persistence, cross-request duplicate/retry handling, rate controls, retention/deletion and end-to-end confirmation still require implementation and verification. Keep interest capture and live invoice operation as separate milestones.
+Resolve the capture activation gates and provider capabilities, then connect these prepared modules to the smallest trusted capture flow. Server-generated timestamp, server-configured notice version and stable HMAC-derived retry identity now exist behind the disabled route. Approved notice content, proof that the deployed page rendered the matching version, private persistence, route/browser composition, unique-business measurement, rate controls, retention/deletion and end-to-end confirmation still require implementation and verification. Keep interest capture and live invoice operation as separate milestones.
 
 ### Bounded body-reader preparation — 2026-10-07
 
@@ -79,6 +79,10 @@ Open PR #7 now additionally prepares `server/read-pilot-interest.cjs`: fixed 409
 ### Trusted metadata preparation — 2026-10-07
 
 Open PR #7 also prepares `server/prepare-pilot-interest-record.cjs`: the future trusted server boundary must supply a bounded notice version, while cryptographic UUID and canonical received-at time default to server generation. Client metadata and extra fields are rejected. [Metadata-binding guide](METADATA_BINDING.md) records the future integration order and remaining limits. No approved notice, rendered-version proof, form, provider record or lead is created.
+
+### Retry identity preparation — 2026-10-07
+
+Open PR #7 now prepares `server/pilot-interest-retry-id.cjs`: a canonical random client token is converted with a runtime-only HMAC secret into a stable opaque server UUID. A later retry with the same identity and logical fields confirms the original stored record and timestamp; changed contact, business, permission or notice remains a conflict. [Retry-identity guide](RETRY_IDENTITY.md) records the protocol and rotation boundary. Route/header integration, secret provisioning, browser token lifecycle, rate controls and unique-business deduplication remain pending; capture is still disabled.
 
 
 ## Storage integration preparation — 2026-10-06
