@@ -237,3 +237,15 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7), pr
 - [Guide](PREFLIGHT.md) and [cycle report](reports/2026-10-07-origin-preflight.md). Authenticated hosted 503 verification remains the principal PR integration blocker; unchanged protection was not re-probed or weakened.
 - Next useful independent implementation: a testable server-only orchestrator composing prepared validation/retry/metadata/storage, using injected synthetic storage and keeping the public handler disabled. Before live capture still require privacy/responsible-party/contact facts, notice/display proof, secrets, rate controls, retention/private access and actual provider write/read/delete.
 - Verified recorded spend USD 0; verified recorded revenue USD 0. No contact, real invoice, customer, external message, subscription or payment created.
+
+## Capture composition and Pago TIC evaluation — 2026-10-07
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7), product commit `8643e79f2795c14a21ecdc8de408d1c873e504bc`, in its existing isolated branch.
+
+- Unused server processor now composes preflight, declared notice-version guard, stable retry identity, bounded validation, trusted metadata and lazy injected storage. Unknown results stay unverified; only exact matching confirmations can return saved success. No private data is echoed.
+- Review found and drove correction of a cancellation/deadline issue during provider-result inspection. Final 23 targeted tests, 178/178 full tests and static build passed; independent post-fix adversarial probes cleared the unused scope.
+- Existing product modules, public handler/config/dependencies/demo assets remain unchanged; public capture stays unconditional 503. Exact product commit has successful Netlify deploy-preview status; hosted handler and actual provider acceptance are still unverified.
+- [Composition guide](CAPTURE_PROCESSOR.md), [Pago TIC evaluation](PAGOTIC_REVIEW.md), [cycle report](reports/2026-10-07-capture-composition-and-pagotic.md). Payment candidate only; no account/contact/API call/charge. Eligibility, commissions, settlement and currency remain unresolved, and partial competitive overlap is an inference requiring value validation.
+- Principal integration blocker remains authenticated hosted 503 verification. Privacy/responsible party/public contact, notice/display proof, secrets, native rate controls, retention/operator access and real storage readback/deletion still gate capture.
+- Next independent task: browser submission/retry/error controller with injected synthetic transport, without adding public contact inputs or auto-retry loops. Payment selection waits for verified current commercial conditions and authorized access/contact.
+- Verified recorded spend USD 0; verified recorded revenue USD 0. No customer or demand evidence invented.
