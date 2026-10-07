@@ -47,7 +47,7 @@ The pinned SDK's inspected conditional setJSON implementation treats any respons
 
 `netlify/functions/pilot-interest.mjs` is the deployed entry candidate. It always returns HTTP 503 and `state: unavailable`, without reading request/context, loading the SDK, accessing records or scheduling work. It exposes no read/delete actions and has no activation environment flag. No form or client call is added. Activation requires a reviewed code change after the capture gates.
 
-77 local tests passed, including 12 runtime/SDK cases; independent QA reran all 77. The real provider write/read/delete test, HTTP function execution and actual function runtime/credential wiring still require separate evidence. SDK retries currently allow five 5-second delays; add a bounded deadline/AbortSignal before activation. Body/rate controls, trusted notice/metadata binding, deduplication across IDs, authenticated inspection/deletion, retention and privacy/contact gates remain unfinished.
+The initial SDK preparation passed 77 local tests, including 12 runtime/SDK cases; independent QA reran all 77. The real provider write/read/delete test, HTTP function execution and actual function runtime/credential wiring still require separate evidence. Operation deadlines are prepared below. Body/rate controls, trusted notice/metadata binding, deduplication across IDs, authenticated inspection/deletion, retention and privacy/contact gates remain unfinished.
 
 Sources checked 2026-10-06:
 - https://docs.netlify.com/build/data-and-storage/netlify-blobs/
@@ -55,3 +55,15 @@ Sources checked 2026-10-06:
 - https://docs.netlify.com/build/functions/get-started/
 - https://docs.netlify.com/build/configure-builds/manage-dependencies/
 - https://github.com/netlify/primitives/issues/741 (corroborated by inspection of the installed 11.1.1 code).
+
+## Storage operation deadlines — 2026-10-06
+
+PR #7 additionally prepares a five-second budget for each private create/read/delete invocation. Trusted server code may choose an integer from 1 to 10000 ms; browser input must never control it. A fresh SDK adapter and AbortController isolate concurrent invocations. A create includes its PUT and confirming strong read in one budget; deletion includes its DELETE and absence check. Reads and response-body consumption are also covered.
+
+The guard uses Node's monotonic performance.now(), checking before/after transport, after JSON consumption and before returning an operation result. The caller also races an expiration timer, so a transport ignoring AbortSignal cannot keep it awaiting indefinitely. On expiry, create/delete return received-unverified/delete-unverified. A private read throws a generic unverified error rather than representing a timeout as an absent record. Validation errors remain validation errors. This is a server storage-operation deadline, not a complete HTTP request deadline: SDK import, future parsing/authentication and provider-independent work require their own controls.
+
+Signals are forwarded to fetch and aborted on expiry/completion. SDK internal retry sleeps may outlive the caller; they cannot reach another transport request after this invocation closes. Cancellation does not prove rollback: an already dispatched PUT or DELETE may have been applied by the provider. Recover with the same trusted request ID and an authenticated inspection; never claim saved/deleted success or absence from a timeout alone. JavaScript cannot guarantee a wall-clock return while its event loop is blocked, but the monotonic checks still prevent a late confirmation when execution resumes.
+
+Local regression tests use the actual installed SDK with in-process synthetic transports, covering stalled/late PUTs, stuck JSON, private read failure, late delete confirmation, closed-budget retries, concurrent calls, timer-blocking transport/body reads and invalid deadline/record values. No real provider storage is accessed and the public handler remains unconditionally disabled. See docs/reports/2026-10-06-storage-deadline.md for current verification and hosted limitations.
+
+Node reference checked 2026-10-06: https://nodejs.org/docs/latest-v24.x/api/perf_hooks.html#performancenow .

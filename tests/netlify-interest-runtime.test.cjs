@@ -58,7 +58,8 @@ test('unknown, preview, unpublished and wrong-site contexts fail before SDK load
 
 // Exercise the installed SDK against an in-process transport, with synthetic
 // credentials/URLs only. No network or private provider record is involved.
-async function sdkFixture(t, {initial = null, writeStatus, deleteStatus = 200} = {}) {
+async function sdkFixture(t, {initial = null, writeStatus, deleteStatus = 200,
+  timeoutMs, transportHook, sdkOptions = {}} = {}) {
   // The SDK uses a 1ms retry delay in test mode, instead of its 5s default.
   const previousEnv = process.env.NODE_ENV;
   let getStore;
@@ -72,10 +73,9 @@ async function sdkFixture(t, {initial = null, writeStatus, deleteStatus = 200} =
   const requests = [];
   let stored = initial;
   t.mock.method(globalThis, 'fetch', () => {throw new Error('No real network allowed');});
-  const transport = async (input, options) => {
+  const baseTransport = async (input, options) => {
     const url = new URL(input);
     assert.equal(url.origin, 'https://strong.example.invalid');
-    requests.push({method: options.method, headers: options.headers, path: url.pathname});
     if (options.method === 'put') {
       assert.equal(options.headers['if-none-match'], '*');
       assert.equal(options.headers['content-type'], 'application/json');
@@ -92,16 +92,177 @@ async function sdkFixture(t, {initial = null, writeStatus, deleteStatus = 200} =
     }
     throw new Error('Unexpected fixture method');
   };
+  const transport = (input, options) => {
+    requests.push({method: options.method, headers: options.headers,
+      path: new URL(input).pathname, signal: options.signal});
+    return transportHook ? transportHook(input, options, baseTransport) : baseTransport(input, options);
+  };
   const adapter = await openPublishedInterestStore(published, {
     fetchImpl: transport,
+    ...(timeoutMs === undefined ? {} : {timeoutMs}),
     loadSDK: async () => ({getStore: options => getStore({
       ...options, siteID: 'synthetic-site', token: 'synthetic-not-a-credential',
       edgeURL: 'https://cached.example.invalid',
-      uncachedEdgeURL: 'https://strong.example.invalid'
+      uncachedEdgeURL: 'https://strong.example.invalid', ...sdkOptions
     })})
   });
   return {adapter, requests};
 }
+
+test('deadline configuration is bounded and rejected before SDK load', async () => {
+  let loads = 0;
+  for (const timeoutMs of [0, -1, 10001, 1.5, Infinity, NaN, '5000', null]) {
+    await assert.rejects(openPublishedInterestStore(published, {
+      timeoutMs, loadSDK: async () => {loads++; throw new Error('Unexpected SDK load');}
+    }), /Unsupported storage deadline/);
+  }
+  assert.equal(loads, 0);
+});
+
+test('a stalled PUT returns unverified and forwards an aborted signal', async t => {
+  const {adapter, requests} = await sdkFixture(t, {
+    timeoutMs: 20, transportHook: () => new Promise(() => {})
+  });
+  assert.deepEqual(await adapter.create(record), {state: 'received-unverified'});
+  assert.equal(requests.length, 1);
+  assert.equal(requests[0].signal.aborted, true);
+});
+
+test('a late successful PUT never starts a confirmation read or another SDK fetch', async t => {
+  let finish;
+  const {adapter, requests} = await sdkFixture(t, {
+    timeoutMs: 20, transportHook: () => new Promise(resolve => {finish = resolve;})
+  });
+  assert.deepEqual(await adapter.create(record), {state: 'received-unverified'});
+  finish(new Response(null, {status: 200}));
+  // The actual SDK retries rejected transport calls; closed budgets stop them
+  // before reaching transport. Allow its five in-process test-delay retries.
+  await new Promise(resolve => setTimeout(resolve, 30));
+  assert.deepEqual(requests.map(r => r.method), ['put']);
+});
+
+test('PUT and strong-read JSON consumption share one deadline', async t => {
+  let finishBody;
+  const {adapter, requests} = await sdkFixture(t, {
+    timeoutMs: 20, transportHook: async (input, options, next) => {
+      const response = await next(input, options);
+      if (options.method === 'get') {
+        response.json = () => new Promise(resolve => {finishBody = resolve;});
+      }
+      return response;
+    }
+  });
+  assert.deepEqual(await adapter.create(record), {state: 'received-unverified'});
+  assert.deepEqual(requests.map(r => r.method), ['put', 'get']);
+  assert.equal(requests[0].signal, requests[1].signal);
+  assert.equal(requests[1].signal.aborted, true);
+  finishBody(record);
+  await new Promise(resolve => setImmediate(resolve));
+});
+
+test('a stalled private read throws rather than claiming the record is absent', async t => {
+  const {adapter, requests} = await sdkFixture(t, {
+    timeoutMs: 20, transportHook: () => new Promise(() => {})
+  });
+  await assert.rejects(adapter.read(record.request_id), /^Error: Private read unverified$/);
+  assert.equal(requests[0].signal.aborted, true);
+});
+
+test('a deletion with late absence confirmation remains unverified', async t => {
+  let finish;
+  const {adapter, requests} = await sdkFixture(t, {
+    initial: record, timeoutMs: 20, transportHook: (input, options, next) => {
+      if (options.method === 'get') return new Promise(resolve => {finish = resolve;});
+      return next(input, options);
+    }
+  });
+  assert.deepEqual(await adapter.delete(record.request_id), {state: 'delete-unverified'});
+  finish(new Response(null, {status: 404}));
+  await new Promise(resolve => setTimeout(resolve, 30));
+  assert.deepEqual(requests.map(r => r.method), ['delete', 'get']);
+});
+
+test('expiration of one call leaves concurrent and later calls usable', async t => {
+  let finish;
+  const {adapter, requests} = await sdkFixture(t, {
+    timeoutMs: 30, transportHook: (input, options, next) => {
+      if (options.method === 'put') return new Promise(resolve => {finish = resolve;});
+      return next(input, options);
+    }
+  });
+  const slow = adapter.create(record);
+  assert.equal(await adapter.read(record.request_id), null);
+  assert.deepEqual(await slow, {state: 'received-unverified'});
+  assert.equal(await adapter.read(record.request_id), null);
+  assert.notEqual(requests[0].signal, requests[1].signal);
+  finish(new Response(null, {status: 200}));
+  await new Promise(resolve => setTimeout(resolve, 30));
+  assert.deepEqual(requests.map(r => r.method), ['put', 'get', 'get']);
+});
+
+test('monotonic deadline prevents confirmation even when the timer cannot run', async t => {
+  const {performance} = require('node:perf_hooks');
+  const {adapter, requests} = await sdkFixture(t, {
+    timeoutMs: 10, transportHook: () => {
+      const until = performance.now() + 20;
+      while (performance.now() < until) {} // Deliberately block timer dispatch.
+      return new Response(null, {status: 200});
+    }
+  });
+  assert.deepEqual(await adapter.create(record), {state: 'received-unverified'});
+  await new Promise(resolve => setTimeout(resolve, 30));
+  assert.deepEqual(requests.map(r => r.method), ['put']);
+});
+
+test('invalid private values remain validation errors and never reach transport', async t => {
+  const {adapter, requests} = await sdkFixture(t);
+  await assert.rejects(adapter.create({...record, extra: 'forbidden'}), TypeError);
+  await assert.rejects(adapter.read('email-as-key@example.invalid'), TypeError);
+  await assert.rejects(adapter.delete('invalid'), TypeError);
+  assert.equal(requests.length, 0);
+});
+
+test('late JSON from a timer-blocking read cannot produce a confirmation', async t => {
+  const {performance} = require('node:perf_hooks');
+  const {adapter, requests} = await sdkFixture(t, {
+    timeoutMs: 10, transportHook: async (input, options, next) => {
+      const response = await next(input, options);
+      if (options.method === 'get') response.json = async () => {
+        const until = performance.now() + 20;
+        while (performance.now() < until) {}
+        return record;
+      };
+      return response;
+    }
+  });
+  assert.deepEqual(await adapter.create(record), {state: 'received-unverified'});
+  assert.deepEqual(requests.map(r => r.method), ['put', 'get']);
+});
+
+test('SDK cloned error-body reads stay inside the private-read deadline', async t => {
+  let finishBody;
+  let clones = 0;
+  const {adapter, requests} = await sdkFixture(t, {
+    timeoutMs: 20,
+    sdkOptions: {edgeURL: undefined, apiURL: 'https://api.example.invalid'},
+    transportHook: () => {
+      const response = new Response(null, {status: 403});
+      response.clone = () => {
+        clones++;
+        const copy = new Response(null, {status: 403});
+        copy.text = () => new Promise(resolve => {finishBody = resolve;});
+        return copy;
+      };
+      return response;
+    }
+  });
+  await assert.rejects(adapter.read(record.request_id), /^Error: Private read unverified$/);
+  assert.equal(clones, 1);
+  assert.equal(requests[0].signal.aborted, true);
+  finishBody('Synthetic provider error');
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(requests.length, 1);
+});
 
 test('installed pinned SDK supports create-only, strong read, retry and verified delete', async t => {
   assert.equal(require('@netlify/blobs/package.json').version, '11.1.1');
