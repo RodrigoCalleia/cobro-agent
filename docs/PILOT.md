@@ -70,11 +70,15 @@ UI states: editing; submitting; rejected; failed; received-unverified; stored-co
 
 The demo is published. `server/validate-pilot-interest.cjs` provides dependency-free request validation for a future trusted server boundary; it is not deployed as an endpoint and does not store requests. It only accepts the three allowed fields, requires boolean permission, and rejects control characters, malformed or oversized fields and client-supplied metadata. Email syntax checks are conservative ASCII checks, not ownership verification. Business names remain literal text and must be rendered using safe text APIs.
 
-Resolve the capture activation gates and provider capabilities, then connect this validator to the smallest trusted capture flow. Notice/version association, server-generated identifiers/timestamps, private persistence, duplicate/retry handling, body-size/rate controls, retention/deletion and confirmation still require implementation and end-to-end verification. Keep interest capture and live invoice operation as separate milestones.
+Resolve the capture activation gates and provider capabilities, then connect these prepared modules to the smallest trusted capture flow. Server-generated UUID/timestamp and server-configured notice-version preparation now exist behind the disabled route. Approved notice content, proof that the deployed page rendered the matching version, private persistence, cross-request duplicate/retry handling, rate controls, retention/deletion and end-to-end confirmation still require implementation and verification. Keep interest capture and live invoice operation as separate milestones.
 
 ### Bounded body-reader preparation — 2026-10-07
 
 Open PR #7 now additionally prepares `server/read-pilot-interest.cjs`: fixed 4096-byte streamed input cap, two-second per-invocation read/parse budget, strict JSON/UTF-8 envelope, repeated decoded-key rejection and existing field validation. It remains unused by the unconditional disabled public function. [Request-boundary guide](REQUEST_BOUNDARY.md) records exact behavior and limits, including pending submission deduplication, rate controls, trusted notice/metadata binding and real hosted/provider acceptance. This is not activated capture or demand evidence.
+
+### Trusted metadata preparation — 2026-10-07
+
+Open PR #7 also prepares `server/prepare-pilot-interest-record.cjs`: the future trusted server boundary must supply a bounded notice version, while cryptographic UUID and canonical received-at time default to server generation. Client metadata and extra fields are rejected. [Metadata-binding guide](METADATA_BINDING.md) records the future integration order and remaining limits. No approved notice, rendered-version proof, form, provider record or lead is created.
 
 
 ## Storage integration preparation — 2026-10-06

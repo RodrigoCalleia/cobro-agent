@@ -30,7 +30,7 @@ Create uses `onlyIfNew` and confirms only after a strong JSON read exactly match
 
 - Verify real SDK runtime/credential wiring and private write/read/delete. The package is pinned and its conditional-write transport is guarded in the preparation below; local compatibility tests do not complete provider acceptance.
 - Complete the approved notice, responsible party and public withdrawal/deletion contact channel. No private account email is adopted as a public contact.
-- Generate trusted metadata and preserve the displayed notice association.
+- Trusted UUID/timestamp and server-configured notice-version preparation now exist in the unused module documented by [METADATA_BINDING.md](METADATA_BINDING.md). Still approve the notice and prove the deployed page displayed the exact matching version.
 - Implement request-size/rate limits, route authentication for operator actions and client-safe timeouts/errors.
 - Implement retry identity plus unique-business/request deduplication: current same-ID protection does not deduplicate different IDs.
 - Implement retention and verify deletion; the 90-day maximum remains a proposal.
@@ -47,7 +47,7 @@ The pinned SDK's inspected conditional setJSON implementation treats any respons
 
 `netlify/functions/pilot-interest.mjs` is the deployed entry candidate. It always returns HTTP 503 and `state: unavailable`, without reading request/context, loading the SDK, accessing records or scheduling work. It exposes no read/delete actions and has no activation environment flag. No form or client call is added. Activation requires a reviewed code change after the capture gates.
 
-The initial SDK preparation passed 77 local tests, including 12 runtime/SDK cases; independent QA reran all 77. The real provider write/read/delete test, HTTP function execution and actual function runtime/credential wiring still require separate evidence. Operation deadlines are prepared below. Body/rate controls, trusted notice/metadata binding, deduplication across IDs, authenticated inspection/deletion, retention and privacy/contact gates remain unfinished.
+The initial SDK preparation passed 77 local tests, including 12 runtime/SDK cases; independent QA reran all 77. The real provider write/read/delete test, HTTP function execution and actual function runtime/credential wiring still require separate evidence. Operation deadlines are prepared below. Server metadata generation is now prepared separately, but approved notice/display binding, body/rate controls, deduplication across IDs, authenticated inspection/deletion, retention and privacy/contact gates remain unfinished.
 
 Sources checked 2026-10-06:
 - https://docs.netlify.com/build/data-and-storage/netlify-blobs/

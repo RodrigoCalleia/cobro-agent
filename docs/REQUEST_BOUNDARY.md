@@ -22,7 +22,9 @@ After JSON parsing, the existing strict validator enforces the three-field allow
 
 ## Verification
 
-26 local tests exercise native Request/Web Streams with synthetic reserved-domain contacts only. They cover exact cap/overflow and understated lengths, multibyte splitting, fatal encoding, repeated decoded keys, malformed JSON/shape/fields, preflight rejections without consumption, consumed/locked streams, stalls, aborts, rejected/stalled cancellation, timer-blocking late input and invocation isolation. Full local suite: 114 tests passed under Node 24.19.0; static build produced the two byte-identical demo assets. No network/provider record is used in these tests. Independent QA evidence and hosted results are recorded in docs/reports/2026-10-07-request-boundary.md.
+26 local tests exercise native Request/Web Streams with synthetic reserved-domain contacts only. They cover exact cap/overflow and understated lengths, multibyte splitting, fatal encoding, repeated decoded keys, malformed JSON/shape/fields, preflight rejections without consumption, consumed/locked streams, stalls, aborts, rejected/stalled cancellation, timer-blocking late input and invocation isolation. The expanded local suite now has 129 tests after separate metadata-preparation coverage; static build still produces the two byte-identical demo assets. No network/provider record is used in these tests. Independent reader QA evidence and hosted results are recorded in docs/reports/2026-10-07-request-boundary.md.
+
+Validated values can be passed to the unused trusted metadata preparer documented in [METADATA_BINDING.md](METADATA_BINDING.md). Neither helper is imported by the public function.
 
 Primary API references checked 2026-10-07:
 - https://nodejs.org/docs/latest-v24.x/api/webstreams.html
