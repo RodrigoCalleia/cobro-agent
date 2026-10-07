@@ -4,11 +4,7 @@ Verified deployment on 2026-10-06: Netlify Free plan confirmed in the authentica
 
 ## Repository configuration
 
-`netlify.toml` runs `node --test tests/*.test.cjs && node scripts/build-static.cjs` and publishes `dist`. The static builder copies exactly `index.html` and `cobro-engine.js`, without transforming their contents. Tests, reports, dependencies and server sources are not copied into the publish directory. Generated output is ignored by Git.
-
-The server dependency `@netlify/blobs` is pinned to 11.1.1 with a lockfile. Netlify installs package.json dependencies before the existing build command; .nvmrc selects Node 24.x. Local verification starts with `npm ci --ignore-scripts --no-audit --no-fund`. The project .npmrc disables dependency install scripts, audit and funding requests. The static demo itself still has no browser dependencies.
-
-The default functions directory contains a modern JavaScript handler at `netlify/functions/pilot-interest.mjs`. It always returns HTTP 503/unavailable, without reading request contents, loading the SDK or calling storage. The SDK adapter is server preparation; this function does not collect contacts. No flag or environment setting enables it. Verify the hosted unavailable response after preview deployment; a green build alone does not prove function execution. Activation requires a reviewed code change after the gates in docs/PILOT.md.
+`netlify.toml` runs `node --test tests/*.test.cjs && node scripts/build-static.cjs` and publishes `dist`. The build has no third-party dependencies and copies exactly `index.html` and `cobro-engine.js`, without transforming their contents. Tests, reports and build sources are not copied into the publish directory. Generated output is ignored by Git.
 
 The build validates its inputs before writing. It rejects symlinked assets/directories and unexpected output entries rather than deleting them or publishing them. The sole additional permitted entry is an existing regular `dist/netlify.toml` whose bytes exactly match the regular repository `netlify.toml`. That copy is preserved without rewriting it; a clean build still creates only the two demo assets. A different copy, missing source config, directory or symlink is rejected before any asset is replaced. This exception accommodates an observed publish artifact; it does not establish its origin or guarantee cache behavior on the provider. If the build stops, inspect the named entry before deciding how to handle it.
 

@@ -68,33 +68,11 @@ UI states: editing; submitting; rejected; failed; received-unverified; stored-co
 
 ## Next bounded implementation
 
-Prepared in PR #7 on 2026-10-07: [capture processor](CAPTURE_PROCESSOR.md) composes origin/method, declared notice-version and retry identity checks, bounded body validation, trusted metadata and lazy injected storage. Local synthetic composition is separate from hosted/provider acceptance. Public capture remains disabled and no operational offer is activated. [Pago TIC evaluation](PAGOTIC_REVIEW.md) keeps payment-provider selection pending verified eligibility and commercial conditions; no account or charge exists.
-
 The demo is published. `server/validate-pilot-interest.cjs` provides dependency-free request validation for a future trusted server boundary; it is not deployed as an endpoint and does not store requests. It only accepts the three allowed fields, requires boolean permission, and rejects control characters, malformed or oversized fields and client-supplied metadata. Email syntax checks are conservative ASCII checks, not ownership verification. Business names remain literal text and must be rendered using safe text APIs.
 
-Resolve the capture activation gates and provider capabilities, then connect these prepared modules to the smallest trusted capture flow. Server-generated timestamp, server-configured notice version and stable HMAC-derived retry identity now exist behind the disabled route. Approved notice content, proof that the deployed page rendered the matching version, private persistence, route/browser composition, unique-business measurement, rate controls, retention/deletion and end-to-end confirmation still require implementation and verification. Keep interest capture and live invoice operation as separate milestones.
-
-### Bounded body-reader preparation — 2026-10-07
-
-Open PR #7 now additionally prepares `server/read-pilot-interest.cjs`: fixed 4096-byte streamed input cap, two-second per-invocation read/parse budget, strict JSON/UTF-8 envelope, repeated decoded-key rejection and existing field validation. It remains unused by the unconditional disabled public function. [Request-boundary guide](REQUEST_BOUNDARY.md) records exact behavior and limits, including pending submission deduplication, rate controls, trusted notice/metadata binding and real hosted/provider acceptance. This is not activated capture or demand evidence.
-
-### Trusted metadata preparation — 2026-10-07
-
-Open PR #7 also prepares `server/prepare-pilot-interest-record.cjs`: the future trusted server boundary must supply a bounded notice version, while cryptographic UUID and canonical received-at time default to server generation. Client metadata and extra fields are rejected. [Metadata-binding guide](METADATA_BINDING.md) records the future integration order and remaining limits. No approved notice, rendered-version proof, form, provider record or lead is created.
-
-### Same-origin preflight preparation — 2026-10-07
-
-Open PR #7 additionally prepares `server/pilot-interest-preflight.cjs`: POST plus a single trusted canonical HTTPS Origin are checked before body consumption. [Preflight guide](PREFLIGHT.md) records the exact behavior and future ordering. Origin is not authentication and can be forged by non-browser clients. The helper remains unused; browser/route integration, native rate enforcement, privacy/notice gates and real storage acceptance are pending.
-
-### Retry identity preparation — 2026-10-07
-
-Open PR #7 now prepares `server/pilot-interest-retry-id.cjs`: a canonical random client token is converted with a runtime-only HMAC secret into a stable opaque server UUID. A later retry with the same identity and logical fields confirms the original stored record and timestamp; changed contact, business, permission or notice remains a conflict. [Retry-identity guide](RETRY_IDENTITY.md) records the protocol and rotation boundary. Route/header integration, secret provisioning, browser token lifecycle, rate controls and unique-business deduplication remain pending; capture is still disabled.
+Resolve the capture activation gates and provider capabilities, then connect this validator to the smallest trusted capture flow. Notice/version association, server-generated identifiers/timestamps, private persistence, duplicate/retry handling, body-size/rate controls, retention/deletion and confirmation still require implementation and end-to-end verification. Keep interest capture and live invoice operation as separate milestones.
 
 
 ## Storage integration preparation — 2026-10-06
 
 Netlify Blobs is selected as the candidate within the existing account. [Storage integration](INTEREST_STORAGE.md) records current official evidence, authenticated empty-state inspection and the prepared server-only adapter. Same-ID create-only writes, matching strong reads and deletion confirmation are tested with an injected in-memory provider. No SDK, endpoint or live storage was activated; private provider write/read/delete remains unverified. This does not complete the capture activation gates or count as customer demand.
-
-## Abuse policy preparation — 2026-10-07
-
-[ABUSE_CONTROLS.md](ABUSE_CONTROLS.md) selects a future native rule of five requests per 60 seconds per domain/IP, an early same-origin/method boundary, bounded client retry behavior and a hosted acceptance matrix. It is documentation only; no rule or route is configured by this cycle. Native enforcement can lag and has no global Free-plan quota; accepted post-processing logs, alias coverage and bounded synthetic throttling checks are required before any activation. The existing 4096-byte application reader and storage deadlines remain separate controls. Browser preflight, operator/retention, approved notice, stable secret and provider acceptance are still pending.
