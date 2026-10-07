@@ -165,3 +165,14 @@ A read-only review of index.html at blob 93dfa447c8a09251be68782c2c3fc7b24349762
 - This is a working commercial name, not a legal entity/trademark registration. Preliminary exact-name web research produced no relevant commercial match in returned results; domain, handle and trademark availability remain unverified. No purchase or registration was made.
 - Documentation only: deployed demo, repository name, Netlify URL and active PR #7 are unchanged. Commercial demand and payment remain unverified.
 - [Decision report](reports/2026-10-06-working-brand.md).
+
+## Autonomous work cadence — 2026-10-06
+
+Owner requested progress without chat messages and a consolidated update when returning. The existing enabled project automation was updated successfully, rather than creating a duplicate coordinator.
+
+- Task title: Avanzar Rondacobro. Configured local windows from 2026-10-07: 00:00, 03:00, 06:00, 09:00, 12:00, 15:00, 18:00 and 21:00, America/Argentina/Buenos_Aires. This replaces the previous 09:00/19:00 cadence. These are scheduled opportunities, not guarantees of exact timing or completed work.
+- Each run reads repository truth, continues open work, selects a bounded useful task, obtains independent QA when available and persists verified results/report before closing. Subagents do not remain active between runs.
+- Preserve all budget/access/privacy restrictions and disabled capture gates. Expected-state checks protect concurrent edits. Do not repeat unchanged passing tests or unchanged authentication probes merely to fill a run.
+- If a task is blocked, select useful independent work; pause only when all authorized work is actually blocked, with the exact missing prerequisite recorded.
+- When the owner returns, read the current board/reports and summarize actual changes since the previous update, separating completed work, pending verification and blockers.
+- [Cadence report](reports/2026-10-06-autonomous-cadence.md). A scheduled opportunity is not evidence of a successful execution or delivery.
