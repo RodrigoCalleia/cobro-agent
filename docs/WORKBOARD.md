@@ -214,3 +214,15 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - [Protocol guide in PR branch](https://github.com/RodrigoCalleia/cobro-agent/blob/product/disabled-interest-route-2026-10-06/docs/RETRY_IDENTITY.md) and [cycle report](reports/2026-10-07-retry-identity.md).
 - Still pending: browser token lifecycle, route composition, secret provisioning/versioning, rate controls, unique-business measurement, approved notice/display proof, retention, operator authentication and real provider write/read/delete. Existing authenticated hosted-handler blocker was not re-probed without new access evidence.
 - Next bounded work: prepare a rate/abuse policy behind the disabled route. Verified spend USD 0; verified revenue USD 0.
+
+## Abuse policy preparation — 2026-10-07
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7); starting heads were main `2d1a61399dfd1db2e58a60d8421a29959b2201d2` and isolated branch `e6d50d47472cd5e1427ebe4d3524aaee868eb1e1`.
+
+- Completed the bounded policy deliverable in [ABUSE_CONTROLS.md](ABUSE_CONTROLS.md): future 5 requests/60 seconds/domain+IP rule, early method/origin checks, manual retry handling, bounded hosted acceptance and project-scoped containment.
+- Official sources checked 2026-10-07 confirm delayed enforcement and that invalid rules can leave deployment green. Require accepted post-processing logs; do not call this a global quota or spending cap.
+- Independent research/review approved the inactive policy. Incorporated login-interception and obsolete-deploy isolation refinements. All live acceptance checks remain pending.
+- Documentation only: no runtime/config/dependency/demo asset changed, no rule or capture activated. No previously passing suite or unchanged login probe was repeated. Last code-changing evidence remains 141/141 tests; this is not a new test result.
+- [Cycle report](reports/2026-10-07-abuse-policy.md). Principal integration blocker remains authenticated hosted 503 verification.
+- Next coordinator action: implement the selected same-origin/method preflight as an unused helper with synthetic tests, behind the disabled handler in PR #7. Privacy/notice, secret provisioning, retention/operator access, unique-business measurement and real provider acceptance remain separate gates.
+- Verified recorded spend USD 0; verified recorded revenue USD 0. No external message, account, subscription, customer, real invoice or contact record was created.
