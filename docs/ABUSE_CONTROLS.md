@@ -67,7 +67,7 @@ All checks above are pending. Login redirects, authentication 401/403 or provide
 
 No paid upgrade or automatic top-up is authorized. Before activation, re-confirm the actual Free-plan limit/credit state using authorized account access and record only non-private results. Native per-IP throttling does not protect the project's whole usage budget. If legitimate access is repeatedly blocked or traffic/credits show an unexplained spike, restore the previously verified disabled handler before attempting further capture. The coordinator must verify a project-scoped rollback path in advance; no team-wide or other-project change is authorized. Old immutable deploy URLs may remain reachable after rollback: verify that every unpublished/obsolete deploy cannot open production storage, rather than assuming that moving the published pointer disables it. Rollback is containment, not instantaneous global admission control. A hard cross-client quota remains unresolved.
 
-Next bounded work: prepare the pure browser-origin/method preflight boundary with synthetic tests behind the disabled handler; retain all privacy, notice, secret, retention and provider gates.
+Prepared 2026-10-07 in open PR #7: the unused [browser-origin/method preflight](PREFLIGHT.md) checks POST and one trusted canonical HTTPS Origin before body consumption. Synthetic composition with the bounded reader passes. The public handler is unchanged and this helper is not active; native rate enforcement, browser/route wiring and hosted acceptance remain pending. Retain all privacy, notice, secret, retention and provider gates.
 
 ## Sources
 

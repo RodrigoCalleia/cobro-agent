@@ -226,3 +226,14 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7); st
 - [Cycle report](reports/2026-10-07-abuse-policy.md). Principal integration blocker remains authenticated hosted 503 verification.
 - Next coordinator action: implement the selected same-origin/method preflight as an unused helper with synthetic tests, behind the disabled handler in PR #7. Privacy/notice, secret provisioning, retention/operator access, unique-business measurement and real provider acceptance remain separate gates.
 - Verified recorded spend USD 0; verified recorded revenue USD 0. No external message, account, subscription, customer, real invoice or contact record was created.
+
+## Same-origin preflight preparation — 2026-10-07
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7), product commit `a8c3ce3c99aeadb189f3019370415999a59cc265`, in its existing isolated branch.
+
+- Added an unused POST/single canonical HTTPS Origin preflight before body consumption. Host/forwarded/override headers cannot grant access; no SDK/body/storage/logging operation is invoked by the helper itself. Origin is not authentication and non-browser clients can forge it.
+- Final verification: 14 targeted tests, 155/155 full tests and static build passed. Independent QA ran 21 adversarial probes and found no functional defect; corrected an overly broad Proxy-side-effect claim and added its regression case. Future composition requires the unmodified platform Request.
+- Exact product commit has a successful Netlify deploy-preview status. Hosted logs, handler/preflight execution and provider acceptance remain unverified. Public handler stays byte-identical and unconditional 503; no form or native rate rule activated.
+- [Guide](PREFLIGHT.md) and [cycle report](reports/2026-10-07-origin-preflight.md). Authenticated hosted 503 verification remains the principal PR integration blocker; unchanged protection was not re-probed or weakened.
+- Next useful independent implementation: a testable server-only orchestrator composing prepared validation/retry/metadata/storage, using injected synthetic storage and keeping the public handler disabled. Before live capture still require privacy/responsible-party/contact facts, notice/display proof, secrets, rate controls, retention/private access and actual provider write/read/delete.
+- Verified recorded spend USD 0; verified recorded revenue USD 0. No contact, real invoice, customer, external message, subscription or payment created.
