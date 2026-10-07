@@ -249,3 +249,14 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7), pr
 - Principal integration blocker remains authenticated hosted 503 verification. Privacy/responsible party/public contact, notice/display proof, secrets, native rate controls, retention/operator access and real storage readback/deletion still gate capture.
 - Next independent task: browser submission/retry/error controller with injected synthetic transport, without adding public contact inputs or auto-retry loops. Payment selection waits for verified current commercial conditions and authorized access/contact.
 - Verified recorded spend USD 0; verified recorded revenue USD 0. No customer or demand evidence invented.
+
+## Browser capture lifecycle — 2026-10-07
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7), product commit `5ca876a086b864978b4d50c0d271955240ce7ff6`, on its existing isolated branch.
+
+- Added an unused browser-compatible controller with injected transport: unchanged manual retry keeps one token, changed draft gets a new identity, double submission/stale completions are suppressed, notice mismatch requires explicit replacement and a fresh affirmative decision. Exact 200 confirmation is distinct from 202 unverified; no automatic retry, default fetch, DOM input, browser storage or logging.
+- Engineering 24 targeted tests passed. Coordinator final 203/203 full tests and static build passed. Independent QA found and verified correction of a token-generator reentrancy race. One persisted synthetic browser/server/store integration regression covers lost-response retry/original timestamp, changed identity and renewed notice decision. No actual provider, DOM or mobile pass is claimed.
+- Existing product/handler/config/dependencies/demo blobs are unchanged; static output remains two byte-identical demo assets. Public capture stays unconditional 503.
+- **New blocker:** exact commit Netlify deploy-preview failed, deploy `6ac69c984b90cc0008629da6`. GitHub checks refer to logs without diagnostics; a focused browser read shows Log in and no logs. Cause unknown. Local success is not hosted acceptance; no speculative fix/retry or protection change, no PR merge.
+- [Guide](BROWSER_CAPTURE.md) and [cycle report](reports/2026-10-07-browser-capture-lifecycle.md). Next priority: inspect this failed deploy's authenticated logs, correct based on evidence, then obtain successful hosted build and hosted 503 acceptance. Prioritize privacy/identity/contact/notice, secrets/rate/retention/private-access and actual provider acceptance gates before adding more capture helpers.
+- Keep agency/consultancy follow-up positioning narrow; Pago TIC's overlap means value and price still require validation. No AI model, outreach, customer, live invoice or payment activated. Recorded spend USD 0; recorded revenue USD 0.
