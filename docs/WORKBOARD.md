@@ -158,3 +158,33 @@ This repository is public. Keep credentials, private finances, personal data, re
 ## Initial QA report
 
 A read-only review of index.html at blob 93dfa447c8a09251be68782c2c3fc7b243497627 found that stage labels do not change preview text, the prototype has no persistent commercial-interest capture, and operational integrations remain absent. The fixed date and simulated payment are explicitly labelled.
+
+## Working brand — 2026-10-06
+
+- Coordinator selected **Rondacobro** with tagline **Tus cobros, en orden** after the owner's naming request. [Brand brief](BRAND.md) records positioning and copy rules.
+- This is a working commercial name, not a legal entity/trademark registration. Preliminary exact-name web research produced no relevant commercial match in returned results; domain, handle and trademark availability remain unverified. No purchase or registration was made.
+- Documentation only: deployed demo, repository name, Netlify URL and active PR #7 are unchanged. Commercial demand and payment remain unverified.
+- [Decision report](reports/2026-10-06-working-brand.md).
+
+## Autonomous work cadence — 2026-10-06
+
+Owner requested progress without chat messages and a consolidated update when returning. The existing enabled project automation was updated successfully, rather than creating a duplicate coordinator.
+
+- Task title: Avanzar Rondacobro. Configured local windows from 2026-10-07: 00:00, 03:00, 06:00, 09:00, 12:00, 15:00, 18:00 and 21:00, America/Argentina/Buenos_Aires. This replaces the previous 09:00/19:00 cadence. These are scheduled opportunities, not guarantees of exact timing or completed work.
+- Each run reads repository truth, continues open work, selects a bounded useful task, obtains independent QA when available and persists verified results/report before closing. Subagents do not remain active between runs.
+- Preserve all budget/access/privacy restrictions and disabled capture gates. Expected-state checks protect concurrent edits. Do not repeat unchanged passing tests or unchanged authentication probes merely to fill a run.
+- If a task is blocked, select useful independent work; pause only when all authorized work is actually blocked, with the exact missing prerequisite recorded.
+- When the owner returns, read the current board/reports and summarize actual changes since the previous update, separating completed work, pending verification and blockers.
+- [Cadence report](reports/2026-10-06-autonomous-cadence.md). A scheduled opportunity is not evidence of a successful execution or delivery.
+
+## Bounded request-reader preparation — 2026-10-07
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its existing isolated branch. No competing product PR was started.
+
+- Added an unused server-only POST/JSON reader: fixed 4096-byte actual stream cap, length hint/EOF matching, fatal incremental UTF-8 decoding and strict existing field validation. It does not import SDK, store records or bind notice/metadata.
+- Default two-second read/parse budget (trusted server override up to five seconds), request-abort handling and monotonic checks prevent late acceptance. Cleanup clears timer/listener and cancels/releases without waiting for stalled cancellation; concurrent invocations stay isolated.
+- 24 new tests passed; full branch suite 112/112 passed under Node 24.19.0. Static build produced byte-identical demo assets. Independent QA reran all 112 and independently checked listener/lock cleanup without remaining blockers for the unused-helper scope.
+- Public function, original validator, SDK/storage modules, demo source assets and netlify.toml are unchanged by this reader update. No capture form, lead record, email, billing or demand evidence is activated.
+- JSON duplicate keys still use last-value semantics; strict ambiguity handling, rate/abuse controls, trusted notice/metadata and retention/privacy gates remain pending. This is an application body-consumption cap, not proof of upstream ingress or full HTTP protection.
+- [Guide in PR branch](https://github.com/RodrigoCalleia/cobro-agent/blob/product/disabled-interest-route-2026-10-06/docs/REQUEST_BOUNDARY.md) and [cycle report](reports/2026-10-07-request-boundary.md). Exact hosted status is recorded in the report after commit.
+- Existing authenticated Netlify preview-handler blocker was not re-probed without changed access evidence. PR #7 remains open pending unavailable-handler verification; actual provider write/read/delete is unverified. Next bounded work: strict duplicate-key handling and trusted notice/metadata design; commercial validation preparation can proceed without outreach.

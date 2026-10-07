@@ -72,6 +72,10 @@ The demo is published. `server/validate-pilot-interest.cjs` provides dependency-
 
 Resolve the capture activation gates and provider capabilities, then connect this validator to the smallest trusted capture flow. Notice/version association, server-generated identifiers/timestamps, private persistence, duplicate/retry handling, body-size/rate controls, retention/deletion and confirmation still require implementation and end-to-end verification. Keep interest capture and live invoice operation as separate milestones.
 
+### Bounded body-reader preparation — 2026-10-07
+
+Open PR #7 now additionally prepares `server/read-pilot-interest.cjs`: fixed 4096-byte streamed input cap, two-second per-invocation read/parse budget, strict JSON/UTF-8 envelope and existing field validation. It remains unused by the unconditional disabled public function. [Request-boundary guide](REQUEST_BOUNDARY.md) records exact behavior and limits, including pending rate controls, duplicate-key ambiguity, trusted notice/metadata binding and real hosted/provider acceptance. This is not activated capture or demand evidence.
+
 
 ## Storage integration preparation — 2026-10-06
 
