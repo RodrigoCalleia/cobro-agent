@@ -16,13 +16,13 @@ After JSON parsing, the existing strict validator enforces the three-field allow
 
 - The cap bounds application consumption/decoded input, not buffers allocated by the platform or an upstream proxy before this code runs. A future HTTP route still requires platform-aware ingress controls and rate/abuse protection.
 - This budget starts at the body reader, not the entire HTTP pipeline. Parsing the already bounded JSON is synchronous; event-loop blocking prevents a hard real-time return, while monotonic checks prohibit accepting a late result when execution resumes.
-- JSON.parse uses last-value semantics for repeated object keys. This helper does not reject ambiguous repeated JSON keys; do not claim that it does. Review strict duplicate-key handling before binding consent at an activated boundary. Request/unique-business deduplication is also separate and unfinished.
+- After syntax validation, every JSON object is scanned for repeated decoded keys. Exact duplicates and escaped-equivalent spellings are rejected with `duplicate_keys`; separate objects keep independent key sets. Comparison is exact after JSON escape decoding, without Unicode normalization. Request/unique-business deduplication is separate and unfinished.
 - A future route must generate trusted IDs/timestamps, bind the exact approved notice/version, and apply privacy/responsible-party/public-contact and retention/deletion gates. A boolean input is not proof of an approved consent flow.
 - Actual hosted body parsing and private provider write/read/delete acceptance remain unverified. Capture stays disabled and PR #7 remains open until its existing hosted-handler acceptance requirement passes.
 
 ## Verification
 
-24 new local tests exercise native Request/Web Streams with synthetic reserved-domain contacts only. They cover exact cap/overflow and understated lengths, multibyte splitting, fatal encoding, malformed JSON/shape/fields, preflight rejections without consumption, consumed/locked streams, stalls, aborts, rejected/stalled cancellation, timer-blocking late input and invocation isolation. Full local suite: 112 tests passed under Node 24.19.0; static build produced the two byte-identical demo assets. No network/provider record is used in these tests. Independent QA evidence and hosted results are recorded in docs/reports/2026-10-07-request-boundary.md.
+26 local tests exercise native Request/Web Streams with synthetic reserved-domain contacts only. They cover exact cap/overflow and understated lengths, multibyte splitting, fatal encoding, repeated decoded keys, malformed JSON/shape/fields, preflight rejections without consumption, consumed/locked streams, stalls, aborts, rejected/stalled cancellation, timer-blocking late input and invocation isolation. Full local suite: 114 tests passed under Node 24.19.0; static build produced the two byte-identical demo assets. No network/provider record is used in these tests. Independent QA evidence and hosted results are recorded in docs/reports/2026-10-07-request-boundary.md.
 
 Primary API references checked 2026-10-07:
 - https://nodejs.org/docs/latest-v24.x/api/webstreams.html

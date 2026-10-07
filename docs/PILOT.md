@@ -74,7 +74,7 @@ Resolve the capture activation gates and provider capabilities, then connect thi
 
 ### Bounded body-reader preparation — 2026-10-07
 
-Open PR #7 now additionally prepares `server/read-pilot-interest.cjs`: fixed 4096-byte streamed input cap, two-second per-invocation read/parse budget, strict JSON/UTF-8 envelope and existing field validation. It remains unused by the unconditional disabled public function. [Request-boundary guide](REQUEST_BOUNDARY.md) records exact behavior and limits, including pending rate controls, duplicate-key ambiguity, trusted notice/metadata binding and real hosted/provider acceptance. This is not activated capture or demand evidence.
+Open PR #7 now additionally prepares `server/read-pilot-interest.cjs`: fixed 4096-byte streamed input cap, two-second per-invocation read/parse budget, strict JSON/UTF-8 envelope, repeated decoded-key rejection and existing field validation. It remains unused by the unconditional disabled public function. [Request-boundary guide](REQUEST_BOUNDARY.md) records exact behavior and limits, including pending submission deduplication, rate controls, trusted notice/metadata binding and real hosted/provider acceptance. This is not activated capture or demand evidence.
 
 
 ## Storage integration preparation — 2026-10-06

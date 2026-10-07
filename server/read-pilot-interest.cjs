@@ -8,6 +8,62 @@ class BodyReadError extends Error {
   constructor(code) { super('Invalid pilot-interest request'); this.code = code; }
 }
 
+// JSON.parse keeps only the last occurrence of a repeated object key. That is
+// unsafe for permission-bearing input, so inspect the already-valid JSON text
+// and reject decoded key collisions at every object depth.
+function hasDuplicateObjectKeys(text) {
+  let index = 0;
+  const whitespace = () => {
+    while (/\s/u.test(text[index] ?? '')) index++;
+  };
+  const string = () => {
+    const start = index++;
+    while (index < text.length) {
+      if (text[index] === '\\') index += 2;
+      else if (text[index++] === '"') break;
+    }
+    return JSON.parse(text.slice(start, index));
+  };
+  const value = () => {
+    whitespace();
+    if (text[index] === '{') return object();
+    if (text[index] === '[') return array();
+    if (text[index] === '"') { string(); return false; }
+    while (index < text.length && !/[\s,\]}]/u.test(text[index])) index++;
+    return false;
+  };
+  const object = () => {
+    index++;
+    const keys = new Set();
+    whitespace();
+    if (text[index] === '}') { index++; return false; }
+    while (index < text.length) {
+      whitespace();
+      const key = string();
+      if (keys.has(key)) return true;
+      keys.add(key);
+      whitespace();
+      index++; // colon; JSON.parse already established valid grammar.
+      if (value()) return true;
+      whitespace();
+      if (text[index++] === '}') return false;
+    }
+    return false;
+  };
+  const array = () => {
+    index++;
+    whitespace();
+    if (text[index] === ']') { index++; return false; }
+    while (index < text.length) {
+      if (value()) return true;
+      whitespace();
+      if (text[index++] === ']') return false;
+    }
+    return false;
+  };
+  return value();
+}
+
 // Unused server preparation, not a route or proof of notice/permission binding.
 // No SDK, storage, log, notification or background job is opened here.
 async function readPilotInterest(request, {timeoutMs = 2000} = {}) {
@@ -72,6 +128,8 @@ async function readPilotInterest(request, {timeoutMs = 2000} = {}) {
     let parsed;
     try { parsed = JSON.parse(text); }
     catch { throw new BodyReadError('invalid_json'); }
+    check();
+    if (hasDuplicateObjectKeys(text)) throw new BodyReadError('duplicate_keys');
     check();
     const checked = validatePilotInterest(parsed);
     check();

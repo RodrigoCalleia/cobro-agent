@@ -140,6 +140,25 @@ test('invalid/empty JSON, trailing values and BOM produce only a generic code', 
   }
 });
 
+test('rejects repeated decoded keys instead of applying JSON last-value semantics', async () => {
+  const bodies = [
+    '{"contact_email":"first@example.invalid","contact_email":"second@example.invalid","contact_permission":true}',
+    '{"contact_email":"synthetic@example.invalid","contact_permission":false,"contact_permission":true}',
+    '{"contact_email":"synthetic@example.invalid","contact_permission":true,"business_name":"A","business\\u005fname":"B"}',
+    '{"contact_email":"synthetic@example.invalid","contact_permission":true,"nested":{"key":1,"key":2}}'
+  ];
+  for (const body of bodies) {
+    assert.deepEqual(await read(request(body)), {ok: false, code: 'duplicate_keys'});
+  }
+});
+
+test('allows the same key name in separate objects without treating it as a collision', async () => {
+  const body = '{"contact_email":"synthetic@example.invalid","contact_permission":true,"left":{"key":1},"right":{"key":2}}';
+  const result = await read(request(body));
+  assert.equal(result.code, 'validation_failed');
+  assert.deepEqual(result.fields, ['unexpected_fields']);
+});
+
 test('parsed JSON still passes strict shape, fields and permission validation', async () => {
   for (const payload of [null, [], 'string', 1, {...valid, contact_permission: 'true'},
     {...valid, contact_email: {}}, {...valid, business_name: 'A'.repeat(101)},
