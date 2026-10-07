@@ -98,6 +98,19 @@ Netlify project `cobro-agent-rodrigo` was created on the authenticated Free plan
 - [Cycle report](reports/2026-10-06-cached-build-fix.md).
 - Next: verify cached rebuild when authenticated deploy access is available; meanwhile pin the SDK and prepare a disabled trusted route. Complete notice/responsible-party/public-contact gates before exposing capture or performing synthetic private storage checks.
 
+## SDK and disabled route preparation — 2026-10-06
+
+[PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) is open from isolated branch `product/disabled-interest-route-2026-10-06`, product commit `475f69de8b888adc2d4fcc03f2bb1a3ffff7dc9f`.
+
+- Pinned official @netlify/blobs 11.1.1 with lockfile and Node 24.x. Added a lazy server-only SDK connection gated by trusted Context for this project's current published production deploy.
+- The new function entry always returns 503/unavailable, without reading requests/context, importing SDK, opening storage or logging contacts. No form or activation env flag was added.
+- Guarded unexpected conditional PUT responses before SDK false success. All 77 local tests passed, including 12 installed-SDK/runtime cases; independent QA reran all 77 successfully.
+- Netlify deploy-preview build status was successful for the product commit before review. Deploy `6ac58e96e0440600085f0cae` has completed neutral Redirect/Header/Pages checks.
+- HTTP preview GET returned 401/Login Redirect before reaching the function. Hosted 503 execution and POST remain unverified. Keep PR open and preserve access protection until authorized authenticated handler verification is available. This change has not advanced production.
+- SDK tests use an in-process transport, not private provider storage. No contacts, real invoices, email, billing or demand evidence was activated. Demo assets and netlify.toml are unchanged.
+- [Cycle report](reports/2026-10-06-disabled-interest-route.md).
+- Next coordinator action: continue PR #7 and verify its unavailable handler, then inspect checks/source/main before integration. Behind the disabled route still need deadlines, bounded parsing, trusted metadata/notice, abuse/retry/retention and privacy/contact gates before synthetic private storage verification.
+
 ## Working roles
 
 - Coordinator: select the next useful task, integrate bounded work, check evidence and report.
