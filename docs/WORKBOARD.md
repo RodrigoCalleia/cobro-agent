@@ -202,3 +202,15 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - Netlify marked exact product commit `f3d68dc6c7cdfc33a4e39402bed07ebe1e073ce4` successful in deploy preview `6ac60b44e207e5000799b4c1`; Redirect/Header/Pages checks completed neutral. This is hosted-build evidence, not handler, notice-display or provider acceptance.
 - [Cycle report](reports/2026-10-07-trusted-metadata.md).
 - PR #7 remains open pending authenticated hosted 503 verification. Next bounded work: server-only logical retry identity/deduplication design, unless verified responsible-party/contact facts become available for the immutable notice contract.
+
+## Retry identity preparation — 2026-10-07
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its existing isolated branch; no competing product PR was started.
+
+- Product commit `1dbec20f196b3afed87772d3a733f9e4793036d7` prepares a server-only HMAC mapping from a canonical random client retry token to a stable opaque UUID v4. Runtime configuration requires at least 32 actual secret bytes; no secret or activation flag is committed.
+- Same derived ID and logical contact/business/permission/notice confirm the first record only when the new timestamp is equal or later. The first timestamp is preserved. Earlier time, changed logical data or noncanonical provider data conflict and never overwrite.
+- The full local suite passed 141/141; the targeted retry/store suite passed 24/24 and the static build produced only two demo assets. Independent QA found and drove fixes for proxy/config leaks, spoofed secret length, provider normalization and lexical timestamp ordering, then approved the disabled preparation after adversarial and extended-year checks.
+- Netlify deploy-preview status for the exact product commit is successful (deploy `6ac636181e447b0008adf345`). Hosted logs and function execution are not inferred. The public handler remains byte-identical and unconditional 503; capture is not activated.
+- [Protocol guide in PR branch](https://github.com/RodrigoCalleia/cobro-agent/blob/product/disabled-interest-route-2026-10-06/docs/RETRY_IDENTITY.md) and [cycle report](reports/2026-10-07-retry-identity.md).
+- Still pending: browser token lifecycle, route composition, secret provisioning/versioning, rate controls, unique-business measurement, approved notice/display proof, retention, operator authentication and real provider write/read/delete. Existing authenticated hosted-handler blocker was not re-probed without new access evidence.
+- Next bounded work: prepare a rate/abuse policy behind the disabled route. Verified spend USD 0; verified revenue USD 0.
