@@ -88,3 +88,7 @@ Open PR #7 now prepares `server/pilot-interest-retry-id.cjs`: a canonical random
 ## Storage integration preparation — 2026-10-06
 
 Netlify Blobs is selected as the candidate within the existing account. [Storage integration](INTEREST_STORAGE.md) records current official evidence, authenticated empty-state inspection and the prepared server-only adapter. Same-ID create-only writes, matching strong reads and deletion confirmation are tested with an injected in-memory provider. No SDK, endpoint or live storage was activated; private provider write/read/delete remains unverified. This does not complete the capture activation gates or count as customer demand.
+
+## Abuse policy preparation — 2026-10-07
+
+[ABUSE_CONTROLS.md](ABUSE_CONTROLS.md) selects a future native rule of five requests per 60 seconds per domain/IP, an early same-origin/method boundary, bounded client retry behavior and a hosted acceptance matrix. It is documentation only; no rule or route is configured by this cycle. Native enforcement can lag and has no global Free-plan quota; accepted post-processing logs, alias coverage and bounded synthetic throttling checks are required before any activation. The existing 4096-byte application reader and storage deadlines remain separate controls. Browser preflight, operator/retention, approved notice, stable secret and provider acceptance are still pending.

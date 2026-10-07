@@ -29,3 +29,7 @@ Validated values can be passed to the unused trusted metadata preparer documente
 Primary API references checked 2026-10-07:
 - https://nodejs.org/docs/latest-v24.x/api/webstreams.html
 - https://nodejs.org/api/util.html#class-utiltextdecoder
+
+## Abuse policy preparation — 2026-10-07
+
+[ABUSE_CONTROLS.md](ABUSE_CONTROLS.md) records the selected future native domain/IP rule, method/origin preflight, spoofed-identity boundaries, client handling and hosted acceptance matrix. This cycle adds documentation only: the reader and disabled handler are unchanged. The rule has delayed enforcement and does not establish a 4096-byte upstream cap or global cost/write quota. Runtime acceptance remains pending. The last code-changing verification was 141/141 passing tests in the retry-identity report; no suite was repeated for this documentation update.
