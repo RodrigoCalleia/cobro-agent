@@ -29,3 +29,9 @@ PR: https://github.com/RodrigoCalleia/cobro-agent/pull/7
 ## Independent QA closing
 
 The task-scoped reviewer independently reran all 112 tests with exit 0, including 24 reader cases and the unchanged disabled-handler/runtime tests. Additional in-process checks verified abort listener restoration and stream-lock release after success, invalid JSON and timeout. No functional blocker was found for the unused internal-helper scope. It confirmed the documented limits: default two-second budget with a trusted override up to five seconds, JSON.parse duplicate-key last-value semantics, and no guarantee for upstream buffering or the entire HTTP pipeline.
+
+## Hosted and repository closing evidence
+
+Exact tested product commit: a6e3e30d4bcebc4c0ca95e60e3cbfaae29ac1ccc. Netlify deploy-preview status is successful for this commit, deploy 6ac5b8a22678c20008d4530e: https://app.netlify.com/projects/cobro-agent-rodrigo/deploys/6ac5b8a22678c20008d4530e . Redirect/Header/Pages checks completed neutral. Hosted test-log count, HTTP handler/body execution and provider persistence remain unverified; preview build success does not satisfy those acceptance checks.
+
+Verified the repository tree: reader/test/guide/pilot/report/workboard are the six intended task paths; the branch also includes three byte-identical main-only brand/cadence documents to preserve the workboard's links. Existing public function, validator, SDK/storage/deadline modules, demo source assets and Netlify config match the preceding PR tree exactly. GitHub reported a documentation merge conflict with main after the earlier report/brand/cadence updates. The closing merge synchronizes main ancestry into the isolated PR branch using the reviewed union tree and expected-head checks; it does not merge product code into main or change tested product blobs. Report/workboard are mirrored to main for durable coordination. PR #7 remains open pending authenticated hosted-handler verification.
