@@ -111,6 +111,18 @@ Netlify project `cobro-agent-rodrigo` was created on the authenticated Free plan
 - [Cycle report](reports/2026-10-06-disabled-interest-route.md).
 - Next coordinator action: continue PR #7 and verify its unavailable handler, then inspect checks/source/main before integration. Behind the disabled route still need deadlines, bounded parsing, trusted metadata/notice, abuse/retry/retention and privacy/contact gates before synthetic private storage verification.
 
+## Storage operation deadlines — 2026-10-06
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its existing isolated branch; no competing product PR was started.
+
+- Added a five-second budget per private create/read/delete invocation, including response bodies and confirming strong reads. Separate controllers/adapters isolate simultaneous calls; monotonic checks and a caller timer prevent late confirmations and further transport after expiration.
+- Expired create/delete remain unverified; private read expiry throws instead of claiming absence. Cancellation cannot prove rollback of an already dispatched provider request. SDK retry sleeps may outlive a call but cannot issue further transport through its closed budget.
+- The disabled public function, demo source assets, netlify.toml and original injected storage adapter remain unchanged. No storage record, contact form, delivery, billing or customer evidence is activated.
+- Eleven new installed-SDK regression cases bring the local suite to 88; static build passed and independent QA reran all 88 without remaining blockers. Hosted verification results are recorded in the cycle report.
+- Netlify preview status is successful for deadline product commit `b2e0327a7a103105a845696d5b2e96dca385b749` (deploy `6ac5ae415501cb0008c94d92`). Hosted test-log count is not independently verified. The preview function redirects to team protection requiring an invited Netlify login. No authenticated handler verification is available in this cycle. Keep PR #7 open; no hosted 503 execution or provider write/read/delete success is claimed.
+- [Cycle report](reports/2026-10-06-storage-deadline.md).
+- Next: verify the unavailable handler with authenticated project access, inspect checks/source/main and integrate PR #7 when its acceptance requirement passes. Continue privacy/contact and parsing/rate/notice/retry/retention prerequisites before enabling capture.
+
 ## Working roles
 
 - Coordinator: select the next useful task, integrate bounded work, check evidence and report.
