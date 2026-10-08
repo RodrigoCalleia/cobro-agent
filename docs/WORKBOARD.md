@@ -290,3 +290,38 @@ Prepared independent [PR #8](https://github.com/RodrigoCalleia/cobro-agent/pull/
 - Authenticated function-navigation observation was rejected by browser URL/protocol policy. Hosted GET/POST 503 acceptance remains pending; no workaround, status/body claim or unchanged re-probe. PR #7 stays open/unmerged.
 - [Diagnosis and verification report](reports/2026-10-07-deadline-cause-fix.md). Next: permitted hosted-handler acceptance and supported mobile verification, then integrate after current-head/main/check review. Privacy/contact/notice, secrets/rate/retention/operator access and actual synthetic provider acceptance still gate capture.
 - Recorded spend USD 0; recorded revenue USD 0. No real invoices, customers, outreach, payments, subscriptions or new accounts.
+
+
+## Commercial validation playbook — 2026-10-07
+
+- Prepared [PLAYBOOK_VALIDACION_COMERCIAL.md](PLAYBOOK_VALIDACION_COMERCIAL.md) from the current pilot/brand/payment hypothesis. It defines a neutral discovery sequence, four-part business qualification, explicit yes/no/conditional price evidence, objection categories and separate stages for interest, contract and confirmed payment.
+- Decision rule: review after 10 qualified businesses or 30 days from the first authorized conversation. Continue with at least 3 distinct explicit price/scope acceptances; change one variable after weaker evidence or a repeated correctable objection; stop the hypothesis after 0/10 acceptances or when at least 6/10 do not have a recurring problem. These are future experimental thresholds, not demand evidence.
+- Independent audit required complete denominators and negative/conditional results, separation of unique businesses from retry tokens/submissions, comparison with existing tools and reconfirmation once currency/taxes/fees form a final chargeable price.
+- No outreach, prospect list, personal data, capture, checkout, account or subscription was created. Do not add commercial interview fields to the technical capture allowlist or use this public repository as a CRM.
+- [Cycle report](reports/2026-10-07-commercial-validation-playbook.md). PR #7 remains pending permitted hosted-handler acceptance; PR #8 remains draft pending supported mobile acceptance. Identity/privacy/contact, operational and payment gates remain separate.
+- Recorded spend USD 0; recorded revenue USD 0; verified qualified businesses, price acceptances and payments: 0.
+
+
+## Mobile-readiness accessibility correction — 2026-10-08
+
+- Continued draft [PR #8](https://github.com/RodrigoCalleia/cobro-agent/pull/8) with [product commit ba573a8](https://github.com/RodrigoCalleia/cobro-agent/commit/ba573a86475c835c39db90020cb53a99f7856469): 44px minimum controls, a named/focusable horizontal invoice region with visible focus and invoice-specific accessible names for repeated row actions.
+- Product scope remains fictional and in-memory. No capture, network, storage, delivery, payment or customer data was added; focus restoration and invoice identity guards were preserved.
+- New focused result 13/13; complete branch suite 78/78, syntax and static build passed. Independent post-fix review approved the exact source delta and ran the focused regression 1/1. Exact commit Netlify preview status is successful.
+- This is source/build evidence, not native mobile acceptance. The available surface did not provide a real mobile viewport, touch, rendered-size or screen-reader session. PR #8 stays draft/unmerged and production remains unchanged.
+- [Cycle report](reports/2026-10-08-mobile-readiness-accessibility.md). Next: supported native mobile acceptance, then current-head/main/check review before integration. PR #7 hosted-handler/privacy gates remain separate and unchanged.
+- Recorded spend USD 0; recorded revenue USD 0. No customers, outreach, real invoices, payments, subscriptions or new accounts.
+
+## Privacy activation readiness — 2026-10-08
+
+Privacy preparation for the disabled pilot-interest path is now explicit in [PRIVACY_READINESS.md](PRIVACY_READINESS.md). This is an operational gate, not legal advice or a compliance claim.
+
+- Scope remains limited to a business email, optional business name and affirmative permission. No invoice, debtor, balance, free-text or sensitive data belongs in this capture.
+- The notice template now lists the responsible party's identity and domicile, database/storage existence, purpose and recipients, required/optional status, consequences, rights route, retention and provider/transfer facts. Unresolved values remain visible placeholders; none were inferred from Rodrigo's public profile.
+- Current AAIP guidance was checked. The operating target is access within 10 calendar days and rectification/update/suppression within 5 business days. An independent review confirmed these timings and warned that an email address alone is not a sufficient notice.
+- Registration applicability is unresolved: AAIP wording and interpretation are broader than “selling data.” The responsible party must obtain a documented applicability decision and complete any required registration before activation.
+- Cloud/international-transfer readiness is unresolved. Netlify/provider contract, processing locations, subprocessors and lawful transfer mechanism have not been verified; no country or adequacy assumption was made.
+- Capture stays disabled. Hard blockers are an approved responsible identity/domicile/privacy contact, registration decision, approved notice version, retention period, processor/transfer facts, operator procedure and synthetic private write/read/delete evidence.
+- No product code, deployed form, customer record, outreach, payment or subscription changed. Source review only; unchanged tests were not rerun.
+- [Cycle report](reports/2026-10-08-privacy-readiness.md).
+- Next: the owner supplies or approves the accountable legal identity and privacy channel; the coordinator then verifies provider facts and turns the checklist into an acceptance packet. PR #7 remains open and unavailable until all activation gates pass.
+
