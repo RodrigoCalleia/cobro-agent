@@ -310,3 +310,18 @@ Prepared independent [PR #8](https://github.com/RodrigoCalleia/cobro-agent/pull/
 - This is source/build evidence, not native mobile acceptance. The available surface did not provide a real mobile viewport, touch, rendered-size or screen-reader session. PR #8 stays draft/unmerged and production remains unchanged.
 - [Cycle report](reports/2026-10-08-mobile-readiness-accessibility.md). Next: supported native mobile acceptance, then current-head/main/check review before integration. PR #7 hosted-handler/privacy gates remain separate and unchanged.
 - Recorded spend USD 0; recorded revenue USD 0. No customers, outreach, real invoices, payments, subscriptions or new accounts.
+
+## Privacy activation readiness — 2026-10-08
+
+Privacy preparation for the disabled pilot-interest path is now explicit in [PRIVACY_READINESS.md](PRIVACY_READINESS.md). This is an operational gate, not legal advice or a compliance claim.
+
+- Scope remains limited to a business email, optional business name and affirmative permission. No invoice, debtor, balance, free-text or sensitive data belongs in this capture.
+- The notice template now lists the responsible party's identity and domicile, database/storage existence, purpose and recipients, required/optional status, consequences, rights route, retention and provider/transfer facts. Unresolved values remain visible placeholders; none were inferred from Rodrigo's public profile.
+- Current AAIP guidance was checked. The operating target is access within 10 calendar days and rectification/update/suppression within 5 business days. An independent review confirmed these timings and warned that an email address alone is not a sufficient notice.
+- Registration applicability is unresolved: AAIP wording and interpretation are broader than “selling data.” The responsible party must obtain a documented applicability decision and complete any required registration before activation.
+- Cloud/international-transfer readiness is unresolved. Netlify/provider contract, processing locations, subprocessors and lawful transfer mechanism have not been verified; no country or adequacy assumption was made.
+- Capture stays disabled. Hard blockers are an approved responsible identity/domicile/privacy contact, registration decision, approved notice version, retention period, processor/transfer facts, operator procedure and synthetic private write/read/delete evidence.
+- No product code, deployed form, customer record, outreach, payment or subscription changed. Source review only; unchanged tests were not rerun.
+- [Cycle report](reports/2026-10-08-privacy-readiness.md).
+- Next: the owner supplies or approves the accountable legal identity and privacy channel; the coordinator then verifies provider facts and turns the checklist into an acceptance packet. PR #7 remains open and unavailable until all activation gates pass.
+
