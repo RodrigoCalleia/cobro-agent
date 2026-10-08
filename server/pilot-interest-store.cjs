@@ -4,6 +4,7 @@ const {validatePilotInterest} = require('./validate-pilot-interest.cjs');
 const idPattern = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/u;
 const fields = new Set(['contact_email', 'business_name', 'contact_permission', 'request_id', 'received_at', 'notice_version']);
 const suppression = Object.freeze({state: 'suppressed'});
+const storageRegion = 'eu-central-1';
 
 function validId(id) { return typeof id === 'string' && idPattern.test(id); }
 function isSuppression(value) { return isDeepStrictEqual(value, suppression); }
@@ -33,7 +34,11 @@ function canonicalRecord(record) {
 // All arguments, IDs and metadata must be chosen by authenticated/trusted server code.
 function createPilotInterestStore({getStore, environment}) {
   if (!['production', 'test'].includes(environment) || typeof getStore !== 'function') throw new TypeError('Unsupported storage context');
-  const store = getStore({name: `cobro-pilot-interest-${environment}-v1`, consistency: 'strong'});
+  const store = getStore({
+    name: `cobro-pilot-interest-${environment}-v1`,
+    consistency: 'strong',
+    region: storageRegion
+  });
   if (!store || ['setJSON', 'get', 'delete'].some(method => typeof store[method] !== 'function')) throw new TypeError('Unsupported storage adapter');
   const keyFor = id => { if (!validId(id)) throw new TypeError('Invalid private record identifier'); return `requests/${id}`; };
   const read = id => store.get(keyFor(id), {type: 'json', consistency: 'strong'});

@@ -92,8 +92,9 @@ async function sdkFixture(t, {initial = null, writeStatus, deleteStatus = 200,
     throw new Error('Unexpected fixture method');
   };
   const transport = (input, options) => {
+    const url = new URL(input);
     requests.push({method: options.method, headers: options.headers,
-      path: new URL(input).pathname, signal: options.signal});
+      path: url.pathname, region: url.searchParams.get('region'), signal: options.signal});
     return transportHook ? transportHook(input, options, baseTransport) : baseTransport(input, options);
   };
   const adapter = await openPublishedInterestStore(published, {
@@ -267,6 +268,24 @@ test('installed pinned SDK supports create-only, strong read and retry', async t
   assert.deepEqual(await adapter.read(record.request_id), record);
   assert.ok(requests.every(r => r.path.includes('/site:cobro-pilot-interest-production-v1/requests/')));
   assert.deepEqual(requests.map(r => r.method), ['put','get','put','get','get']);
+});
+
+test('installed pinned SDK routes the fixed EU blob region to its API', async () => {
+  const {getStore} = await import('@netlify/blobs');
+  const requests = [];
+  const store = getStore({
+    name: 'region-probe', region: 'eu-central-1', siteID: 'synthetic-site',
+    token: 'synthetic-not-a-credential',
+    fetch: async (input, options) => {
+      requests.push({url: new URL(input), method: options.method});
+      return new Response(null, {status: 404});
+    }
+  });
+  await assert.rejects(store.get('probe', {consistency: 'strong'}));
+  assert.equal(requests.length, 1);
+  assert.equal(requests[0].method, 'get');
+  assert.equal(requests[0].url.origin, 'https://api.netlify.com');
+  assert.equal(requests[0].url.searchParams.get('region'), 'eu-central-1');
 });
 
 test('installed pinned SDK overwrites contact data with a suppression marker and blocks replay', async t => {

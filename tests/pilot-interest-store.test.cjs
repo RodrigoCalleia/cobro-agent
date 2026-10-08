@@ -19,9 +19,13 @@ function fixture(overrides = {}, environment = 'test') {
   const adapter = createPilotInterestStore({environment, getStore: options => { calls.push(['getStore', options]); return provider; }});
   return {adapter, values, calls};
 }
-test('test and production stores use distinct fixed names and strong consistency', () => {
-  assert.deepEqual(fixture().calls[0], ['getStore', {name: 'cobro-pilot-interest-test-v1', consistency: 'strong'}]);
-  assert.deepEqual(fixture({}, 'production').calls[0], ['getStore', {name: 'cobro-pilot-interest-production-v1', consistency: 'strong'}]);
+test('test and production stores use distinct fixed names, EU region and strong consistency', () => {
+  assert.deepEqual(fixture().calls[0], ['getStore', {
+    name: 'cobro-pilot-interest-test-v1', consistency: 'strong', region: 'eu-central-1'
+  }]);
+  assert.deepEqual(fixture({}, 'production').calls[0], ['getStore', {
+    name: 'cobro-pilot-interest-production-v1', consistency: 'strong', region: 'eu-central-1'
+  }]);
 });
 test('preview, missing and arbitrary contexts cannot open a store', () => {
   for (const environment of [undefined, 'deploy-preview', 'branch-deploy', 'custom']) {
