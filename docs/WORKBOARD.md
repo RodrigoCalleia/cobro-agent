@@ -300,3 +300,13 @@ Prepared independent [PR #8](https://github.com/RodrigoCalleia/cobro-agent/pull/
 - No outreach, prospect list, personal data, capture, checkout, account or subscription was created. Do not add commercial interview fields to the technical capture allowlist or use this public repository as a CRM.
 - [Cycle report](reports/2026-10-07-commercial-validation-playbook.md). PR #7 remains pending permitted hosted-handler acceptance; PR #8 remains draft pending supported mobile acceptance. Identity/privacy/contact, operational and payment gates remain separate.
 - Recorded spend USD 0; recorded revenue USD 0; verified qualified businesses, price acceptances and payments: 0.
+
+
+## Mobile-readiness accessibility correction — 2026-10-08
+
+- Continued draft [PR #8](https://github.com/RodrigoCalleia/cobro-agent/pull/8) with [product commit ba573a8](https://github.com/RodrigoCalleia/cobro-agent/commit/ba573a86475c835c39db90020cb53a99f7856469): 44px minimum controls, a named/focusable horizontal invoice region with visible focus and invoice-specific accessible names for repeated row actions.
+- Product scope remains fictional and in-memory. No capture, network, storage, delivery, payment or customer data was added; focus restoration and invoice identity guards were preserved.
+- New focused result 13/13; complete branch suite 78/78, syntax and static build passed. Independent post-fix review approved the exact source delta and ran the focused regression 1/1. Exact commit Netlify preview status is successful.
+- This is source/build evidence, not native mobile acceptance. The available surface did not provide a real mobile viewport, touch, rendered-size or screen-reader session. PR #8 stays draft/unmerged and production remains unchanged.
+- [Cycle report](reports/2026-10-08-mobile-readiness-accessibility.md). Next: supported native mobile acceptance, then current-head/main/check review before integration. PR #7 hosted-handler/privacy gates remain separate and unchanged.
+- Recorded spend USD 0; recorded revenue USD 0. No customers, outreach, real invoices, payments, subscriptions or new accounts.
