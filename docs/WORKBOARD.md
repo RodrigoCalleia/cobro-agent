@@ -290,3 +290,13 @@ Prepared independent [PR #8](https://github.com/RodrigoCalleia/cobro-agent/pull/
 - Authenticated function-navigation observation was rejected by browser URL/protocol policy. Hosted GET/POST 503 acceptance remains pending; no workaround, status/body claim or unchanged re-probe. PR #7 stays open/unmerged.
 - [Diagnosis and verification report](reports/2026-10-07-deadline-cause-fix.md). Next: permitted hosted-handler acceptance and supported mobile verification, then integrate after current-head/main/check review. Privacy/contact/notice, secrets/rate/retention/operator access and actual synthetic provider acceptance still gate capture.
 - Recorded spend USD 0; recorded revenue USD 0. No real invoices, customers, outreach, payments, subscriptions or new accounts.
+
+
+## Commercial validation playbook — 2026-10-07
+
+- Prepared [PLAYBOOK_VALIDACION_COMERCIAL.md](PLAYBOOK_VALIDACION_COMERCIAL.md) from the current pilot/brand/payment hypothesis. It defines a neutral discovery sequence, four-part business qualification, explicit yes/no/conditional price evidence, objection categories and separate stages for interest, contract and confirmed payment.
+- Decision rule: review after 10 qualified businesses or 30 days from the first authorized conversation. Continue with at least 3 distinct explicit price/scope acceptances; change one variable after weaker evidence or a repeated correctable objection; stop the hypothesis after 0/10 acceptances or when at least 6/10 do not have a recurring problem. These are future experimental thresholds, not demand evidence.
+- Independent audit required complete denominators and negative/conditional results, separation of unique businesses from retry tokens/submissions, comparison with existing tools and reconfirmation once currency/taxes/fees form a final chargeable price.
+- No outreach, prospect list, personal data, capture, checkout, account or subscription was created. Do not add commercial interview fields to the technical capture allowlist or use this public repository as a CRM.
+- [Cycle report](reports/2026-10-07-commercial-validation-playbook.md). PR #7 remains pending permitted hosted-handler acceptance; PR #8 remains draft pending supported mobile acceptance. Identity/privacy/contact, operational and payment gates remain separate.
+- Recorded spend USD 0; recorded revenue USD 0; verified qualified businesses, price acceptances and payments: 0.
