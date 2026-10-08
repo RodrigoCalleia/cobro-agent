@@ -376,3 +376,15 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) aft
 - Independent audit approved the pure append-only design and identified pre-activation requirements: actual SDK adapter tests, token-secret version history, retention/tombstones, trusted contact-ID binding and resource-bounded listing.
 - [Cycle report](reports/2026-10-08-append-only-contact-index.md).
 - Next: implement and test a normalized, still-disconnected SDK adapter for `onlyIfNew` plus complete prefix listing; do not enable capture.
+
+## Netlify contact-index SDK adapter — 2026-10-08
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added disconnected `server/netlify-contact-index.cjs` for the pinned Netlify Blobs 11.1.1 SDK. It opens separate test/production stores with strong consistency in `eu-central-1`.
+- Create-only writes use `onlyIfNew` and normalize the SDK's `{modified, etag}` response to `{modified}`. Prefix listing consumes the SDK async iterator, normalizes blob entries to keys and enforces the ID limit during pagination.
+- The persisted in-process SDK transport test covers successful create, duplicate HTTP 412, two list pages with `next_cursor`, exact prefix, EU region and isolated store path. No network or provider record is used.
+- Coordinator verification: **10/10** focused tests, **220/220** complete tests and static build passed. Independent review found no preparation-scope blocker and verified the same 412/pagination behavior before it was persisted.
+- Adapter remains disconnected from the public function. HMAC/versioned token derivation, secret rotation, generic public error mapping, retention and trusted record binding remain activation gates.
+- [Cycle report](reports/2026-10-08-netlify-contact-index-adapter.md).
+- Next: prepare versioned HMAC token derivation and rotation-compatible lookup with synthetic secrets; keep capture unavailable.
