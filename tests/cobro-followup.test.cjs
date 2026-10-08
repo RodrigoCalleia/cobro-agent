@@ -1,5 +1,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
 const {applyDemoFollowup,decision,reminderPreview}=require('../cobro-engine.js');
 const now='2026-10-03';
 const base=Object.freeze({id:'DEMO-001',client:'Equipo ficticio',amount:750,due:'2026-09-25'});
@@ -84,4 +86,13 @@ test('bad invoice records or clock return fixed errors without identity',()=>{
  for(const clock of [undefined,123,'2026-02-30'])assert.equal(applyDemoFollowup(base,edit(),clock).ok,false);
  const malicious=new Proxy({}, {getPrototypeOf(){throw Error('PRIVATE-ID')}});
  const result=applyDemoFollowup(malicious,edit(),now);assert.equal(result.ok,false);assert.doesNotMatch(JSON.stringify(result),/PRIVATE-ID|DEMO-001|Equipo ficticio/);
+});
+
+test('mobile and repeated row controls expose touch and keyboard affordances',()=>{
+ const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
+ assert.match(html,/button\{[^}]*min-height:44px/);
+ assert.match(html,/input,select\{[^}]*min-height:44px/);
+ assert.match(html,/<div class="scroll" tabindex="0" role="region" aria-label="Facturas simuladas; desplazamiento horizontal en pantallas pequeñas">/);
+ assert.match(html,/\.scroll:focus-visible\{outline:2px solid #6ce5bc/);
+ for(const label of ['Ver borrador de ','Simular seguimiento de ','Simular pago de '])assert.match(html,new RegExp("setAttribute\\('aria-label','"+label));
 });
