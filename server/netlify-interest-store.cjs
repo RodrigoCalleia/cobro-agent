@@ -58,8 +58,10 @@ async function openPublishedInterestStore(context, {
   return {
     create: record => run('create', record, 'received-unverified'),
     read: id => run('read', id),
+    suppress: id => run('suppress', id, 'suppression-unverified'),
     delete: id => run('delete', id, 'delete-unverified')
   };
 }
 
 module.exports = {openPublishedInterestStore, disabledPilotInterest};
+

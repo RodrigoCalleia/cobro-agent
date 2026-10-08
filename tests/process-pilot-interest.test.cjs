@@ -167,7 +167,7 @@ test('missing, throwing and malformed openStore collaborators return generic una
 test('only exact matching confirmation with boolean created is success; provider anomalies are unverified', async () => {
   const invalid = [null, undefined, true, {}, [], {state: 'stored-confirmed'},
     {state: 'stored-confirmed', request_id: token, created: true},
-    {state: 'received-unverified'}, {state: 'unavailable'},
+    {state: 'received-unverified'}, {state: 'unavailable'}, {state: 'suppressed'},
     {state: 'conflict', contact_email: 'private@example.test'},
     {get state() { throw new Error('private provider failure'); }}];
   for (const value of invalid) {
@@ -293,3 +293,4 @@ test('shared storage deadline bounds stalled initialization and dispatched write
   await new Promise(resolve => setImmediate(resolve));
   assert.equal(lateCreates, 0);
 });
+

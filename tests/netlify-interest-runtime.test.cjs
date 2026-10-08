@@ -77,10 +77,9 @@ async function sdkFixture(t, {initial = null, writeStatus, deleteStatus = 200,
     const url = new URL(input);
     assert.equal(url.origin, 'https://strong.example.invalid');
     if (options.method === 'put') {
-      assert.equal(options.headers['if-none-match'], '*');
       assert.equal(options.headers['content-type'], 'application/json');
       if (writeStatus) return new Response(null, {status: writeStatus});
-      if (stored) return new Response(null, {status: 412});
+      if (options.headers['if-none-match'] === '*' && stored) return new Response(null, {status: 412});
       stored = JSON.parse(options.body);
       return new Response(null, {status: 200, headers: {etag: 'fixture-etag'}});
     }
@@ -168,18 +167,10 @@ test('a stalled private read throws rather than claiming the record is absent', 
   assert.equal(requests[0].signal.aborted, true);
 });
 
-test('a deletion with late absence confirmation remains unverified', async t => {
-  let finish;
-  const {adapter, requests} = await sdkFixture(t, {
-    initial: record, timeoutMs: 20, transportHook: (input, options, next) => {
-      if (options.method === 'get') return new Promise(resolve => {finish = resolve;});
-      return next(input, options);
-    }
-  });
-  assert.deepEqual(await adapter.delete(record.request_id), {state: 'delete-unverified'});
-  finish(new Response(null, {status: 404}));
-  await new Promise(resolve => setTimeout(resolve, 30));
-  assert.deepEqual(requests.map(r => r.method), ['delete', 'get']);
+test('production physical deletion is unavailable without contacting storage', async t => {
+  const {adapter, requests} = await sdkFixture(t, {initial: record});
+  assert.deepEqual(await adapter.delete(record.request_id), {state: 'delete-unavailable'});
+  assert.equal(requests.length, 0);
 });
 
 test('expiration of one call leaves concurrent and later calls usable', async t => {
@@ -264,7 +255,7 @@ test('SDK cloned error-body reads stay inside the private-read deadline', async 
   assert.equal(requests.length, 1);
 });
 
-test('installed pinned SDK supports create-only, strong read, retry and verified delete', async t => {
+test('installed pinned SDK supports create-only, strong read and retry', async t => {
   assert.equal(require('@netlify/blobs/package.json').version, '11.1.1');
   const {adapter, requests} = await sdkFixture(t);
   assert.deepEqual(await adapter.create(record), {
@@ -274,9 +265,21 @@ test('installed pinned SDK supports create-only, strong read, retry and verified
     state: 'stored-confirmed', request_id: record.request_id, created: false
   });
   assert.deepEqual(await adapter.read(record.request_id), record);
-  assert.deepEqual(await adapter.delete(record.request_id), {state: 'deleted-confirmed'});
   assert.ok(requests.every(r => r.path.includes('/site:cobro-pilot-interest-production-v1/requests/')));
-  assert.deepEqual(requests.map(r => r.method), ['put','get','put','get','get','delete','get']);
+  assert.deepEqual(requests.map(r => r.method), ['put','get','put','get','get']);
+});
+
+test('installed pinned SDK overwrites contact data with a suppression marker and blocks replay', async t => {
+  const {adapter, requests} = await sdkFixture(t);
+  assert.equal((await adapter.create(record)).state, 'stored-confirmed');
+  assert.deepEqual(await adapter.suppress(record.request_id), {state: 'suppressed-confirmed'});
+  assert.deepEqual(await adapter.read(record.request_id), {state: 'suppressed'});
+  assert.deepEqual(await adapter.create(record), {state: 'suppressed'});
+  assert.deepEqual(await adapter.read(record.request_id), {state: 'suppressed'});
+  assert.equal(JSON.stringify(requests).includes('synthetic@example.invalid'), false);
+  assert.deepEqual(requests.map(r => r.method), ['put', 'get', 'put', 'get', 'get', 'put', 'get', 'get']);
+  assert.equal(requests[2].headers['if-none-match'], undefined);
+  assert.equal(requests[5].headers['if-none-match'], '*');
 });
 
 test('actual SDK retry with conflicting record never overwrites', async t => {
@@ -293,3 +296,4 @@ for (const status of [201, 400, 403, 404, 429, 500, 503]) {
     assert.ok(requests.every(r => r.method === 'put'));
   });
 }
+

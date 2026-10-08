@@ -3,8 +3,10 @@ const {isDeepStrictEqual} = require('node:util');
 const {validatePilotInterest} = require('./validate-pilot-interest.cjs');
 const idPattern = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/u;
 const fields = new Set(['contact_email', 'business_name', 'contact_permission', 'request_id', 'received_at', 'notice_version']);
+const suppression = Object.freeze({state: 'suppressed'});
 
 function validId(id) { return typeof id === 'string' && idPattern.test(id); }
+function isSuppression(value) { return isDeepStrictEqual(value, suppression); }
 function logicalRecord(record) {
   const {received_at: ignored, ...identity} = record;
   return identity;
@@ -44,6 +46,9 @@ function createPilotInterestStore({getStore, environment}) {
         const write = await store.setJSON(key, value, {onlyIfNew: true});
         const stored = await read(value.request_id);
         if (!write || typeof write.modified !== 'boolean' || stored === null) return {state: 'received-unverified'};
+        // A suppression marker wins over new and delayed retries. It contains no
+        // contact data and remains at the same key so onlyIfNew cannot recreate it.
+        if (isSuppression(stored)) return {state: 'suppressed'};
         let storedValue;
         try { storedValue = canonicalRecord(stored); }
         catch { return {state: 'conflict'}; }
@@ -60,8 +65,27 @@ function createPilotInterestStore({getStore, environment}) {
     },
     // Private operator use only; never expose through an unauthenticated read route.
     read,
+    // Rights-workflow primitive: atomically replace contact data with a minimal
+    // marker. Unlike delete(), retaining the key prevents an in-flight or replayed
+    // create-only write from resurrecting the record. Operator authorization,
+    // complete contact lookup and retention policy remain external requirements.
+    async suppress(id) {
+      const key = keyFor(id);
+      try {
+        const write = await store.setJSON(key, suppression);
+        const stored = await read(id);
+        return write && write.modified === true && isSuppression(stored)
+          ? {state: 'suppressed-confirmed'} : {state: 'suppression-unverified'};
+      } catch {
+        return {state: 'suppression-unverified'};
+      }
+    },
     async delete(id) {
       const key = keyFor(id);
+      // Physical deletion is test-fixture cleanup only. Production keeps the
+      // minimal suppression marker so delayed/replayed create-only writes cannot
+      // recreate contact data. Never use this method for a rights request.
+      if (environment !== 'test') return {state: 'delete-unavailable'};
       try {
         await store.delete(key);
         return {state: await read(id) === null ? 'deleted-confirmed' : 'delete-unverified'};
@@ -73,3 +97,4 @@ function createPilotInterestStore({getStore, environment}) {
 }
 
 module.exports = {createPilotInterestStore};
+

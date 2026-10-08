@@ -9,7 +9,7 @@ function fixture(overrides = {}, environment = 'test') {
   const provider = {
     async setJSON(key, value, options) {
       calls.push(['setJSON', key, options]);
-      if (values.has(key)) return {modified: false};
+      if (options?.onlyIfNew && values.has(key)) return {modified: false};
       values.set(key, structuredClone(value)); return {modified: true};
     },
     async get(key, options) { calls.push(['get', key, options]); return values.has(key) ? structuredClone(values.get(key)) : null; },
@@ -106,7 +106,9 @@ test('invalid records and arbitrary keys are rejected before provider calls', as
     await assert.rejects(f.adapter.create(record(extra)), /Invalid private record/);
   }
   for (const key of ['../private', 'pilot@example.test', undefined]) {
-    assert.throws(() => f.adapter.read(key)); await assert.rejects(f.adapter.delete(key));
+    assert.throws(() => f.adapter.read(key));
+    await assert.rejects(f.adapter.suppress(key));
+    await assert.rejects(f.adapter.delete(key));
   }
   assert.equal(f.calls.length, 1);
 });
@@ -121,9 +123,59 @@ test('failed deletion or remaining record is never confirmed', async () => {
   assert.deepEqual(await unchanged.adapter.delete(id), {state: 'delete-unverified'});
   assert.deepEqual(await fixture({delete: async () => {throw Error('private');}}).adapter.delete(id), {state: 'delete-unverified'});
 });
+test('production physical deletion is unavailable and cannot remove a suppression marker', async () => {
+  const f = fixture({}, 'production');
+  await f.adapter.create(record());
+  await f.adapter.suppress(id);
+  const callsBefore = f.calls.length;
+  assert.deepEqual(await f.adapter.delete(id), {state: 'delete-unavailable'});
+  assert.equal(f.calls.length, callsBefore);
+  assert.deepEqual(await f.adapter.create(record()), {state: 'suppressed'});
+  assert.deepEqual(await f.adapter.read(id), {state: 'suppressed'});
+});
+test('suppression replaces contact data and blocks a replayed create', async () => {
+  const f = fixture(); await f.adapter.create(record());
+  assert.deepEqual(await f.adapter.suppress(id), {state: 'suppressed-confirmed'});
+  assert.deepEqual(await f.adapter.read(id), {state: 'suppressed'});
+  assert.equal(JSON.stringify([...f.values.values()]).includes('pilot@example.test'), false);
+  assert.deepEqual(await f.adapter.create(record({received_at: '2026-10-06T15:05:00.000Z'})), {state: 'suppressed'});
+  assert.deepEqual(await f.adapter.read(id), {state: 'suppressed'});
+});
+test('suppression wins while a delayed create-only write is in flight', async () => {
+  const values = new Map();
+  let release;
+  const delayed = new Promise(resolve => { release = resolve; });
+  let firstCreate = true;
+  const provider = {
+    async setJSON(key, value, options) {
+      if (options?.onlyIfNew && firstCreate) {
+        firstCreate = false;
+        await delayed;
+        if (values.has(key)) return {modified: false};
+      }
+      values.set(key, structuredClone(value));
+      return {modified: true};
+    },
+    async get(key) { return values.has(key) ? structuredClone(values.get(key)) : null; },
+    async delete(key) { values.delete(key); }
+  };
+  const adapter = createPilotInterestStore({environment: 'test', getStore: () => provider});
+  const pending = adapter.create(record());
+  assert.deepEqual(await adapter.suppress(id), {state: 'suppressed-confirmed'});
+  release();
+  assert.deepEqual(await pending, {state: 'suppressed'});
+  assert.deepEqual(await adapter.read(id), {state: 'suppressed'});
+});
+test('suppression never confirms an unverified provider result or readback', async () => {
+  const noWrite = fixture({setJSON: async () => ({modified: false})});
+  assert.deepEqual(await noWrite.adapter.suppress(id), {state: 'suppression-unverified'});
+  const mismatched = fixture({setJSON: async () => ({modified: true}), get: async () => ({state: 'other'})});
+  assert.deepEqual(await mismatched.adapter.suppress(id), {state: 'suppression-unverified'});
+});
 test('snapshots and normalizes request before asynchronous storage work', async () => {
   const f = fixture(), input = record({contact_email: ' pilot@example.test ', business_name: ' Ficticio '});
   const pending = f.adapter.create(input); input.contact_email = 'changed@example.test';
   assert.equal((await pending).state, 'stored-confirmed');
   assert.equal((await f.adapter.read(id)).contact_email, 'pilot@example.test');
 });
+
