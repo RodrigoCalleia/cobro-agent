@@ -325,3 +325,16 @@ Privacy preparation for the disabled pilot-interest path is now explicit in [PRI
 - [Cycle report](reports/2026-10-08-privacy-readiness.md).
 - Next: the owner supplies or approves the accountable legal identity and privacy channel; the coordinator then verifies provider facts and turns the checklist into an acceptance packet. PR #7 remains open and unavailable until all activation gates pass.
 
+## Suppression replay interlock — 2026-10-08
+
+PR #7 product commit [a3ca538](https://github.com/RodrigoCalleia/cobro-agent/commit/a3ca538d474e26bde20a5f207320b71bedc18ee2) prepares request-level suppression without enabling capture.
+
+- Suppression replaces the current record with a minimal marker at the same opaque key; delayed and replayed create-only writes cannot replace it.
+- Production physical deletion is unavailable before provider access, closing the independently reproduced `suppress → delete → create` reopening path. Test-only cleanup remains available.
+- The pinned Netlify SDK path covers unconditional overwrite, strong read and a blocked conditional replay using only synthetic in-process transport.
+- Coordinator verification: 209/209 local tests and static build passed. Independent post-fix review ran 67 focused tests and found no commit blocker.
+- Scope is intentionally narrow: one request ID only. Full contact lookup across tokens, rectification, direct-provider controls, backup/log treatment, marker retention/secret rotation and terminal public response remain unresolved.
+- Public handler and form remain unavailable; no provider record, lead, email, payment or customer activity was created.
+- [Cycle report](reports/2026-10-08-suppression-interlock.md).
+- Next: prepare a privacy-preserving private contact index and multi-ID rights workflow; keep PR #7 open until legal/provider/hosted acceptance gates pass.
+
