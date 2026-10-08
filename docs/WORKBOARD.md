@@ -338,3 +338,15 @@ PR #7 product commit [a3ca538](https://github.com/RodrigoCalleia/cobro-agent/com
 - [Cycle report](reports/2026-10-08-suppression-interlock.md).
 - Next: prepare a privacy-preserving private contact index and multi-ID rights workflow; keep PR #7 open until legal/provider/hosted acceptance gates pass.
 
+
+## Explicit EU Blob storage region — 2026-10-08
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its existing isolated branch; product commit [41774a4](https://github.com/RodrigoCalleia/cobro-agent/commit/41774a4740193745b9463c0deed3ba128c7931ee) removes the implicit default-US Blob storage location without enabling capture.
+
+- Both test and production stores now explicitly select Netlify Blobs region `eu-central-1` with strong consistency. The pinned SDK 11.1.1 was exercised through synthetic transport and its direct API URL carried `region=eu-central-1`.
+- Coordinator verification: 210/210 local Node tests and the static build passed; output remains exactly the two demo assets. Independent review found no inactive-commit blocker.
+- This is a storage-location preparation only. No live Blob, migration, provider acceptance, contact, invoice, email, payment or demand evidence was created.
+- Netlify Functions still default to `cmh` (Ohio); selecting another function region is documented for Pro/Enterprise. No plan change, subscription or spend was authorized. Do not claim European-only processing or legal compliance.
+- Public form and handler remain unavailable. Contract, subprocessor, logs/support, transfer, responsible-party, privacy-channel and actual synthetic provider acceptance gates remain open.
+- [Cycle report](reports/2026-10-08-eu-blob-region.md).
+- Next: design the privacy-preserving private contact index and multi-ID rights workflow on this fixed region, while keeping PR #7 open and capture disabled.
