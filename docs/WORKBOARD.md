@@ -280,3 +280,33 @@ Prepared independent [PR #8](https://github.com/RodrigoCalleia/cobro-agent/pull/
 - PR #8 stays draft/unmerged pending native mobile acceptance. This scoped DOM correction did not repeat the 77-test suite or receive independent second review. No hosted full-suite log count, mobile pass or public feature publication is claimed.
 - [Native verification report](reports/2026-10-07-native-followup-verification.md). Next: complete mobile review, then integrate after current-head/main/check review; use authenticated access for PR #7's separate unavailable-handler acceptance. Do not repeat generic login probes while the session is usable.
 - Capture stays disabled. Approved responsible party, public privacy/contact channel and notice are still missing; secrets/rate/retention/private access and actual provider acceptance remain separate gates. Recorded spend USD 0; recorded revenue USD 0.
+
+## Hosted failure diagnosis and deadline cause correction — 2026-10-07
+
+- Read the authenticated Netlify log for failed deploy 6ac69c984b90cc0008629da6 / product 5ca876a: 203 tests, 202 pass, one failure in the hanging-transport deadline case. Actual request_interrupted replaced expected request_timeout when the timer fired just before the monotonic boundary. The previously unknown cause is now diagnosed; the later identical-code green build was not a fix.
+- Continued [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) with [correction 3afcd54](https://github.com/RodrigoCalleia/cobro-agent/commit/3afcd545ef044454d7ab5163c8bd37134c023ffb): per-attempt timer-cause latch plus final monotonic check. A deterministic early-timer regression covers aborted/late response behavior. No budgets expanded or capture activated.
+- Engineering 25/25 controller tests; independent review and 5/5 focused tests; coordinator 26/26 controller/composition and 204/204 complete local tests plus static build passed. Exactly two product files changed. Exact product commit Netlify preview status is successful; no new hosted test-log count or provider/handler pass inferred.
+- Independent audit also cleared PR #8's focused keyboard fix in source. PR #8 stays draft pending native mobile; no new native/mobile pass claimed.
+- Authenticated function-navigation observation was rejected by browser URL/protocol policy. Hosted GET/POST 503 acceptance remains pending; no workaround, status/body claim or unchanged re-probe. PR #7 stays open/unmerged.
+- [Diagnosis and verification report](reports/2026-10-07-deadline-cause-fix.md). Next: permitted hosted-handler acceptance and supported mobile verification, then integrate after current-head/main/check review. Privacy/contact/notice, secrets/rate/retention/operator access and actual synthetic provider acceptance still gate capture.
+- Recorded spend USD 0; recorded revenue USD 0. No real invoices, customers, outreach, payments, subscriptions or new accounts.
+
+
+## Commercial validation playbook — 2026-10-07
+
+- Prepared [PLAYBOOK_VALIDACION_COMERCIAL.md](PLAYBOOK_VALIDACION_COMERCIAL.md) from the current pilot/brand/payment hypothesis. It defines a neutral discovery sequence, four-part business qualification, explicit yes/no/conditional price evidence, objection categories and separate stages for interest, contract and confirmed payment.
+- Decision rule: review after 10 qualified businesses or 30 days from the first authorized conversation. Continue with at least 3 distinct explicit price/scope acceptances; change one variable after weaker evidence or a repeated correctable objection; stop the hypothesis after 0/10 acceptances or when at least 6/10 do not have a recurring problem. These are future experimental thresholds, not demand evidence.
+- Independent audit required complete denominators and negative/conditional results, separation of unique businesses from retry tokens/submissions, comparison with existing tools and reconfirmation once currency/taxes/fees form a final chargeable price.
+- No outreach, prospect list, personal data, capture, checkout, account or subscription was created. Do not add commercial interview fields to the technical capture allowlist or use this public repository as a CRM.
+- [Cycle report](reports/2026-10-07-commercial-validation-playbook.md). PR #7 remains pending permitted hosted-handler acceptance; PR #8 remains draft pending supported mobile acceptance. Identity/privacy/contact, operational and payment gates remain separate.
+- Recorded spend USD 0; recorded revenue USD 0; verified qualified businesses, price acceptances and payments: 0.
+
+
+## Mobile-readiness accessibility correction — 2026-10-08
+
+- Continued draft [PR #8](https://github.com/RodrigoCalleia/cobro-agent/pull/8) with [product commit ba573a8](https://github.com/RodrigoCalleia/cobro-agent/commit/ba573a86475c835c39db90020cb53a99f7856469): 44px minimum controls, a named/focusable horizontal invoice region with visible focus and invoice-specific accessible names for repeated row actions.
+- Product scope remains fictional and in-memory. No capture, network, storage, delivery, payment or customer data was added; focus restoration and invoice identity guards were preserved.
+- New focused result 13/13; complete branch suite 78/78, syntax and static build passed. Independent post-fix review approved the exact source delta and ran the focused regression 1/1. Exact commit Netlify preview status is successful.
+- This is source/build evidence, not native mobile acceptance. The available surface did not provide a real mobile viewport, touch, rendered-size or screen-reader session. PR #8 stays draft/unmerged and production remains unchanged.
+- [Cycle report](reports/2026-10-08-mobile-readiness-accessibility.md). Next: supported native mobile acceptance, then current-head/main/check review before integration. PR #7 hosted-handler/privacy gates remain separate and unchanged.
+- Recorded spend USD 0; recorded revenue USD 0. No customers, outreach, real invoices, payments, subscriptions or new accounts.
