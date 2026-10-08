@@ -350,3 +350,16 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - Public form and handler remain unavailable. Contract, subprocessor, logs/support, transfer, responsible-party, privacy-channel and actual synthetic provider acceptance gates remain open.
 - [Cycle report](reports/2026-10-08-eu-blob-region.md).
 - Next: design the privacy-preserving private contact index and multi-ID rights workflow on this fixed region, while keeping PR #7 open and capture disabled.
+
+## Private contact index preparation — 2026-10-08
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch. Added preparation-only `server/pilot-contact-index.cjs` and focused tests; no handler, form or provider adapter calls this module.
+
+- A normalized contact is passed only to an injected server-side token derivation; raw email is never used as a key or returned by the module.
+- One opaque contact token can reference multiple validated request IDs, with idempotent re-addition and a bounded maximum. Corrupted stored values fail closed.
+- `add()` requires an injected atomic `update(token, updater)` contract; a synchronous in-memory test adapter demonstrates the intended critical section and a concurrent two-ID regression.
+- Coordinator verification: **216/216** complete Node tests passed (six new index tests) and static build produced exactly two demo assets. Focused index run: **6/6**.
+- Independent audit found the concurrency contract is now explicit; real-provider CAS/serialization remains unverified. No live write, contact, lead, email or provider data was created.
+- This is not a complete rights workflow: it still needs a trusted keyed/versioned derivation, a provider-backed atomic update, multi-ID suppression/rectification orchestration, retention/rotation decisions and operator controls.
+- [Cycle report](reports/2026-10-08-private-contact-index.md).
+- Next: verify the provider adapter's atomic guarantee or retain the index as design-only, then add synthetic multi-ID suppression/rectification composition tests without enabling the public route.
