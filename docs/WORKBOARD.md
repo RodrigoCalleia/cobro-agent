@@ -363,3 +363,16 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - This is not a complete rights workflow: it still needs a trusted keyed/versioned derivation, a provider-backed atomic update, multi-ID suppression/rectification orchestration, retention/rotation decisions and operator controls.
 - [Cycle report](reports/2026-10-08-private-contact-index.md).
 - Next: verify the provider adapter's atomic guarantee or retain the index as design-only, then add synthetic multi-ID suppression/rectification composition tests without enabling the public route.
+
+## Append-only contact membership — 2026-10-08
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) after checking current Netlify documentation.
+
+- Official provider guidance confirms Blobs is last-write-wins and has no general concurrency control. The shared contact array design was therefore replaced before integration.
+- Each association now uses its own private `token/requestId` key, created conditionally. Listing by the exact trailing-slash prefix locates all membership keys without concurrent writers touching one object.
+- The module never returns the derived token. Provider response normalization remains an adapter responsibility and is documented in code; no SDK adapter or live store is connected.
+- Seven focused tests cover distinct-key concurrency, duplicate create-only behavior, bounded processing, malformed provider shapes and isolation between distinct contacts.
+- Coordinator verification: **217/217** complete tests and static build passed. One earlier full run exposed two transient unchanged deadline-test failures; a focused 32-test run and the final full rerun passed.
+- Independent audit approved the pure append-only design and identified pre-activation requirements: actual SDK adapter tests, token-secret version history, retention/tombstones, trusted contact-ID binding and resource-bounded listing.
+- [Cycle report](reports/2026-10-08-append-only-contact-index.md).
+- Next: implement and test a normalized, still-disconnected SDK adapter for `onlyIfNew` plus complete prefix listing; do not enable capture.
