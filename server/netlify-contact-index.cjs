@@ -1,8 +1,8 @@
 'use strict';
 
 const storageRegion = 'eu-central-1';
-const membershipPattern = /^[a-f0-9]{32,128}\/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/u;
-const prefixPattern = /^[a-f0-9]{32,128}\/$/u;
+const membershipPattern = /^[a-f0-9]{64}\/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/u;
+const prefixPattern = /^[a-f0-9]{64}\/$/u;
 const root = 'members/';
 
 // Disconnected server adapter. It normalizes the pinned SDK's richer response

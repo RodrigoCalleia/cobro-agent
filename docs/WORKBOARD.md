@@ -388,3 +388,16 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - Adapter remains disconnected from the public function. HMAC/versioned token derivation, secret rotation, generic public error mapping, retention and trusted record binding remain activation gates.
 - [Cycle report](reports/2026-10-08-netlify-contact-index-adapter.md).
 - Next: prepare versioned HMAC token derivation and rotation-compatible lookup with synthetic secrets; keep capture unavailable.
+
+
+## Versioned HMAC contact tokens — 2026-10-08
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added disconnected HMAC-SHA256 derivation with one active and at most two previous unique key versions. New memberships use only the active token; lookup searches active and retained previous tokens.
+- Tokens are exact 64-character lowercase hex values with domain/version separation. Secrets are copied into private Node.js key objects and are never returned. Tests use only synthetic secrets.
+- Rotation lookup deduplicates IDs across versions, rejects duplicates within one version, applies one total processing bound and fails instead of returning partial results. Contact controls C0/C1 now fail before derivation.
+- Coordinator verification: **21/21** focused tests, **231/231** complete tests and static build passed. Independent post-correction review approved the disconnected preparation and confirmed no public handler imports it.
+- Capture remains unavailable. Real secret loading, version-retention/migration policy, trusted record binding, generic public error mapping and provider acceptance remain activation gates. Version labels must never be reused and old keys cannot be retired while retained memberships still depend on them.
+- [Cycle report](reports/2026-10-08-versioned-contact-tokens.md).
+- Next: prepare synthetic disconnected composition across keyring, contact index and Netlify adapter for multi-ID rights workflow planning; do not enable capture.

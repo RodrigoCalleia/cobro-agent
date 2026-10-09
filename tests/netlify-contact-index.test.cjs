@@ -70,6 +70,8 @@ test('rejects invalid provider shapes and bounds pages while iterating', async (
   await assert.rejects(adapter.putIfNew(`${token}/${id1}`), /write unverified/);
   await assert.rejects(adapter.listByPrefix(`${token}/`), /list limit/);
   await assert.rejects(adapter.listByPrefix('raw-email@example.invalid/'), TypeError);
+  await assert.rejects(adapter.putIfNew(`${'a'.repeat(63)}/${id1}`), TypeError);
+  await assert.rejects(adapter.listByPrefix(`${'a'.repeat(63)}/`), TypeError);
 });
 
 test('installed SDK transports create-only membership and prefix listing', async t => {
