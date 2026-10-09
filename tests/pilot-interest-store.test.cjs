@@ -176,6 +176,21 @@ test('suppression never confirms an unverified provider result or readback', asy
   const mismatched = fixture({setJSON: async () => ({modified: true}), get: async () => ({state: 'other'})});
   assert.deepEqual(await mismatched.adapter.suppress(id), {state: 'suppression-unverified'});
 });
+test('private contact matching validates exact records and suppression markers', async () => {
+  const f = fixture();
+  await f.adapter.create(record({contact_email: 'Pilot@Example.TEST'}));
+  assert.deepEqual(await f.adapter.matchContact(id, 'pilot@example.test'), {state: 'matched'});
+  assert.deepEqual(await f.adapter.matchContact(id, 'other@example.test'), {state: 'mismatch'});
+  await f.adapter.suppress(id);
+  assert.deepEqual(await f.adapter.matchContact(id, 'pilot@example.test'), {state: 'suppressed'});
+});
+test('private contact matching fails closed for malformed or unavailable records', async () => {
+  const malformed = fixture({get: async () => ({contact_email: 'pilot@example.test'})});
+  assert.deepEqual(await malformed.adapter.matchContact(id, 'pilot@example.test'), {state: 'unverified'});
+  const unavailable = fixture({get: async () => { throw new Error('private provider detail'); }});
+  assert.deepEqual(await unavailable.adapter.matchContact(id, 'pilot@example.test'), {state: 'unverified'});
+  await assert.rejects(unavailable.adapter.matchContact(id, ' Pilot@example.test '), /Invalid private contact/);
+});
 test('snapshots and normalizes request before asynchronous storage work', async () => {
   const f = fixture(), input = record({contact_email: ' pilot@example.test ', business_name: ' Ficticio '});
   const pending = f.adapter.create(input); input.contact_email = 'changed@example.test';

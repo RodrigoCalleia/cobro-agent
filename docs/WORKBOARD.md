@@ -401,3 +401,17 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - Capture remains unavailable. Real secret loading, version-retention/migration policy, trusted record binding, generic public error mapping and provider acceptance remain activation gates. Version labels must never be reused and old keys cannot be retired while retained memberships still depend on them.
 - [Cycle report](reports/2026-10-08-versioned-contact-tokens.md).
 - Next: prepare synthetic disconnected composition across keyring, contact index and Netlify adapter for multi-ID rights workflow planning; do not enable capture.
+
+
+## Private multi-ID rights plan — 2026-10-08
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added disconnected private composition across the versioned HMAC keyring, contact index, Netlify adapter and request store.
+- A membership can be indexed only after the exact stored record is validated and its normalized contact matches. The composed API reports only `indexed-confirmed`, never an unproven creation event.
+- Multi-ID planning covers active and retained key versions, separates already-suppressed IDs, sorts opaque IDs and fails without partial output on any mismatch or unavailable record. Planning performs no suppression.
+- Contact-index writes now require strong readback of the exact membership marker. This closes a reproduced SDK 11.1.1 false-success path for unexpected HTTP statuses.
+- Coordinator final verification: **31/31** focused tests, **239/239** complete tests and static build passed. Independent post-fix review approved the disconnected scope, repeated the same test totals and confirmed no public handler import.
+- Capture remains unavailable. Dual-write reconciliation, a consistent execution snapshot, provider deadlines, future executor revalidation, operator authorization, secrets/retention and privacy/provider gates remain open.
+- [Cycle report](reports/2026-10-08-private-rights-plan.md).
+- Next: prepare bounded disconnected reconciliation for stored requests missing contact membership; do not enable capture.

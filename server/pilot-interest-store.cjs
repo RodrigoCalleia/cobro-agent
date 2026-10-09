@@ -29,6 +29,13 @@ function canonicalRecord(record) {
   if (!Number.isFinite(date.getTime()) || date.toISOString() !== record.received_at) throw new TypeError('Invalid private record');
   return {...checked.value, request_id: record.request_id, received_at: record.received_at, notice_version: record.notice_version};
 }
+function canonicalContact(contact) {
+  const checked = validatePilotInterest({contact_email: contact, contact_permission: true});
+  if (!checked.ok || checked.value.contact_email !== contact) {
+    throw new TypeError('Invalid private contact');
+  }
+  return contact;
+}
 
 // Server-only adapter, not an endpoint. getStore is supplied by a future SDK integration.
 // All arguments, IDs and metadata must be chosen by authenticated/trusted server code.
@@ -70,6 +77,24 @@ function createPilotInterestStore({getStore, environment}) {
     },
     // Private operator use only; never expose through an unauthenticated read route.
     read,
+    // Private composition primitive. It proves that an index membership is
+    // bound to the exact canonical stored record before the membership is made.
+    async matchContact(id, contact) {
+      keyFor(id);
+      const expected = canonicalContact(contact);
+      try {
+        const stored = await read(id);
+        if (isSuppression(stored)) return {state: 'suppressed'};
+        const value = canonicalRecord(stored);
+        if (!isDeepStrictEqual(value, stored)) return {state: 'unverified'};
+        const storedContact = value.contact_email.normalize('NFKC').trim()
+          .toLocaleLowerCase('en-US');
+        return value.request_id === id && storedContact === expected
+          ? {state: 'matched'} : {state: 'mismatch'};
+      } catch {
+        return {state: 'unverified'};
+      }
+    },
     // Rights-workflow primitive: atomically replace contact data with a minimal
     // marker. Unlike delete(), retaining the key prevents an in-flight or replayed
     // create-only write from resurrecting the record. Operator authorization,

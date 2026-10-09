@@ -23,6 +23,10 @@ test('normalizes SDK write and paginated list shapes', async () => {
           calls.push(['setJSON', ...args]);
           return {modified: true, etag: 'provider-etag'};
         },
+        get: async (...args) => {
+          calls.push(['get', ...args]);
+          return {state: 'member'};
+        },
         list: options => ({
           async *[Symbol.asyncIterator]() {
             calls.push(['list', options]);
@@ -44,6 +48,9 @@ test('normalizes SDK write and paginated list shapes', async () => {
     'setJSON', `members/${token}/${id1}`, {state: 'member'}, {onlyIfNew: true}
   ]);
   assert.deepEqual(calls[1], [
+    'get', `members/${token}/${id1}`, {type: 'json', consistency: 'strong'}
+  ]);
+  assert.deepEqual(calls[2], [
     'list', {prefix: `members/${token}/`, paginate: true}
   ]);
 });
@@ -54,6 +61,7 @@ test('rejects invalid provider shapes and bounds pages while iterating', async (
     maxIds: 1,
     getStore: () => ({
       setJSON: async () => ({modified: 'yes'}),
+      get: async () => ({state: 'member'}),
       list: () => ({
         async *[Symbol.asyncIterator]() {
           yield {
@@ -72,6 +80,19 @@ test('rejects invalid provider shapes and bounds pages while iterating', async (
   await assert.rejects(adapter.listByPrefix('raw-email@example.invalid/'), TypeError);
   await assert.rejects(adapter.putIfNew(`${'a'.repeat(63)}/${id1}`), TypeError);
   await assert.rejects(adapter.listByPrefix(`${'a'.repeat(63)}/`), TypeError);
+
+  const missingReadback = createNetlifyContactIndexAdapters({
+    environment: 'test',
+    getStore: () => ({
+      setJSON: async () => ({modified: true}),
+      get: async () => null,
+      list: () => ({async *[Symbol.asyncIterator]() {}})
+    })
+  });
+  await assert.rejects(
+    missingReadback.putIfNew(`${token}/${id1}`),
+    /write unverified/
+  );
 });
 
 test('installed SDK transports create-only membership and prefix listing', async t => {
@@ -90,6 +111,9 @@ test('installed SDK transports create-only membership and prefix listing', async
         : new Response(null, {status: 412});
     }
     if (options.method === 'get') {
+      if (!url.searchParams.has('prefix')) {
+        return Response.json({state: 'member'});
+      }
       if (url.searchParams.get('cursor') === 'second-page') {
         return Response.json({
           blobs: [{key: `members/${token}/${id2}`, etag: 'second-etag'}],
@@ -121,13 +145,38 @@ test('installed SDK transports create-only membership and prefix listing', async
     `${token}/${id1}`,
     `${token}/${id2}`
   ]);
-  assert.deepEqual(requests.map(request => request.method), ['put', 'put', 'get', 'get']);
+  assert.deepEqual(requests.map(request => request.method), [
+    'put', 'get', 'put', 'get', 'get', 'get'
+  ]);
   assert.equal(requests[0].headers['if-none-match'], '*');
-  assert.equal(requests[1].headers['if-none-match'], '*');
-  assert.equal(requests[2].url.searchParams.get('prefix'), `members/${token}/`);
-  assert.equal(requests[3].url.searchParams.get('cursor'), 'second-page');
+  assert.equal(requests[2].headers['if-none-match'], '*');
+  assert.equal(requests[1].url.hostname, 'strong.example.invalid');
+  assert.equal(requests[3].url.hostname, 'strong.example.invalid');
+  assert.equal(requests[4].url.searchParams.get('prefix'), `members/${token}/`);
+  assert.equal(requests[5].url.searchParams.get('cursor'), 'second-page');
   assert.ok(requests.every(request => request.url.pathname.includes('/region:eu-central-1/')));
   assert.ok(requests.every(request => request.url.pathname.includes(
     '/site:cobro-pilot-contact-index-production-v1'
   )));
+});
+
+test('unexpected SDK HTTP 400 cannot confirm a missing membership', async () => {
+  const {getStore} = await import('@netlify/blobs');
+  const adapter = createNetlifyContactIndexAdapters({
+    environment: 'test',
+    getStore: options => getStore({
+      ...options,
+      siteID: 'synthetic-site',
+      token: 'synthetic-not-a-credential',
+      edgeURL: 'https://cached.example.invalid',
+      uncachedEdgeURL: 'https://strong.example.invalid',
+      fetch: async (input, request) => request.method === 'put'
+        ? new Response(null, {status: 400})
+        : new Response(null, {status: 404})
+    })
+  });
+  await assert.rejects(
+    adapter.putIfNew(`${token}/${id1}`),
+    /Private contact-index write unverified/
+  );
 });
