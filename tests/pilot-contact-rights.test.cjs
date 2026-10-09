@@ -24,6 +24,7 @@ function record(id, email = contact) {
 function fixture() {
   const stores = new Map();
   const opened = [];
+  const listCalls = [];
   function storeFor(name) {
     if (!stores.has(name)) stores.set(name, new Map());
     const values = stores.get(name);
@@ -38,6 +39,7 @@ function fixture() {
       },
       async delete(key) { values.delete(key); },
       list({prefix, paginate}) {
+        listCalls.push({name, prefix, paginate});
         assert.equal(paginate, true);
         return {
           async *[Symbol.asyncIterator]() {
@@ -63,7 +65,7 @@ function fixture() {
     environment: 'test',
     maxIds: 10
   });
-  return {rights, stores, opened};
+  return {rights, stores, opened, listCalls};
 }
 
 test('composes verified active memberships into a private multi-ID plan', async () => {
@@ -135,4 +137,65 @@ test('planning performs no suppression or other request-store writes', async () 
   const before = structuredClone([...records]);
   await f.rights.planSuppression(contact);
   assert.deepEqual([...records], before);
+});
+
+test('reconciliation separates indexed, missing and suppressed opaque IDs without writes', async () => {
+  const f = fixture();
+  const records = f.stores.get('cobro-pilot-interest-test-v1');
+  records.set(`requests/${id2}`, record(id2));
+  records.set(`requests/${id1}`, record(id1));
+  const id3 = '33333333-3333-4333-8333-333333333333';
+  records.set(`requests/${id3}`, {state: 'suppressed'});
+  await f.rights.indexStoredRequest(contact, id1);
+  const beforeRecords = structuredClone([...records]);
+  const memberships = f.stores.get('cobro-pilot-contact-index-test-v1');
+  const beforeMemberships = structuredClone([...memberships]);
+  assert.deepEqual(await f.rights.planReconciliation(), {
+    state: 'ready', indexed: [id1], missingMemberships: [id2], suppressed: [id3]
+  });
+  assert.deepEqual([...records], beforeRecords);
+  assert.deepEqual([...memberships], beforeMemberships);
+  assert.equal(JSON.stringify(await f.rights.planReconciliation()).includes(contact), false);
+});
+
+test('reconciliation recognizes memberships under previous token versions', async () => {
+  const f = fixture();
+  f.stores.get('cobro-pilot-interest-test-v1').set(`requests/${id1}`, record(id1));
+  const previous = createPilotContactTokenDeriver({
+    active: {version: 'k1', secret: previousSecret}
+  });
+  const oldToken = (await previous.deriveTokens(contact)).active;
+  f.stores.get('cobro-pilot-contact-index-test-v1')
+    .set(`members/${oldToken}/${id1}`, {state: 'member'});
+  assert.deepEqual(await f.rights.planReconciliation(), {
+    state: 'ready', indexed: [id1], missingMemberships: [], suppressed: []
+  });
+});
+
+test('reconciliation caches one versioned membership lookup per repeated contact', async () => {
+  const f = fixture();
+  const records = f.stores.get('cobro-pilot-interest-test-v1');
+  records.set(`requests/${id1}`, record(id1));
+  records.set(`requests/${id2}`, record(id2));
+  assert.deepEqual(await f.rights.planReconciliation(), {
+    state: 'ready', indexed: [], missingMemberships: [id1, id2], suppressed: []
+  });
+  assert.equal(f.listCalls.filter(call => call.name.includes('contact-index')).length, 2);
+  assert.equal(f.listCalls.filter(call => call.name.includes('interest')).length, 1);
+});
+
+test('reconciliation fails closed without partial IDs for malformed or unavailable inventory', async () => {
+  const malformed = fixture();
+  const records = malformed.stores.get('cobro-pilot-interest-test-v1');
+  records.set(`requests/${id1}`, record(id1));
+  records.set(`requests/${id2}`, {...record(id2), extra: true});
+  await malformed.rights.indexStoredRequest(contact, id1);
+  assert.deepEqual(await malformed.rights.planReconciliation(), {state: 'unverified'});
+
+  const unavailable = fixture();
+  unavailable.stores.get('cobro-pilot-interest-test-v1').set(`requests/${id1}`, record(id1));
+  const recordStore = unavailable.rights;
+  const originalList = unavailable.stores.get('cobro-pilot-interest-test-v1');
+  originalList.set('requests/not-an-id', record(id1));
+  assert.deepEqual(await recordStore.planReconciliation(), {state: 'unverified'});
 });

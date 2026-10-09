@@ -39,8 +39,11 @@ function canonicalContact(contact) {
 
 // Server-only adapter, not an endpoint. getStore is supplied by a future SDK integration.
 // All arguments, IDs and metadata must be chosen by authenticated/trusted server code.
-function createPilotInterestStore({getStore, environment}) {
-  if (!['production', 'test'].includes(environment) || typeof getStore !== 'function') throw new TypeError('Unsupported storage context');
+function createPilotInterestStore({getStore, environment, maxIds = 50}) {
+  if (!['production', 'test'].includes(environment) || typeof getStore !== 'function' ||
+      !Number.isInteger(maxIds) || maxIds < 1 || maxIds > 1000) {
+    throw new TypeError('Unsupported storage context');
+  }
   const store = getStore({
     name: `cobro-pilot-interest-${environment}-v1`,
     consistency: 'strong',
@@ -77,6 +80,62 @@ function createPilotInterestStore({getStore, environment}) {
     },
     // Private operator use only; never expose through an unauthenticated read route.
     read,
+    // Disconnected operator primitive. Listing is optional on the storage
+    // facade because public capture never needs it. Every provider key must be
+    // an exact request key and the whole scan is bounded before any result is
+    // returned, so callers cannot act on a partial or ambiguous inventory.
+    async listIds() {
+      if (typeof store.list !== 'function') throw new Error('Private request list unverified');
+      const pages = store.list({prefix: 'requests/', paginate: true});
+      if (!pages || typeof pages[Symbol.asyncIterator] !== 'function') {
+        throw new Error('Private request list unverified');
+      }
+      const requestIds = [];
+      const seen = new Set();
+      let pageCount = 0;
+      let blobCount = 0;
+      for await (const page of pages) {
+        pageCount += 1;
+        if (pageCount > maxIds) throw new Error('Private request list limit');
+        if (!page || typeof page !== 'object' || Array.isArray(page) ||
+            !Array.isArray(page.blobs) || !Array.isArray(page.directories) ||
+            page.directories.length !== 0) {
+          throw new Error('Private request list unverified');
+        }
+        blobCount += page.blobs.length;
+        if (blobCount > maxIds) throw new Error('Private request list limit');
+        for (const blob of page.blobs) {
+          if (!blob || typeof blob !== 'object' || Array.isArray(blob) ||
+              typeof blob.key !== 'string' || !blob.key.startsWith('requests/')) {
+            throw new Error('Private request list unverified');
+          }
+          const requestId = blob.key.slice('requests/'.length);
+          if (!validId(requestId) || seen.has(requestId)) {
+            throw new Error('Private request list unverified');
+          }
+          seen.add(requestId);
+          requestIds.push(requestId);
+        }
+      }
+      requestIds.sort();
+      return Object.freeze(requestIds);
+    },
+    // Returns contact data only to this server-side composition. The public
+    // reconciliation result deliberately strips it and exposes opaque IDs.
+    async inspectForReconciliation(id) {
+      keyFor(id);
+      try {
+        const stored = await read(id);
+        if (isSuppression(stored)) return {state: 'suppressed'};
+        const value = canonicalRecord(stored);
+        if (!isDeepStrictEqual(value, stored) || value.request_id !== id) {
+          return {state: 'unverified'};
+        }
+        return {state: 'active', contact: value.contact_email};
+      } catch {
+        return {state: 'unverified'};
+      }
+    },
     // Private composition primitive. It proves that an index membership is
     // bound to the exact canonical stored record before the membership is made.
     async matchContact(id, contact) {

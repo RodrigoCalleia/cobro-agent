@@ -415,3 +415,17 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - Capture remains unavailable. Dual-write reconciliation, a consistent execution snapshot, provider deadlines, future executor revalidation, operator authorization, secrets/retention and privacy/provider gates remain open.
 - [Cycle report](reports/2026-10-08-private-rights-plan.md).
 - Next: prepare bounded disconnected reconciliation for stored requests missing contact membership; do not enable capture.
+
+
+## Disconnected membership reconciliation — 2026-10-09
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added a private inventory plan for stored requests missing opaque contact membership. Request pages, total blobs, IDs and index work are bounded; malformed or unavailable state returns only `unverified`, never partial results.
+- Exact canonical active records are classified as indexed or missing across current/retained HMAC versions. Suppression markers are reported separately without attempting to reconstruct erased contact data. Repeated contacts share one index lookup.
+- The ready result contains only sorted opaque IDs. Planning performs no write, repair, suppression or deletion and remains outside the public route/browser import graph.
+- Independent review found and caused fixes for unlimited empty-page iteration and repeated contact lookup. It confirmed that any future executor must revalidate the non-atomic plan and that abortable provider deadlines remain mandatory before activation.
+- Coordinator verification: **33/33** focused tests, **245/245** complete tests and static build passed; output remains exactly two demo assets.
+- No live provider record, contact, invoice, email, payment, customer or demand evidence was created. Capture remains unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Cycle report](reports/2026-10-09-disconnected-reconciliation-plan.md).
+- Next: add abortable shared deadlines to private request and contact list/read operations using synthetic stalled transports. Do not run repairs or enable capture.

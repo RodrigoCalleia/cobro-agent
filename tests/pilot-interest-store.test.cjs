@@ -19,6 +19,9 @@ function fixture(overrides = {}, environment = 'test') {
   const adapter = createPilotInterestStore({environment, getStore: options => { calls.push(['getStore', options]); return provider; }});
   return {adapter, values, calls};
 }
+function listPages(...pages) {
+  return () => ({async *[Symbol.asyncIterator]() { for (const page of pages) yield page; }});
+}
 test('test and production stores use distinct fixed names, EU region and strong consistency', () => {
   assert.deepEqual(fixture().calls[0], ['getStore', {
     name: 'cobro-pilot-interest-test-v1', consistency: 'strong', region: 'eu-central-1'
@@ -190,6 +193,55 @@ test('private contact matching fails closed for malformed or unavailable records
   const unavailable = fixture({get: async () => { throw new Error('private provider detail'); }});
   assert.deepEqual(await unavailable.adapter.matchContact(id, 'pilot@example.test'), {state: 'unverified'});
   await assert.rejects(unavailable.adapter.matchContact(id, ' Pilot@example.test '), /Invalid private contact/);
+});
+test('private reconciliation listing validates, sorts and bounds exact opaque request keys', async () => {
+  const id2 = '22222222-2222-4222-8222-222222222222';
+  const listed = fixture({
+    list: listPages(
+      {blobs: [{key: `requests/${id2}`}], directories: []},
+      {blobs: [{key: `requests/${id}`}], directories: []}
+    )
+  });
+  assert.deepEqual(await listed.adapter.listIds(), [id, id2]);
+
+  for (const list of [
+    listPages({blobs: [{key: 'requests/not-an-id'}], directories: []}),
+    listPages({blobs: [{key: `requests/${id}`}, {key: `requests/${id}`}], directories: []}),
+    listPages({blobs: [], directories: ['requests/nested/']}),
+    () => null
+  ]) {
+    await assert.rejects(fixture({list}).adapter.listIds(), /list unverified/);
+  }
+  const bounded = createPilotInterestStore({
+    environment: 'test', maxIds: 1,
+    getStore: () => ({
+      setJSON: async () => ({modified: true}), get: async () => null, delete: async () => {},
+      list: listPages({blobs: [{key: `requests/${id}`}, {key: `requests/${id2}`}], directories: []})
+    })
+  });
+  await assert.rejects(bounded.listIds(), /list limit/);
+  const emptyPageLoop = createPilotInterestStore({
+    environment: 'test', maxIds: 1,
+    getStore: () => ({
+      setJSON: async () => ({modified: true}), get: async () => null, delete: async () => {},
+      list: listPages(
+        {blobs: [], directories: []},
+        {blobs: [], directories: []}
+      )
+    })
+  });
+  await assert.rejects(emptyPageLoop.listIds(), /list limit/);
+});
+test('private reconciliation inspection accepts only exact records and strips suppressed contact', async () => {
+  const f = fixture();
+  f.values.set(`requests/${id}`, record());
+  assert.deepEqual(await f.adapter.inspectForReconciliation(id), {
+    state: 'active', contact: 'pilot@example.test'
+  });
+  f.values.set(`requests/${id}`, {...record(), unexpected: true});
+  assert.deepEqual(await f.adapter.inspectForReconciliation(id), {state: 'unverified'});
+  f.values.set(`requests/${id}`, {state: 'suppressed'});
+  assert.deepEqual(await f.adapter.inspectForReconciliation(id), {state: 'suppressed'});
 });
 test('snapshots and normalizes request before asynchronous storage work', async () => {
   const f = fixture(), input = record({contact_email: ' pilot@example.test ', business_name: ' Ficticio '});
