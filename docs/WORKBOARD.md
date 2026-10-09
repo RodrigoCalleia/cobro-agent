@@ -482,3 +482,14 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - No provider/operator/customer data, lead, outreach, payment or subscription was created. Capture remains unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
 - [Contract](OPERATOR_REPAIR_CONTRACT.md) and [cycle report](reports/2026-10-09-operator-audit-cas.md).
 - Next: prepare a disconnected runtime composition with one shared abortable deadline across SDK loading, authorization, audit CAS/readback, repair and terminal persistence. Do not connect routes/jobs or enable capture.
+
+## Operator runtime and demo visual pass — 2026-10-09
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added a disconnected runtime facade that validates the published production site and uses one abortable deadline for SDK loading, injected authorization, audit CAS/readback, single-ID repair and terminal persistence. A stalled SDK load returns unverified without authorization or repair; the module is not imported by a route or scheduler.
+- Runtime-focused tests: **3/3 passed**. The complete repository suite is **288/288 passed** and the static build produced exactly two demo assets.
+- Refreshed the fictional demo visual system: clearer Rondacobro identity/status, stronger hero and pilot hierarchy, summary metrics, responsive workspace/mobile layout, focus states, framed table/dialogs and explicit no-connection/no-payment copy. Rules and simulation behavior remain unchanged.
+- No route, browser capture, provider write, operator/customer data, lead, outreach, payment or subscription was added. Capture and repairs remain unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Cycle report](reports/2026-10-09-operator-runtime-visual.md).
+- Next: review the visual preview on desktop/mobile and prepare a synthetic read-only runtime acceptance check. Keep real authorization, retention, rate limits, provider acceptance and activation blocked.
