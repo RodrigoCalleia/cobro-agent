@@ -58,7 +58,7 @@ async function withStorageDeadline(operation, fetchImpl, timeoutMs) {
   };
   try {
     return await Promise.race([
-      Promise.resolve().then(() => operation(guardedFetch)).then(result => {
+      Promise.resolve().then(() => operation(guardedFetch, check)).then(result => {
         check();
         return result;
       }),
@@ -75,3 +75,4 @@ async function withStorageDeadline(operation, fetchImpl, timeoutMs) {
 }
 
 module.exports = {withStorageDeadline, StorageDeadlineError};
+

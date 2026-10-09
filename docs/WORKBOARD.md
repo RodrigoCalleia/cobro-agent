@@ -429,3 +429,17 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - No live provider record, contact, invoice, email, payment, customer or demand evidence was created. Capture remains unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
 - [Cycle report](reports/2026-10-09-disconnected-reconciliation-plan.md).
 - Next: add abortable shared deadlines to private request and contact list/read operations using synthetic stalled transports. Do not run repairs or enable capture.
+
+
+## Reconciliation shared deadline — 2026-10-09
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added a disconnected runtime with one abortable budget for the complete reconciliation plan: SDK loading, request inventory pages, strong request reads, contact-index pages, SDK retries and response bodies.
+- Both private stores share one guarded transport within a plan, preventing deadline resets per page/contact/key version. Concurrent and later plans have separate controllers.
+- Expiry returns only `unverified`. Late SDK loads, strong reads or list bodies cannot produce `ready` or trigger follow-up storage requests. The runtime performs no write, repair, suppression or deletion.
+- Independent pre/post implementation review approved the shared-deadline design with no persistence blocker and independently repeated **33/33** combined runtime/deadline tests.
+- Coordinator verification: **8/8** new runtime tests, **253/253** complete tests and static build passed; output remains exactly two demo assets. The runtime is absent from the public function/browser import graph.
+- No provider record, contact, invoice, email, payment, customer or demand evidence was created. Capture remains unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Cycle report](reports/2026-10-09-reconciliation-deadline.md).
+- Next: prepare a disconnected single-ID repair primitive with immediate exact revalidation and idempotent create-only membership. Use synthetic stores only; do not schedule repairs or enable capture.
