@@ -1,6 +1,6 @@
 # Operator repair contract
 
-Status: disconnected preparation. This contract does not provide an endpoint, scheduler, identity provider, audit-store adapter or authorization source.
+Status: disconnected preparation. This contract includes a private audit-store adapter, but does not provide an endpoint, scheduler, identity provider, authorization source or connected runtime.
 
 ## Purpose
 
@@ -27,7 +27,7 @@ The future verifier must bind its decision to the complete immutable command and
 
 ## Atomic claim and recovery
 
-Before repair, the audit adapter atomically claims the operation and durably stores the `started` event. It must:
+Before repair, the audit adapter atomically claims the operation and durably stores the `started` event. The current Netlify adapter keeps one strongly read, conditionally updated document per operation so binding, lease and terminal state change under one ETag/CAS boundary. It must:
 
 - compare every stable field when an operation ID already exists;
 - return `busy` while another live claim exists;
@@ -40,7 +40,9 @@ The executor passes the claim ID in the terminal event and refuses to complete a
 
 ## Audit data
 
-The `started` event contains schema/event names, operation/request IDs, fixed action, environment/site, fixed reason, opaque ticket/policy/actor/authorization references and server time. The terminal event contains schema/event names, operation/claim IDs, the bounded outcome and server time.
+The `started` event contains schema/event names, operation/request IDs, fixed action, environment/site, fixed reason, opaque ticket/policy/actor/authorization references, authorization expiry and server time. The terminal event contains schema/event names, operation/claim IDs, the bounded outcome and server time.
+
+Each successful CAS appends a logical claim or terminal event and no adapter method lists or deletes records. This is application-level append-only history, not physical WORM or regulatory immutability; provider administrators and retention controls remain outside this contract.
 
 Never record contact/email, contact token/HMAC, secrets, payloads, provider URLs/bodies or raw errors. Retention, access, export and deletion rules for the audit store must be approved before activation.
 
@@ -48,4 +50,4 @@ If start/claim is uncertain, repair does not run. If repair is uncertain, the te
 
 ## Activation blockers
 
-Before any route, job or operator interface can call this executor, the project still needs an authenticated operator identity source, authorization verifier, production audit adapter with atomic claim semantics, one shared abortable budget around authorization/audit/repair, rate limiting, secrets, provider acceptance and approved privacy/retention controls. The public interest handler must remain unavailable until all capture gates are separately satisfied.
+Before any route, job or operator interface can call this executor, the project still needs an authenticated operator identity source, authorization verifier, a connected runtime with one shared abortable budget around SDK loading/authorization/audit/repair, rate limiting, secrets, provider acceptance and approved privacy/retention controls. The conditional transport must accept only verified `200` or conflict `412` writes. The public interest handler must remain unavailable until all capture gates are separately satisfied.

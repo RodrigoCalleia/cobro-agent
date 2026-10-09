@@ -469,3 +469,16 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - No operator/provider/customer data or real lead was created. Capture remains unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
 - [Contract](OPERATOR_REPAIR_CONTRACT.md) and [cycle report](reports/2026-10-09-operator-repair-contract.md).
 - Next: prepare a disconnected append-only audit-store adapter with atomic operation binding and exclusive claim semantics using synthetic transports only. Do not connect the gate, schedule repairs or enable capture.
+
+## Operator audit CAS adapter — 2026-10-09
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added a disconnected private audit adapter using one bounded document per operation. Initial claims use create-only writes; recovery and terminal events use ETag compare-and-swap, keeping binding, exclusive lease and terminal state in one atomic document boundary.
+- Authorization expiry is now part of the start event. Claims last at most 60 seconds, cannot outlive a five-minute authorization, cannot overlap or reuse fencing IDs, and stored history/readback must match exactly. Slow lease crossings fail closed.
+- The history is append-only at application level, not physical WORM or regulatory immutability. The fixed strong-consistency EU store exposes no list/delete method and remains disconnected from routes, jobs and real identities.
+- Independent design/post-implementation review found and caused corrections for multi-key races, partial readback, invalid chronology, repeated claim IDs and lease crossings; final review approved the disconnected component with **27/27** focused tests.
+- Coordinator verification: **285/285** complete tests and static build passed; output remains exactly two demo assets. Import inspection found no public function/browser use.
+- No provider/operator/customer data, lead, outreach, payment or subscription was created. Capture remains unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Contract](OPERATOR_REPAIR_CONTRACT.md) and [cycle report](reports/2026-10-09-operator-audit-cas.md).
+- Next: prepare a disconnected runtime composition with one shared abortable deadline across SDK loading, authorization, audit CAS/readback, repair and terminal persistence. Do not connect routes/jobs or enable capture.

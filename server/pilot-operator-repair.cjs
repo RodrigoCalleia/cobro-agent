@@ -147,6 +147,7 @@ function createPilotOperatorRepair({
       policy_version: policyVersion,
       actor_ref: authorization.actor_ref,
       authorization_id: authorization.authorization_id,
+      authorization_expires_at: new Date(authorization.expires_at_ms).toISOString(),
       server_at: started.iso
     });
     let claimId, claimExpiresAt;

@@ -91,7 +91,7 @@ test('claims one operation, repairs one ID and records only opaque metadata', as
   assert.deepEqual(Reflect.ownKeys(started), [
     'schema_version', 'event', 'operation_id', 'request_id', 'action', 'environment',
     'site_id', 'reason_code', 'ticket_ref', 'policy_version', 'actor_ref',
-    'authorization_id', 'server_at'
+    'authorization_id', 'authorization_expires_at', 'server_at'
   ]);
   assert.equal(JSON.stringify(f.calls).includes('@'), false);
   assert.equal(JSON.stringify(f.calls).includes('secret'), false);
