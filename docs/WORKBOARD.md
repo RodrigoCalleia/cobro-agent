@@ -493,3 +493,14 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - No route, browser capture, provider write, operator/customer data, lead, outreach, payment or subscription was added. Capture and repairs remain unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
 - [Cycle report](reports/2026-10-09-operator-runtime-visual.md).
 - Next: review the visual preview on desktop/mobile and prepare a synthetic read-only runtime acceptance check. Keep real authorization, retention, rate limits, provider acceptance and activation blocked.
+
+## Synthetic operator runtime acceptance — 2026-10-09
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added a read-only synthetic end-to-end acceptance for the disconnected runtime: target-bound authorization, one CAS audit claim, exact request/contact revalidation, idempotent membership creation and terminal audit completion share one abortable deadline.
+- A stalled SDK load returns unverified before authorization or repair. The successful fixture verifies the logical claimed/completed audit events using only in-memory stores, synthetic UUIDs and a fictional contact.
+- Runtime-focused tests: **4/4 passed**. Coordinator verification: **289/289** complete tests and static build with exactly two demo assets.
+- No public route, scheduler, browser import, live provider, operator identity, customer record, outreach, payment or subscription was added. Capture and real repairs remain disabled. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Cycle report](reports/2026-10-09-runtime-acceptance.md).
+- Next: keep this runtime disconnected while preparing provider/privacy acceptance criteria; do not authorize real repairs or enable capture.
