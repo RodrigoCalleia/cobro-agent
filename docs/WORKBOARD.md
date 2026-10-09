@@ -456,3 +456,16 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - No provider/customer data or real leads were created. Capture remains unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
 - [Cycle report](reports/2026-10-09-single-id-repair.md).
 - Next: keep repair disconnected; define operator authorization/audit-log requirements and obtain remaining private acceptance evidence. Do not schedule repairs or enable capture.
+
+## Operator repair authorization contract — 2026-10-09
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added a disconnected exact command/authorization gate for one single-ID contact-index repair. It binds operation, request, action, production environment, site, fixed reason and policy before any write path.
+- Trusted grants use opaque actor/authorization references, canonical timestamps and at most five minutes of validity. Caller-supplied identities, free-text reasons, extra properties and accessors are rejected.
+- An append-only audit `started` claim is required before repair. A maximum 60-second exclusive lease blocks concurrent replay; terminal results must echo-bind request, actor and policy, and stale claims cannot complete.
+- Independent audit reproduced and prompted correction of an accessor-based privacy flaw, binding gaps and stale-lease completion. Final independent review approved the disconnected scope with **14/14** focused tests.
+- Coordinator verification: **272/272** complete tests and static build passed; output remains exactly two demo assets. No public function/browser import exists.
+- No operator/provider/customer data or real lead was created. Capture remains unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Contract](OPERATOR_REPAIR_CONTRACT.md) and [cycle report](reports/2026-10-09-operator-repair-contract.md).
+- Next: prepare a disconnected append-only audit-store adapter with atomic operation binding and exclusive claim semantics using synthetic transports only. Do not connect the gate, schedule repairs or enable capture.
