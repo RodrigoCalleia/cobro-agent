@@ -37,7 +37,9 @@ async function fixture(t, transport, options = {}) {
   const fetchImpl = (input, request) => {
     const url = new URL(input);
     requests.push({url, method: request.method, signal: request.signal});
-    if (request.method !== 'get') throw new Error('Reconciliation must be read-only');
+    if (request.method !== 'get' && !options.allowWrites) {
+      throw new Error('Reconciliation must be read-only');
+    }
     return transport(input, request, requests.length);
   };
   const rights = await openPublishedContactRights(published, keyring, {
@@ -191,4 +193,57 @@ test('SDK loading is inside the same deadline and late resolution starts no stor
   finishLoad({getStore: () => { stores += 1; throw new Error('late store'); }});
   await new Promise(resolve => setTimeout(resolve, 30));
   assert.equal(stores, 0);
+});
+
+test('single-ID repair uses read-bind-write-read confirmation and exposes only its state', async t => {
+  let membership = false;
+  const transport = (input, request) => {
+    const url = new URL(input);
+    if (request.method === 'put') {
+      membership = true;
+      return new Response(null, {status: 200});
+    }
+    const prefix = url.searchParams.get('prefix');
+    if (prefix === 'requests/') {
+      return Response.json({blobs: [{key: `requests/${id}`}], directories: []});
+    }
+    if (prefix?.startsWith('members/')) {
+      return Response.json({
+        blobs: membership ? [{key: `${prefix}${id}`}].map(item => ({key: item.key})) : [],
+        directories: []
+      });
+    }
+    if (url.pathname.includes('cobro-pilot-contact-index-production-v1')) {
+      return Response.json({state: 'member'});
+    }
+    if (url.pathname.includes('cobro-pilot-interest-production-v1')) {
+      return Response.json(record);
+    }
+    throw new Error('Unexpected synthetic repair request');
+  };
+  const {rights, requests} = await fixture(t, transport, {allowWrites: true});
+  assert.deepEqual(await rights.repairMembership(id), {state: 'indexed-confirmed'});
+  assert.ok(requests.some(item => item.method === 'put'));
+  assert.ok(requests.every(item => item.method !== 'delete'));
+  assert.equal(JSON.stringify(await rights.repairMembership(id)).includes(contact), false);
+});
+
+test('single-ID repair deadline stops a stalled membership write before follow-up reads', async t => {
+  const transport = (input, request) => {
+    const url = new URL(input);
+    const prefix = url.searchParams.get('prefix');
+    if (prefix === 'requests/') {
+      return Response.json({blobs: [{key: `requests/${id}`}], directories: []});
+    }
+    if (prefix?.startsWith('members/')) return Response.json({blobs: [], directories: []});
+    if (url.pathname.includes('cobro-pilot-interest-production-v1')) return Response.json(record);
+    if (request.method === 'put') return new Promise(() => {});
+    throw new Error('Unexpected synthetic repair request');
+  };
+  const {rights, requests} = await fixture(t, transport, {allowWrites: true, timeoutMs: 20});
+  assert.deepEqual(await rights.repairMembership(id), {state: 'unverified'});
+  assert.equal(requests.at(-1).method, 'put');
+  assert.equal(requests.at(-1).signal.aborted, true);
+  assert.equal(requests.filter(item => item.method === 'get' &&
+    item.url?.pathname?.includes('cobro-pilot-interest-production-v1')).length, 2);
 });

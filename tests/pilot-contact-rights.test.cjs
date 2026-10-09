@@ -21,15 +21,18 @@ function record(id, email = contact) {
   };
 }
 
-function fixture() {
+function fixture({beforeSetJSON} = {}) {
   const stores = new Map();
   const opened = [];
   const listCalls = [];
+  const writeCalls = [];
   function storeFor(name) {
     if (!stores.has(name)) stores.set(name, new Map());
     const values = stores.get(name);
     return {
       async setJSON(key, value, options) {
+        writeCalls.push({name, key, value: structuredClone(value), options});
+        beforeSetJSON?.({name, key, value, options, values, stores});
         if (options?.onlyIfNew && values.has(key)) return {modified: false};
         values.set(key, structuredClone(value));
         return {modified: true};
@@ -65,7 +68,7 @@ function fixture() {
     environment: 'test',
     maxIds: 10
   });
-  return {rights, stores, opened, listCalls};
+  return {rights, stores, opened, listCalls, writeCalls};
 }
 
 test('composes verified active memberships into a private multi-ID plan', async () => {
@@ -198,4 +201,38 @@ test('reconciliation fails closed without partial IDs for malformed or unavailab
   const originalList = unavailable.stores.get('cobro-pilot-interest-test-v1');
   originalList.set('requests/not-an-id', record(id1));
   assert.deepEqual(await recordStore.planReconciliation(), {state: 'unverified'});
+});
+
+test('single-ID repair revalidates, creates idempotently and confirms the opaque membership', async () => {
+  const f = fixture();
+  f.stores.get('cobro-pilot-interest-test-v1').set(`requests/${id1}`, record(id1));
+  assert.deepEqual(await f.rights.repairMissingMembership(id1), {state: 'indexed-confirmed'});
+  assert.equal(f.stores.get('cobro-pilot-contact-index-test-v1').size, 1);
+  assert.equal(JSON.stringify(await f.rights.repairMissingMembership(id1)).includes(contact), false);
+  assert.equal(f.writeCalls.filter(call => call.name.includes('contact-index')).length, 1);
+  assert.deepEqual(await f.rights.repairMissingMembership(id1), {state: 'indexed-confirmed'});
+  assert.equal(f.writeCalls.filter(call => call.name.includes('contact-index')).length, 1);
+});
+
+test('single-ID repair never writes for suppressed or malformed records', async () => {
+  const f = fixture();
+  const records = f.stores.get('cobro-pilot-interest-test-v1');
+  records.set(`requests/${id1}`, {state: 'suppressed'});
+  assert.deepEqual(await f.rights.repairMissingMembership(id1), {state: 'suppressed'});
+  records.set(`requests/${id2}`, {...record(id2), unexpected: true});
+  assert.deepEqual(await f.rights.repairMissingMembership(id2), {state: 'unverified'});
+  assert.equal(f.writeCalls.filter(call => call.name.includes('contact-index')).length, 0);
+});
+
+test('single-ID repair reports suppression if it races between binding and membership write', async () => {
+  let raced = false;
+  const f = fixture({beforeSetJSON: ({name, stores}) => {
+    if (!raced && name.includes('contact-index')) {
+      raced = true;
+      stores.get('cobro-pilot-interest-test-v1').set(`requests/${id1}`, {state: 'suppressed'});
+    }
+  }});
+  f.stores.get('cobro-pilot-interest-test-v1').set(`requests/${id1}`, record(id1));
+  assert.deepEqual(await f.rights.repairMissingMembership(id1), {state: 'suppressed'});
+  assert.notDeepEqual(await f.rights.repairMissingMembership(id1), {state: 'indexed-confirmed'});
 });

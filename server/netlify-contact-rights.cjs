@@ -48,7 +48,31 @@ async function openPublishedContactRights(context, keyring, {
     }
   }
 
-  return Object.freeze({planReconciliation});
+  async function repairMembership(requestId) {
+    try {
+      return await withStorageDeadline(async (fetch, check) => {
+        const sdk = await loadSDK();
+        check();
+        if (!sdk || typeof sdk.getStore !== 'function') {
+          throw new TypeError('Unsupported rights storage SDK');
+        }
+        const rights = createPilotContactRightsPreparation({
+          keyring,
+          environment: 'production',
+          maxIds,
+          getStore: options => sdk.getStore({...options, fetch})
+        });
+        return rights.repairMissingMembership(requestId);
+      }, fetchImpl, timeoutMs);
+    } catch (error) {
+      if (error instanceof StorageDeadlineError) {
+        return Object.freeze({state: 'unverified'});
+      }
+      throw error;
+    }
+  }
+
+  return Object.freeze({planReconciliation, repairMembership});
 }
 
 module.exports = {openPublishedContactRights};

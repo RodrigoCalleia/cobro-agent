@@ -443,3 +443,16 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - No provider record, contact, invoice, email, payment, customer or demand evidence was created. Capture remains unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
 - [Cycle report](reports/2026-10-09-reconciliation-deadline.md).
 - Next: prepare a disconnected single-ID repair primitive with immediate exact revalidation and idempotent create-only membership. Use synthetic stores only; do not schedule repairs or enable capture.
+
+
+## Single-ID repair primitive — 2026-10-09
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added a disconnected single-request repair primitive for the stored-request/contact-index dual-write gap.
+- It re-reads the exact request, revalidates the binding before a possible write, uses create-only membership, confirms with strong readback, and performs a final binding re-read before returning `indexed-confirmed`.
+- Suppression races return only `suppressed`; malformed/provider uncertainty returns only `unverified`. Public output contains no contact, token, request data or provider metadata.
+- Independent audit approved the bounded design and identified/closed the final suppression window. Coordinator verification: **5/5** new repair cases, **258/258** full tests, static build with exactly two assets, and no public import.
+- No provider/customer data or real leads were created. Capture remains unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Cycle report](reports/2026-10-09-single-id-repair.md).
+- Next: keep repair disconnected; define operator authorization/audit-log requirements and obtain remaining private acceptance evidence. Do not schedule repairs or enable capture.
