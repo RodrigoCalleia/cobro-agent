@@ -23,6 +23,13 @@ function fakeSDK() {
   return {getStore: options => options.name.includes('operator-audit') ? audit : rights};
 }
 
+function authorized(now = Date.now()) {
+  return {state: 'authorized', actor_ref: 'operator:synthetic',
+    authorization_id: '55555555-5555-4555-8555-555555555555',
+    issued_at: new Date(now - 1000).toISOString(),
+    expires_at: new Date(now + 120000).toISOString()};
+}
+
 test('opens only for the published production site and shares the deadline with authorization', async () => {
   let calls = 0;
   const runtime = await openPublishedOperatorRepair(published, keyring, {
@@ -41,6 +48,43 @@ test('a stalled SDK load consumes the single budget and never authorizes or repa
   });
   assert.deepEqual(await runtime.execute(command), {state: 'unverified'});
   assert.equal(authorized, false);
+});
+
+test('a stalled authorization consumes the same budget and cannot start an audit claim', async () => {
+  let auditWrites = 0;
+  const base = fakeSDK();
+  const runtime = await openPublishedOperatorRepair(published, keyring, {
+    timeoutMs: 20,
+    loadSDK: async () => ({getStore(options) {
+      const store = base.getStore(options);
+      if (!options.name.includes('operator-audit')) return store;
+      return {setJSON: async (...args) => { auditWrites += 1; return store.setJSON(...args); },
+        getWithMetadata: store.getWithMetadata};
+    }}),
+    fetchImpl: async () => new Response('{}'), authorize: () => new Promise(() => {})
+  });
+  assert.deepEqual(await runtime.execute(command), {state: 'unverified'});
+  assert.equal(auditWrites, 0);
+});
+
+test('verified audit transport rejects unexpected PUT success before readback', async () => {
+  let auditReads = 0;
+  const base = fakeSDK();
+  const runtime = await openPublishedOperatorRepair(published, keyring, {
+    loadSDK: async () => ({getStore(options) {
+      if (!options.name.includes('operator-audit')) return base.getStore(options);
+      return {
+        async setJSON() {
+          await options.fetch('https://synthetic.invalid/audit', {method: 'PUT'});
+          return {etag: 'false-success', modified: true};
+        },
+        async getWithMetadata() { auditReads += 1; return null; }
+      };
+    }}),
+    fetchImpl: async () => new Response('{}', {status: 201}), authorize: async () => authorized()
+  });
+  assert.deepEqual(await runtime.execute(command), {state: 'unverified'});
+  assert.equal(auditReads, 0);
 });
 
 test('invalid contexts and unbounded budgets fail before opening SDK', async () => {

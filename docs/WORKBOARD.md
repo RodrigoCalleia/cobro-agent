@@ -504,3 +504,14 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - No public route, scheduler, browser import, live provider, operator identity, customer record, outreach, payment or subscription was added. Capture and real repairs remain disabled. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
 - [Cycle report](reports/2026-10-09-runtime-acceptance.md).
 - Next: keep this runtime disconnected while preparing provider/privacy acceptance criteria; do not authorize real repairs or enable capture.
+
+## Operator runtime transport hardening — 2026-10-10
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Applied the strict verified audit transport inside the disconnected runtime. Conditional audit PUTs now accept only HTTP 200 success or HTTP 412 conflict before the pinned SDK can normalize an unexpected status.
+- Added regressions proving a stalled authorization consumes the shared deadline without starting a claim and a misleading PUT 201 is rejected before audit readback.
+- Independent review approved the minimal audit-only wrapper placement with no blocker and no contact/privacy leak. Runtime-focused tests: **6/6**; complete suite: **291/291**; static build passed with exactly two demo assets.
+- No public route, scheduler, real identity/provider record, customer data, outreach, payment or subscription was added. Capture and repairs remain disabled. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Cycle report](reports/2026-10-10-operator-runtime-hardening.md).
+- Next: exercise pinned SDK conditional headers/EU/strong behavior and separate stalled claim, repair and terminal completion cases. Keep activation blocked.

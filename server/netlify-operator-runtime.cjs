@@ -2,7 +2,7 @@
 
 const {withStorageDeadline, StorageDeadlineError} = require('./storage-deadline.cjs');
 const {createPilotOperatorRepair} = require('./pilot-operator-repair.cjs');
-const {createNetlifyOperatorAudit} = require('./netlify-operator-audit.cjs');
+const {createNetlifyOperatorAudit, verifiedOperatorAuditFetch} = require('./netlify-operator-audit.cjs');
 const {createPilotContactRightsPreparation} = require('./pilot-contact-rights.cjs');
 
 // Disconnected composition only. It is intentionally not imported by a route
@@ -37,8 +37,9 @@ async function openPublishedOperatorRepair(context, keyring, {
         if (!sdk || typeof sdk.getStore !== 'function') throw new TypeError('Unsupported operator repair SDK');
         const getStore = options => sdk.getStore({...options, fetch});
         const rights = createPilotContactRightsPreparation({keyring, getStore, environment: 'production', maxIds});
+        const auditFetch = verifiedOperatorAuditFetch(fetch);
         const audit = createNetlifyOperatorAudit({environment: 'production', clock,
-          getStore: options => sdk.getStore({...options, fetch})});
+          getStore: options => sdk.getStore({...options, fetch: auditFetch})});
         const executor = createPilotOperatorRepair({
           authorize: value => authorize(value, Object.freeze({fetch, check})),
           audit,
