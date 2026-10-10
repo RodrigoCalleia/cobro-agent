@@ -559,3 +559,16 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
 - [Verification report](reports/2026-10-10-production-demo-verification.md).
 - Next: authenticate to the existing Netlify project, inspect the production assignment, rebuild/promote merged `main` while keeping capture and repairs disabled, then verify the public Rondacobro markers on desktop/mobile.
+
+
+## Netlify production recovery preparation — 2026-10-10
+
+- Current `main` is `0eb5097`; GitHub exposes zero Actions/check runs and no commit-status entry proving a production deploy.
+- The available environment has no authenticated Netlify dashboard session, CLI, auth token or site ID, so production configuration could not be inspected or mutated.
+- Independent review selected recovery of the existing production demo as the highest-impact next action and warned against touching/promoting draft PR #8, which is 52 commits behind `main` and not mergeable.
+- Added a fail-closed [production recovery procedure](NETLIFY_PRODUCTION_RECOVERY.md): verify repository/production branch, inspect the currently assigned deploy, rebuild or promote only current `main`, then require exact public Rondacobro desktop/mobile markers.
+- The procedure forbids publishing PR previews, changing away from `main`, adding secrets or enabling capture, forms, storage, repairs, email or payments.
+- No product/provider configuration changed and no endpoint was invoked. The 296-test suite was not repeated because there is no code change.
+- Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
+- [Cycle report](reports/2026-10-10-netlify-production-recovery.md).
+- Next: obtain authenticated access to the existing Netlify project, execute the bounded recovery and record deploy ID/source commit/public evidence before declaring publication.
