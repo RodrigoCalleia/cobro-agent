@@ -8,13 +8,14 @@ This branch adds “Simular seguimiento” for unpaid fictional invoices: edit a
 
 ## Verification
 
-Run the dependency-free rule and preview checks with Node.js:
+Use Node.js 24.x, install the locked server SDK dependencies, then run the checks:
 
 ```sh
-node --test tests/*.test.cjs
+npm ci --ignore-scripts --no-audit --no-fund
+npm test
 ```
 
-These checks cover both stage boundaries, blocked states, invalid identities/dates, and invoice-state rechecks. They do not verify browser layout or email delivery.
+These checks cover both stage boundaries, blocked states, invalid identities/dates, invoice-state rechecks, strict static output, private storage preparation and the disabled server route. SDK compatibility is tested with the installed package and an in-process transport, not live provider storage. They do not verify browser layout or email delivery.
 
 No live email delivery, payment processing, authentication or persistent customer storage are connected. This prototype is not ready for commercial operation.
 
@@ -25,3 +26,7 @@ No live email delivery, payment processing, authentication or persistent custome
 ## Proposed pilot
 
 The demo now describes a proposed pilot for small B2B agencies/consultancies and links to the simulation. US$29 for 30 days is an unvalidated price hypothesis; signup, capture and purchase are unavailable. [docs/PILOT.md](docs/PILOT.md) defines the scope, validation sequence and private interest-capture acceptance gates.
+
+## Disabled server preparation
+
+`netlify/functions/pilot-interest.mjs` always returns HTTP 503 with `{"state":"unavailable"}`, before reading the request or opening storage. No environment variable enables capture. The SDK-backed server adapter is prepared separately; privacy, abuse controls, metadata/retry identity, retention and deployed private storage verification remain prerequisites. See [storage integration](docs/INTEREST_STORAGE.md).

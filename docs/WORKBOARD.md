@@ -310,3 +310,278 @@ Prepared independent [PR #8](https://github.com/RodrigoCalleia/cobro-agent/pull/
 - This is source/build evidence, not native mobile acceptance. The available surface did not provide a real mobile viewport, touch, rendered-size or screen-reader session. PR #8 stays draft/unmerged and production remains unchanged.
 - [Cycle report](reports/2026-10-08-mobile-readiness-accessibility.md). Next: supported native mobile acceptance, then current-head/main/check review before integration. PR #7 hosted-handler/privacy gates remain separate and unchanged.
 - Recorded spend USD 0; recorded revenue USD 0. No customers, outreach, real invoices, payments, subscriptions or new accounts.
+
+## Privacy activation readiness — 2026-10-08
+
+Privacy preparation for the disabled pilot-interest path is now explicit in [PRIVACY_READINESS.md](PRIVACY_READINESS.md). This is an operational gate, not legal advice or a compliance claim.
+
+- Scope remains limited to a business email, optional business name and affirmative permission. No invoice, debtor, balance, free-text or sensitive data belongs in this capture.
+- The notice template now lists the responsible party's identity and domicile, database/storage existence, purpose and recipients, required/optional status, consequences, rights route, retention and provider/transfer facts. Unresolved values remain visible placeholders; none were inferred from Rodrigo's public profile.
+- Current AAIP guidance was checked. The operating target is access within 10 calendar days and rectification/update/suppression within 5 business days. An independent review confirmed these timings and warned that an email address alone is not a sufficient notice.
+- Registration applicability is unresolved: AAIP wording and interpretation are broader than “selling data.” The responsible party must obtain a documented applicability decision and complete any required registration before activation.
+- Cloud/international-transfer readiness is unresolved. Netlify/provider contract, processing locations, subprocessors and lawful transfer mechanism have not been verified; no country or adequacy assumption was made.
+- Capture stays disabled. Hard blockers are an approved responsible identity/domicile/privacy contact, registration decision, approved notice version, retention period, processor/transfer facts, operator procedure and synthetic private write/read/delete evidence.
+- No product code, deployed form, customer record, outreach, payment or subscription changed. Source review only; unchanged tests were not rerun.
+- [Cycle report](reports/2026-10-08-privacy-readiness.md).
+- Next: the owner supplies or approves the accountable legal identity and privacy channel; the coordinator then verifies provider facts and turns the checklist into an acceptance packet. PR #7 remains open and unavailable until all activation gates pass.
+
+## Suppression replay interlock — 2026-10-08
+
+PR #7 product commit [a3ca538](https://github.com/RodrigoCalleia/cobro-agent/commit/a3ca538d474e26bde20a5f207320b71bedc18ee2) prepares request-level suppression without enabling capture.
+
+- Suppression replaces the current record with a minimal marker at the same opaque key; delayed and replayed create-only writes cannot replace it.
+- Production physical deletion is unavailable before provider access, closing the independently reproduced `suppress → delete → create` reopening path. Test-only cleanup remains available.
+- The pinned Netlify SDK path covers unconditional overwrite, strong read and a blocked conditional replay using only synthetic in-process transport.
+- Coordinator verification: 209/209 local tests and static build passed. Independent post-fix review ran 67 focused tests and found no commit blocker.
+- Scope is intentionally narrow: one request ID only. Full contact lookup across tokens, rectification, direct-provider controls, backup/log treatment, marker retention/secret rotation and terminal public response remain unresolved.
+- Public handler and form remain unavailable; no provider record, lead, email, payment or customer activity was created.
+- [Cycle report](reports/2026-10-08-suppression-interlock.md).
+- Next: prepare a privacy-preserving private contact index and multi-ID rights workflow; keep PR #7 open until legal/provider/hosted acceptance gates pass.
+
+
+## Explicit EU Blob storage region — 2026-10-08
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its existing isolated branch; product commit [41774a4](https://github.com/RodrigoCalleia/cobro-agent/commit/41774a4740193745b9463c0deed3ba128c7931ee) removes the implicit default-US Blob storage location without enabling capture.
+
+- Both test and production stores now explicitly select Netlify Blobs region `eu-central-1` with strong consistency. The pinned SDK 11.1.1 was exercised through synthetic transport and its direct API URL carried `region=eu-central-1`.
+- Coordinator verification: 210/210 local Node tests and the static build passed; output remains exactly the two demo assets. Independent review found no inactive-commit blocker.
+- This is a storage-location preparation only. No live Blob, migration, provider acceptance, contact, invoice, email, payment or demand evidence was created.
+- Netlify Functions still default to `cmh` (Ohio); selecting another function region is documented for Pro/Enterprise. No plan change, subscription or spend was authorized. Do not claim European-only processing or legal compliance.
+- Public form and handler remain unavailable. Contract, subprocessor, logs/support, transfer, responsible-party, privacy-channel and actual synthetic provider acceptance gates remain open.
+- [Cycle report](reports/2026-10-08-eu-blob-region.md).
+- Next: design the privacy-preserving private contact index and multi-ID rights workflow on this fixed region, while keeping PR #7 open and capture disabled.
+
+## Private contact index preparation — 2026-10-08
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch. Added preparation-only `server/pilot-contact-index.cjs` and focused tests; no handler, form or provider adapter calls this module.
+
+- A normalized contact is passed only to an injected server-side token derivation; raw email is never used as a key or returned by the module.
+- One opaque contact token can reference multiple validated request IDs, with idempotent re-addition and a bounded maximum. Corrupted stored values fail closed.
+- `add()` requires an injected atomic `update(token, updater)` contract; a synchronous in-memory test adapter demonstrates the intended critical section and a concurrent two-ID regression.
+- Coordinator verification: **216/216** complete Node tests passed (six new index tests) and static build produced exactly two demo assets. Focused index run: **6/6**.
+- Independent audit found the concurrency contract is now explicit; real-provider CAS/serialization remains unverified. No live write, contact, lead, email or provider data was created.
+- This is not a complete rights workflow: it still needs a trusted keyed/versioned derivation, a provider-backed atomic update, multi-ID suppression/rectification orchestration, retention/rotation decisions and operator controls.
+- [Cycle report](reports/2026-10-08-private-contact-index.md).
+- Next: verify the provider adapter's atomic guarantee or retain the index as design-only, then add synthetic multi-ID suppression/rectification composition tests without enabling the public route.
+
+## Append-only contact membership — 2026-10-08
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) after checking current Netlify documentation.
+
+- Official provider guidance confirms Blobs is last-write-wins and has no general concurrency control. The shared contact array design was therefore replaced before integration.
+- Each association now uses its own private `token/requestId` key, created conditionally. Listing by the exact trailing-slash prefix locates all membership keys without concurrent writers touching one object.
+- The module never returns the derived token. Provider response normalization remains an adapter responsibility and is documented in code; no SDK adapter or live store is connected.
+- Seven focused tests cover distinct-key concurrency, duplicate create-only behavior, bounded processing, malformed provider shapes and isolation between distinct contacts.
+- Coordinator verification: **217/217** complete tests and static build passed. One earlier full run exposed two transient unchanged deadline-test failures; a focused 32-test run and the final full rerun passed.
+- Independent audit approved the pure append-only design and identified pre-activation requirements: actual SDK adapter tests, token-secret version history, retention/tombstones, trusted contact-ID binding and resource-bounded listing.
+- [Cycle report](reports/2026-10-08-append-only-contact-index.md).
+- Next: implement and test a normalized, still-disconnected SDK adapter for `onlyIfNew` plus complete prefix listing; do not enable capture.
+
+## Netlify contact-index SDK adapter — 2026-10-08
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added disconnected `server/netlify-contact-index.cjs` for the pinned Netlify Blobs 11.1.1 SDK. It opens separate test/production stores with strong consistency in `eu-central-1`.
+- Create-only writes use `onlyIfNew` and normalize the SDK's `{modified, etag}` response to `{modified}`. Prefix listing consumes the SDK async iterator, normalizes blob entries to keys and enforces the ID limit during pagination.
+- The persisted in-process SDK transport test covers successful create, duplicate HTTP 412, two list pages with `next_cursor`, exact prefix, EU region and isolated store path. No network or provider record is used.
+- Coordinator verification: **10/10** focused tests, **220/220** complete tests and static build passed. Independent review found no preparation-scope blocker and verified the same 412/pagination behavior before it was persisted.
+- Adapter remains disconnected from the public function. HMAC/versioned token derivation, secret rotation, generic public error mapping, retention and trusted record binding remain activation gates.
+- [Cycle report](reports/2026-10-08-netlify-contact-index-adapter.md).
+- Next: prepare versioned HMAC token derivation and rotation-compatible lookup with synthetic secrets; keep capture unavailable.
+
+
+## Versioned HMAC contact tokens — 2026-10-08
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added disconnected HMAC-SHA256 derivation with one active and at most two previous unique key versions. New memberships use only the active token; lookup searches active and retained previous tokens.
+- Tokens are exact 64-character lowercase hex values with domain/version separation. Secrets are copied into private Node.js key objects and are never returned. Tests use only synthetic secrets.
+- Rotation lookup deduplicates IDs across versions, rejects duplicates within one version, applies one total processing bound and fails instead of returning partial results. Contact controls C0/C1 now fail before derivation.
+- Coordinator verification: **21/21** focused tests, **231/231** complete tests and static build passed. Independent post-correction review approved the disconnected preparation and confirmed no public handler imports it.
+- Capture remains unavailable. Real secret loading, version-retention/migration policy, trusted record binding, generic public error mapping and provider acceptance remain activation gates. Version labels must never be reused and old keys cannot be retired while retained memberships still depend on them.
+- [Cycle report](reports/2026-10-08-versioned-contact-tokens.md).
+- Next: prepare synthetic disconnected composition across keyring, contact index and Netlify adapter for multi-ID rights workflow planning; do not enable capture.
+
+
+## Private multi-ID rights plan — 2026-10-08
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added disconnected private composition across the versioned HMAC keyring, contact index, Netlify adapter and request store.
+- A membership can be indexed only after the exact stored record is validated and its normalized contact matches. The composed API reports only `indexed-confirmed`, never an unproven creation event.
+- Multi-ID planning covers active and retained key versions, separates already-suppressed IDs, sorts opaque IDs and fails without partial output on any mismatch or unavailable record. Planning performs no suppression.
+- Contact-index writes now require strong readback of the exact membership marker. This closes a reproduced SDK 11.1.1 false-success path for unexpected HTTP statuses.
+- Coordinator final verification: **31/31** focused tests, **239/239** complete tests and static build passed. Independent post-fix review approved the disconnected scope, repeated the same test totals and confirmed no public handler import.
+- Capture remains unavailable. Dual-write reconciliation, a consistent execution snapshot, provider deadlines, future executor revalidation, operator authorization, secrets/retention and privacy/provider gates remain open.
+- [Cycle report](reports/2026-10-08-private-rights-plan.md).
+- Next: prepare bounded disconnected reconciliation for stored requests missing contact membership; do not enable capture.
+
+
+## Disconnected membership reconciliation — 2026-10-09
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added a private inventory plan for stored requests missing opaque contact membership. Request pages, total blobs, IDs and index work are bounded; malformed or unavailable state returns only `unverified`, never partial results.
+- Exact canonical active records are classified as indexed or missing across current/retained HMAC versions. Suppression markers are reported separately without attempting to reconstruct erased contact data. Repeated contacts share one index lookup.
+- The ready result contains only sorted opaque IDs. Planning performs no write, repair, suppression or deletion and remains outside the public route/browser import graph.
+- Independent review found and caused fixes for unlimited empty-page iteration and repeated contact lookup. It confirmed that any future executor must revalidate the non-atomic plan and that abortable provider deadlines remain mandatory before activation.
+- Coordinator verification: **33/33** focused tests, **245/245** complete tests and static build passed; output remains exactly two demo assets.
+- No live provider record, contact, invoice, email, payment, customer or demand evidence was created. Capture remains unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Cycle report](reports/2026-10-09-disconnected-reconciliation-plan.md).
+- Next: add abortable shared deadlines to private request and contact list/read operations using synthetic stalled transports. Do not run repairs or enable capture.
+
+
+## Reconciliation shared deadline — 2026-10-09
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added a disconnected runtime with one abortable budget for the complete reconciliation plan: SDK loading, request inventory pages, strong request reads, contact-index pages, SDK retries and response bodies.
+- Both private stores share one guarded transport within a plan, preventing deadline resets per page/contact/key version. Concurrent and later plans have separate controllers.
+- Expiry returns only `unverified`. Late SDK loads, strong reads or list bodies cannot produce `ready` or trigger follow-up storage requests. The runtime performs no write, repair, suppression or deletion.
+- Independent pre/post implementation review approved the shared-deadline design with no persistence blocker and independently repeated **33/33** combined runtime/deadline tests.
+- Coordinator verification: **8/8** new runtime tests, **253/253** complete tests and static build passed; output remains exactly two demo assets. The runtime is absent from the public function/browser import graph.
+- No provider record, contact, invoice, email, payment, customer or demand evidence was created. Capture remains unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Cycle report](reports/2026-10-09-reconciliation-deadline.md).
+- Next: prepare a disconnected single-ID repair primitive with immediate exact revalidation and idempotent create-only membership. Use synthetic stores only; do not schedule repairs or enable capture.
+
+
+## Single-ID repair primitive — 2026-10-09
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added a disconnected single-request repair primitive for the stored-request/contact-index dual-write gap.
+- It re-reads the exact request, revalidates the binding before a possible write, uses create-only membership, confirms with strong readback, and performs a final binding re-read before returning `indexed-confirmed`.
+- Suppression races return only `suppressed`; malformed/provider uncertainty returns only `unverified`. Public output contains no contact, token, request data or provider metadata.
+- Independent audit approved the bounded design and identified/closed the final suppression window. Coordinator verification: **5/5** new repair cases, **258/258** full tests, static build with exactly two assets, and no public import.
+- No provider/customer data or real leads were created. Capture remains unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Cycle report](reports/2026-10-09-single-id-repair.md).
+- Next: keep repair disconnected; define operator authorization/audit-log requirements and obtain remaining private acceptance evidence. Do not schedule repairs or enable capture.
+
+## Operator repair authorization contract — 2026-10-09
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added a disconnected exact command/authorization gate for one single-ID contact-index repair. It binds operation, request, action, production environment, site, fixed reason and policy before any write path.
+- Trusted grants use opaque actor/authorization references, canonical timestamps and at most five minutes of validity. Caller-supplied identities, free-text reasons, extra properties and accessors are rejected.
+- An append-only audit `started` claim is required before repair. A maximum 60-second exclusive lease blocks concurrent replay; terminal results must echo-bind request, actor and policy, and stale claims cannot complete.
+- Independent audit reproduced and prompted correction of an accessor-based privacy flaw, binding gaps and stale-lease completion. Final independent review approved the disconnected scope with **14/14** focused tests.
+- Coordinator verification: **272/272** complete tests and static build passed; output remains exactly two demo assets. No public function/browser import exists.
+- No operator/provider/customer data or real lead was created. Capture remains unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Contract](OPERATOR_REPAIR_CONTRACT.md) and [cycle report](reports/2026-10-09-operator-repair-contract.md).
+- Next: prepare a disconnected append-only audit-store adapter with atomic operation binding and exclusive claim semantics using synthetic transports only. Do not connect the gate, schedule repairs or enable capture.
+
+## Operator audit CAS adapter — 2026-10-09
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added a disconnected private audit adapter using one bounded document per operation. Initial claims use create-only writes; recovery and terminal events use ETag compare-and-swap, keeping binding, exclusive lease and terminal state in one atomic document boundary.
+- Authorization expiry is now part of the start event. Claims last at most 60 seconds, cannot outlive a five-minute authorization, cannot overlap or reuse fencing IDs, and stored history/readback must match exactly. Slow lease crossings fail closed.
+- The history is append-only at application level, not physical WORM or regulatory immutability. The fixed strong-consistency EU store exposes no list/delete method and remains disconnected from routes, jobs and real identities.
+- Independent design/post-implementation review found and caused corrections for multi-key races, partial readback, invalid chronology, repeated claim IDs and lease crossings; final review approved the disconnected component with **27/27** focused tests.
+- Coordinator verification: **285/285** complete tests and static build passed; output remains exactly two demo assets. Import inspection found no public function/browser use.
+- No provider/operator/customer data, lead, outreach, payment or subscription was created. Capture remains unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Contract](OPERATOR_REPAIR_CONTRACT.md) and [cycle report](reports/2026-10-09-operator-audit-cas.md).
+- Next: prepare a disconnected runtime composition with one shared abortable deadline across SDK loading, authorization, audit CAS/readback, repair and terminal persistence. Do not connect routes/jobs or enable capture.
+
+## Operator runtime and demo visual pass — 2026-10-09
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added a disconnected runtime facade that validates the published production site and uses one abortable deadline for SDK loading, injected authorization, audit CAS/readback, single-ID repair and terminal persistence. A stalled SDK load returns unverified without authorization or repair; the module is not imported by a route or scheduler.
+- Runtime-focused tests: **3/3 passed**. The complete repository suite is **288/288 passed** and the static build produced exactly two demo assets.
+- Refreshed the fictional demo visual system: clearer Rondacobro identity/status, stronger hero and pilot hierarchy, summary metrics, responsive workspace/mobile layout, focus states, framed table/dialogs and explicit no-connection/no-payment copy. Rules and simulation behavior remain unchanged.
+- No route, browser capture, provider write, operator/customer data, lead, outreach, payment or subscription was added. Capture and repairs remain unavailable. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Cycle report](reports/2026-10-09-operator-runtime-visual.md).
+- Next: review the visual preview on desktop/mobile and prepare a synthetic read-only runtime acceptance check. Keep real authorization, retention, rate limits, provider acceptance and activation blocked.
+
+## Synthetic operator runtime acceptance — 2026-10-09
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Added a read-only synthetic end-to-end acceptance for the disconnected runtime: target-bound authorization, one CAS audit claim, exact request/contact revalidation, idempotent membership creation and terminal audit completion share one abortable deadline.
+- A stalled SDK load returns unverified before authorization or repair. The successful fixture verifies the logical claimed/completed audit events using only in-memory stores, synthetic UUIDs and a fictional contact.
+- Runtime-focused tests: **4/4 passed**. Coordinator verification: **289/289** complete tests and static build with exactly two demo assets.
+- No public route, scheduler, browser import, live provider, operator identity, customer record, outreach, payment or subscription was added. Capture and real repairs remain disabled. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Cycle report](reports/2026-10-09-runtime-acceptance.md).
+- Next: keep this runtime disconnected while preparing provider/privacy acceptance criteria; do not authorize real repairs or enable capture.
+
+## Operator runtime transport hardening — 2026-10-10
+
+Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on its isolated branch.
+
+- Applied the strict verified audit transport inside the disconnected runtime. Conditional audit PUTs now accept only HTTP 200 success or HTTP 412 conflict before the pinned SDK can normalize an unexpected status.
+- Added regressions proving a stalled authorization consumes the shared deadline without starting a claim and a misleading PUT 201 is rejected before audit readback.
+- Independent review approved the minimal audit-only wrapper placement with no blocker and no contact/privacy leak. Runtime-focused tests: **6/6**; complete suite: **291/291**; static build passed with exactly two demo assets.
+- No public route, scheduler, real identity/provider record, customer data, outreach, payment or subscription was added. Capture and repairs remain disabled. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
+- [Cycle report](reports/2026-10-10-operator-runtime-hardening.md).
+- Next: exercise pinned SDK conditional headers/EU/strong behavior and separate stalled claim, repair and terminal completion cases. Keep activation blocked.
+
+## Pinned SDK audit acceptance — 2026-10-10
+
+- Product commit a1b72a7 corrects a real compatibility defect found by exercising the installed @netlify/blobs 11.1.1 store: audit methods live on the SDK store prototype, while the previous strict adapter accepted only an exact plain object. Safe descriptor-based method discovery now supports the pinned SDK without invoking accessors.
+- Synthetic installed-SDK acceptance verifies uncached strong reads, eu-central-1 routing, initial If-None-Match: *, terminal If-Match with the prior ETag, and exact readback through claim plus completion.
+- A separate timeout regression proves a stalled audit claim consumes the shared budget and starts zero repair-store calls.
+- Independent audit selected SDK-backed CAS and per-stage timeout evidence as the highest-value gap. Coordinator verification: 22/22 focused tests, 294/294 full tests and a static build with exactly two assets.
+- Netlify reports a green deploy preview for product commit a1b72a7. No route, scheduler, provider record, real operator/customer identity, capture, outreach or payment was enabled. Spend/revenue remain USD0/USD0.
+- Next: cover stalled repair and stalled terminal persistence, including late resolution and replay. Report: docs/reports/2026-10-10-pinned-sdk-audit-acceptance.md.
+
+
+## Runtime terminal deadlines and merge safety — 2026-10-10
+
+- Two runtime regressions cover the remaining shared-deadline stages. A stalled repair returns unverified, appends no terminal audit and cannot continue after late resolution. A stalled terminal CAS also returns unverified; if the uncertain write later becomes durable, replay reads the terminal result without repeating repair.
+- Coordinator verification passed 296/296 tests and the static build produced exactly two assets.
+- Independent review confirmed PR #7 is currently clean, 44 commits ahead and zero behind main; rebaseable false is a history-shape limitation, not a textual conflict.
+- The same review found a semantic merge hazard: three current main documents appeared as deletions. This cycle restores docs/PLAYBOOK_VALIDACION_COMERCIAL.md, docs/reports/2026-10-07-commercial-validation-playbook.md and docs/reports/2026-10-08-mobile-readiness-accessibility.md byte-for-byte from main.
+- Before merge, repeat the compare and require zero unapproved removed files plus a green preview for the new head. No route, scheduler, capture, real repair, customer data, outreach or payment was enabled. Spend/revenue remain USD0/USD0.
+- Report: docs/reports/2026-10-10-runtime-timeouts-merge-safety.md.
+
+## PR #7 controlled integration — 2026-10-10
+
+- PR #7 was merged into main with merge commit c86f14d after an exact-head lease check.
+- Final compare before merge: 45 commits ahead, 0 behind, clean merge and 0 removed files. Netlify preview for head b034471 was green.
+- Independent final audit reran 296/296 tests from an exact clone and built exactly two byte-identical demo assets.
+- The three current-main documents identified as semantic deletions were restored byte-for-byte before merge.
+- The public pilot-interest function remains unconditional HTTP 503/unavailable and imports no SDK/runtime activation. Operator runtime and capture remain disconnected from routes and schedulers.
+- Main now contains the durable privacy, storage, reconciliation, audit and timeout preparation, but this is not authorization to use real identities, records or repairs.
+- Production deploy status for merge commit c86f14d was not yet reported by GitHub at closeout; do not infer publication from the successful PR preview.
+- Spend/revenue remain USD0/USD0; verified leads/customers remain 0.
+- Report: docs/reports/2026-10-10-pr7-integration.md.
+
+
+## Production demo drift verification — 2026-10-10
+
+- The refreshed public site at https://cobro-agent-rodrigo.netlify.app/ still shows the older `Cobro · prototipo` / `cobro.` experience and the old action labels.
+- Merged `main` at `cea02c8` contains the new `Rondacobro · simulación B2B` visual, product-status card and updated workspace/action copy. Therefore the latest integrated revision is not yet proven published.
+- Independent read-only review confirmed production is stale but could not determine whether the cause is a missing build, incorrect branch/publish directory or older production assignment.
+- The available Netlify dashboard requires authentication, so the production deploy ID/log and retry controls could not be inspected. GitHub reports no commit status for `cea02c8`; do not infer deployment.
+- The observed old production remains explicitly demo-only: no email, payments, registration or storage is presented as connected, and no capture input was observed. This cycle did not call the disabled capture endpoint or execute any repair/provider write.
+- No code changed, so the already accepted 296-test suite was not repeated without new product evidence.
+- Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
+- [Verification report](reports/2026-10-10-production-demo-verification.md).
+- Next: authenticate to the existing Netlify project, inspect the production assignment, rebuild/promote merged `main` while keeping capture and repairs disabled, then verify the public Rondacobro markers on desktop/mobile.
+
+
+## Netlify production recovery preparation — 2026-10-10
+
+- Current `main` is `0eb5097`; GitHub exposes zero Actions/check runs and no commit-status entry proving a production deploy.
+- The available environment has no authenticated Netlify dashboard session, CLI, auth token or site ID, so production configuration could not be inspected or mutated.
+- Independent review selected recovery of the existing production demo as the highest-impact next action and warned against touching/promoting draft PR #8, which is 52 commits behind `main` and not mergeable.
+- Added a fail-closed [production recovery procedure](NETLIFY_PRODUCTION_RECOVERY.md): verify repository/production branch, inspect the currently assigned deploy, rebuild or promote only current `main`, then require exact public Rondacobro desktop/mobile markers.
+- The procedure forbids publishing PR previews, changing away from `main`, adding secrets or enabling capture, forms, storage, repairs, email or payments.
+- No product/provider configuration changed and no endpoint was invoked. The 296-test suite was not repeated because there is no code change.
+- Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
+- [Cycle report](reports/2026-10-10-netlify-production-recovery.md).
+- Next: obtain authenticated access to the existing Netlify project, execute the bounded recovery and record deploy ID/source commit/public evidence before declaring publication.
+
+## Draft PR #8 port to current Rondacobro — 2026-10-10
+
+- Reconciled the existing draft follow-up simulation with current `main` using a two-parent merge candidate; no competing product PR was created.
+- The sole textual conflict was `index.html`. Resolution preserves the current Rondacobro identity, hero, pilot, metrics, workspace and blue focus system while porting only the fictional follow-up modal/status/handlers.
+- Unpaid demo invoices can change or clear dispute, promise and last-contact context; the same invoice is recalculated while identity, amount and due date remain fixed. Paid invoices stay protected.
+- Accessibility port includes 44px controls, a named/focusable horizontal invoice region, invoice-specific action names and focus restoration after save.
+- Complete suite: **309/309 passed**. Static build produced exactly two public demo assets. Independent review ran **9/9** synthetic helper probes and approved the minimum-delta approach.
+- No public capture, provider write, storage, repair route, scheduler, email, payment or real data was connected.
+- PR #8 remains draft pending hosted desktop and native mobile/touch acceptance. Its preview must not be promoted to production.
+- Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
+- [Cycle report](reports/2026-10-10-followup-port-main.md).
+- Next: publish and inspect only the PR preview on desktop and narrow mobile; keep production recovery separate.

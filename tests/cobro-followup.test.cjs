@@ -93,6 +93,6 @@ test('mobile and repeated row controls expose touch and keyboard affordances',()
  assert.match(html,/button\{[^}]*min-height:44px/);
  assert.match(html,/input,select\{[^}]*min-height:44px/);
  assert.match(html,/<div class="scroll" tabindex="0" role="region" aria-label="Facturas simuladas; desplazamiento horizontal en pantallas pequeñas">/);
- assert.match(html,/\.scroll:focus-visible\{outline:2px solid #6ce5bc/);
+ assert.match(html,/\.scroll:focus-visible\{outline:3px solid var\(--blue\)/);
  for(const label of ['Ver borrador de ','Simular seguimiento de ','Simular pago de '])assert.match(html,new RegExp("setAttribute\\('aria-label','"+label));
 });
