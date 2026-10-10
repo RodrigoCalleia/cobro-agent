@@ -581,7 +581,7 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - Accessibility port includes 44px controls, a named/focusable horizontal invoice region, invoice-specific action names and focus restoration after save.
 - Complete suite: **309/309 passed**. Static build produced exactly two public demo assets. Independent review ran **9/9** synthetic helper probes and approved the minimum-delta approach.
 - No public capture, provider write, storage, repair route, scheduler, email, payment or real data was connected.
-- PR #8 remains draft pending hosted desktop and native mobile/touch acceptance. Its preview must not be promoted to production.
+- Netlify reports a successful preview build for the reconciled PR head at `https://deploy-preview-8--cobro-agent-rodrigo.netlify.app`, but unauthenticated access redirects to Team Protection. Hosted desktop and native mobile/touch acceptance therefore remain unverified; PR #8 stays draft and its preview must not be promoted to production.
 - Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
 - [Cycle report](reports/2026-10-10-followup-port-main.md).
-- Next: publish and inspect only the PR preview on desktop and narrow mobile; keep production recovery separate.
+- Next: use authorized preview access to inspect desktop and narrow mobile behavior; keep production recovery separate.

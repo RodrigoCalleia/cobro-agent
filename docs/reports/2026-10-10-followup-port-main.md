@@ -29,7 +29,7 @@ All state remains in memory. No message, payment, contact capture, provider writ
 - Independent review defined the minimum port and ran **9/9** synthetic helper probes.
 - The mobile source regression was adapted to the current blue focus token rather than the obsolete green rule.
 
-Native mobile/touch and hosted preview acceptance remain pending. PR #8 must remain draft and its preview must not be promoted to production.
+Netlify built the exact PR head successfully at `https://deploy-preview-8--cobro-agent-rodrigo.netlify.app`. An unauthenticated browser is redirected to Netlify Team Protection, so hosted desktop and native mobile/touch acceptance remain unverified. PR #8 must remain draft and its preview must not be promoted to production.
 
 ## Accounting
 
@@ -39,4 +39,4 @@ Native mobile/touch and hosted preview acceptance remain pending. PR #8 must rem
 
 ## Next
 
-Publish only the PR preview, verify desktop and narrow mobile interaction with fictional data, then decide whether the draft is ready for integration. Production recovery remains a separate blocker.
+Use authorized preview access to verify desktop and narrow mobile interaction with fictional data, then decide whether the draft is ready for integration. Production recovery remains a separate blocker.
