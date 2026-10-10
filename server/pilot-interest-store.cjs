@@ -3,8 +3,15 @@ const {isDeepStrictEqual} = require('node:util');
 const {validatePilotInterest} = require('./validate-pilot-interest.cjs');
 const idPattern = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/u;
 const fields = new Set(['contact_email', 'business_name', 'contact_permission', 'request_id', 'received_at', 'notice_version']);
+const suppression = Object.freeze({state: 'suppressed'});
+const storageRegion = 'eu-central-1';
 
 function validId(id) { return typeof id === 'string' && idPattern.test(id); }
+function isSuppression(value) { return isDeepStrictEqual(value, suppression); }
+function logicalRecord(record) {
+  const {received_at: ignored, ...identity} = record;
+  return identity;
+}
 function canonicalRecord(record) {
   if (!record || typeof record !== 'object' || Array.isArray(record) ||
       ![Object.prototype, null].includes(Object.getPrototypeOf(record)) ||
@@ -22,12 +29,26 @@ function canonicalRecord(record) {
   if (!Number.isFinite(date.getTime()) || date.toISOString() !== record.received_at) throw new TypeError('Invalid private record');
   return {...checked.value, request_id: record.request_id, received_at: record.received_at, notice_version: record.notice_version};
 }
+function canonicalContact(contact) {
+  const checked = validatePilotInterest({contact_email: contact, contact_permission: true});
+  if (!checked.ok || checked.value.contact_email !== contact) {
+    throw new TypeError('Invalid private contact');
+  }
+  return contact;
+}
 
 // Server-only adapter, not an endpoint. getStore is supplied by a future SDK integration.
 // All arguments, IDs and metadata must be chosen by authenticated/trusted server code.
-function createPilotInterestStore({getStore, environment}) {
-  if (!['production', 'test'].includes(environment) || typeof getStore !== 'function') throw new TypeError('Unsupported storage context');
-  const store = getStore({name: `cobro-pilot-interest-${environment}-v1`, consistency: 'strong'});
+function createPilotInterestStore({getStore, environment, maxIds = 50}) {
+  if (!['production', 'test'].includes(environment) || typeof getStore !== 'function' ||
+      !Number.isInteger(maxIds) || maxIds < 1 || maxIds > 1000) {
+    throw new TypeError('Unsupported storage context');
+  }
+  const store = getStore({
+    name: `cobro-pilot-interest-${environment}-v1`,
+    consistency: 'strong',
+    region: storageRegion
+  });
   if (!store || ['setJSON', 'get', 'delete'].some(method => typeof store[method] !== 'function')) throw new TypeError('Unsupported storage adapter');
   const keyFor = id => { if (!validId(id)) throw new TypeError('Invalid private record identifier'); return `requests/${id}`; };
   const read = id => store.get(keyFor(id), {type: 'json', consistency: 'strong'});
@@ -40,7 +61,18 @@ function createPilotInterestStore({getStore, environment}) {
         const write = await store.setJSON(key, value, {onlyIfNew: true});
         const stored = await read(value.request_id);
         if (!write || typeof write.modified !== 'boolean' || stored === null) return {state: 'received-unverified'};
-        if (!isDeepStrictEqual(stored, value)) return {state: 'conflict'};
+        // A suppression marker wins over new and delayed retries. It contains no
+        // contact data and remains at the same key so onlyIfNew cannot recreate it.
+        if (isSuppression(stored)) return {state: 'suppressed'};
+        let storedValue;
+        try { storedValue = canonicalRecord(stored); }
+        catch { return {state: 'conflict'}; }
+        if (!isDeepStrictEqual(storedValue, stored)) return {state: 'conflict'};
+        const matches = write.modified
+          ? isDeepStrictEqual(storedValue, value)
+          : isDeepStrictEqual(logicalRecord(storedValue), logicalRecord(value)) &&
+            Date.parse(storedValue.received_at) <= Date.parse(value.received_at);
+        if (!matches) return {state: 'conflict'};
         return {state: 'stored-confirmed', request_id: value.request_id, created: write.modified};
       } catch {
         return {state: 'received-unverified'};
@@ -48,8 +80,101 @@ function createPilotInterestStore({getStore, environment}) {
     },
     // Private operator use only; never expose through an unauthenticated read route.
     read,
+    // Disconnected operator primitive. Listing is optional on the storage
+    // facade because public capture never needs it. Every provider key must be
+    // an exact request key and the whole scan is bounded before any result is
+    // returned, so callers cannot act on a partial or ambiguous inventory.
+    async listIds() {
+      if (typeof store.list !== 'function') throw new Error('Private request list unverified');
+      const pages = store.list({prefix: 'requests/', paginate: true});
+      if (!pages || typeof pages[Symbol.asyncIterator] !== 'function') {
+        throw new Error('Private request list unverified');
+      }
+      const requestIds = [];
+      const seen = new Set();
+      let pageCount = 0;
+      let blobCount = 0;
+      for await (const page of pages) {
+        pageCount += 1;
+        if (pageCount > maxIds) throw new Error('Private request list limit');
+        if (!page || typeof page !== 'object' || Array.isArray(page) ||
+            !Array.isArray(page.blobs) || !Array.isArray(page.directories) ||
+            page.directories.length !== 0) {
+          throw new Error('Private request list unverified');
+        }
+        blobCount += page.blobs.length;
+        if (blobCount > maxIds) throw new Error('Private request list limit');
+        for (const blob of page.blobs) {
+          if (!blob || typeof blob !== 'object' || Array.isArray(blob) ||
+              typeof blob.key !== 'string' || !blob.key.startsWith('requests/')) {
+            throw new Error('Private request list unverified');
+          }
+          const requestId = blob.key.slice('requests/'.length);
+          if (!validId(requestId) || seen.has(requestId)) {
+            throw new Error('Private request list unverified');
+          }
+          seen.add(requestId);
+          requestIds.push(requestId);
+        }
+      }
+      requestIds.sort();
+      return Object.freeze(requestIds);
+    },
+    // Returns contact data only to this server-side composition. The public
+    // reconciliation result deliberately strips it and exposes opaque IDs.
+    async inspectForReconciliation(id) {
+      keyFor(id);
+      try {
+        const stored = await read(id);
+        if (isSuppression(stored)) return {state: 'suppressed'};
+        const value = canonicalRecord(stored);
+        if (!isDeepStrictEqual(value, stored) || value.request_id !== id) {
+          return {state: 'unverified'};
+        }
+        return {state: 'active', contact: value.contact_email};
+      } catch {
+        return {state: 'unverified'};
+      }
+    },
+    // Private composition primitive. It proves that an index membership is
+    // bound to the exact canonical stored record before the membership is made.
+    async matchContact(id, contact) {
+      keyFor(id);
+      const expected = canonicalContact(contact);
+      try {
+        const stored = await read(id);
+        if (isSuppression(stored)) return {state: 'suppressed'};
+        const value = canonicalRecord(stored);
+        if (!isDeepStrictEqual(value, stored)) return {state: 'unverified'};
+        const storedContact = value.contact_email.normalize('NFKC').trim()
+          .toLocaleLowerCase('en-US');
+        return value.request_id === id && storedContact === expected
+          ? {state: 'matched'} : {state: 'mismatch'};
+      } catch {
+        return {state: 'unverified'};
+      }
+    },
+    // Rights-workflow primitive: atomically replace contact data with a minimal
+    // marker. Unlike delete(), retaining the key prevents an in-flight or replayed
+    // create-only write from resurrecting the record. Operator authorization,
+    // complete contact lookup and retention policy remain external requirements.
+    async suppress(id) {
+      const key = keyFor(id);
+      try {
+        const write = await store.setJSON(key, suppression);
+        const stored = await read(id);
+        return write && write.modified === true && isSuppression(stored)
+          ? {state: 'suppressed-confirmed'} : {state: 'suppression-unverified'};
+      } catch {
+        return {state: 'suppression-unverified'};
+      }
+    },
     async delete(id) {
       const key = keyFor(id);
+      // Physical deletion is test-fixture cleanup only. Production keeps the
+      // minimal suppression marker so delayed/replayed create-only writes cannot
+      // recreate contact data. Never use this method for a rights request.
+      if (environment !== 'test') return {state: 'delete-unavailable'};
       try {
         await store.delete(key);
         return {state: await read(id) === null ? 'deleted-confirmed' : 'delete-unverified'};
@@ -61,3 +186,4 @@ function createPilotInterestStore({getStore, environment}) {
 }
 
 module.exports = {createPilotInterestStore};
+
