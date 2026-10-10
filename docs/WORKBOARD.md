@@ -534,3 +534,15 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - The same review found a semantic merge hazard: three current main documents appeared as deletions. This cycle restores docs/PLAYBOOK_VALIDACION_COMERCIAL.md, docs/reports/2026-10-07-commercial-validation-playbook.md and docs/reports/2026-10-08-mobile-readiness-accessibility.md byte-for-byte from main.
 - Before merge, repeat the compare and require zero unapproved removed files plus a green preview for the new head. No route, scheduler, capture, real repair, customer data, outreach or payment was enabled. Spend/revenue remain USD0/USD0.
 - Report: docs/reports/2026-10-10-runtime-timeouts-merge-safety.md.
+
+## PR #7 controlled integration — 2026-10-10
+
+- PR #7 was merged into main with merge commit c86f14d after an exact-head lease check.
+- Final compare before merge: 45 commits ahead, 0 behind, clean merge and 0 removed files. Netlify preview for head b034471 was green.
+- Independent final audit reran 296/296 tests from an exact clone and built exactly two byte-identical demo assets.
+- The three current-main documents identified as semantic deletions were restored byte-for-byte before merge.
+- The public pilot-interest function remains unconditional HTTP 503/unavailable and imports no SDK/runtime activation. Operator runtime and capture remain disconnected from routes and schedulers.
+- Main now contains the durable privacy, storage, reconciliation, audit and timeout preparation, but this is not authorization to use real identities, records or repairs.
+- Production deploy status for merge commit c86f14d was not yet reported by GitHub at closeout; do not infer publication from the successful PR preview.
+- Spend/revenue remain USD0/USD0; verified leads/customers remain 0.
+- Report: docs/reports/2026-10-10-pr7-integration.md.
