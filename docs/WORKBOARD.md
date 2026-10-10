@@ -515,3 +515,12 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - No public route, scheduler, real identity/provider record, customer data, outreach, payment or subscription was added. Capture and repairs remain disabled. Spend **USD 0**, revenue **USD 0**, leads/customers **0**.
 - [Cycle report](reports/2026-10-10-operator-runtime-hardening.md).
 - Next: exercise pinned SDK conditional headers/EU/strong behavior and separate stalled claim, repair and terminal completion cases. Keep activation blocked.
+
+## Pinned SDK audit acceptance — 2026-10-10
+
+- Product commit pending in this cycle corrects a real compatibility defect found by exercising the installed @netlify/blobs 11.1.1 store: audit methods live on the SDK store prototype, while the previous strict adapter accepted only an exact plain object. Safe descriptor-based method discovery now supports the pinned SDK without invoking accessors.
+- Synthetic installed-SDK acceptance verifies uncached strong reads, eu-central-1 routing, initial If-None-Match: *, terminal If-Match with the prior ETag, and exact readback through claim plus completion.
+- A separate timeout regression proves a stalled audit claim consumes the shared budget and starts zero repair-store calls.
+- Independent audit selected SDK-backed CAS and per-stage timeout evidence as the highest-value gap. Coordinator verification: 22/22 focused tests, 294/294 full tests and a static build with exactly two assets.
+- The prior commit e31b05a has a green Netlify preview; this cycle's commit still requires its own hosted status. No route, scheduler, provider record, real operator/customer identity, capture, outreach or payment was enabled. Spend/revenue remain USD0/USD0.
+- Next: cover stalled repair and stalled terminal persistence, including late resolution and replay. Report: docs/reports/2026-10-10-pinned-sdk-audit-acceptance.md.

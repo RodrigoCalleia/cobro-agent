@@ -36,6 +36,22 @@ function snapshotExactData(value, keys) {
   } catch { return null; }
 }
 
+function dataMethod(value, key) {
+  try {
+    if (value === null || (typeof value !== 'object' && typeof value !== 'function')) return null;
+    let current = value;
+    while (current !== null && current !== Object.prototype) {
+      const descriptor = Object.getOwnPropertyDescriptor(current, key);
+      if (descriptor !== undefined) {
+        return Object.hasOwn(descriptor, 'value') && typeof descriptor.value === 'function'
+          ? descriptor.value : null;
+      }
+      current = Object.getPrototypeOf(current);
+    }
+    return null;
+  } catch { return null; }
+}
+
 function exactIso(value) {
   if (typeof value !== 'string') return null;
   const parsed = Date.parse(value);
@@ -111,13 +127,13 @@ function createNetlifyOperatorAudit({
     consistency: 'strong',
     region: storageRegion
   });
-  const storeShape = snapshotExactData(store, ['setJSON', 'getWithMetadata']);
-  if (storeShape === null || typeof storeShape.setJSON !== 'function' ||
-      typeof storeShape.getWithMetadata !== 'function') {
+  const setJSONMethod = dataMethod(store, 'setJSON');
+  const getWithMetadataMethod = dataMethod(store, 'getWithMetadata');
+  if (setJSONMethod === null || getWithMetadataMethod === null) {
     throw new TypeError('Unsupported operator audit adapter');
   }
-  const setJSON = (...args) => Reflect.apply(storeShape.setJSON, store, args);
-  const getWithMetadata = (...args) => Reflect.apply(storeShape.getWithMetadata, store, args);
+  const setJSON = (...args) => Reflect.apply(setJSONMethod, store, args);
+  const getWithMetadata = (...args) => Reflect.apply(getWithMetadataMethod, store, args);
 
   function trustedNow(eventIso) {
     const now = clock();

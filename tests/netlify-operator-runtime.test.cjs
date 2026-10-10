@@ -67,6 +67,28 @@ test('a stalled authorization consumes the same budget and cannot start an audit
   assert.equal(auditWrites, 0);
 });
 
+test('a stalled audit claim consumes the shared budget and cannot start repair storage', async () => {
+  let repairCalls = 0;
+  const base = fakeSDK();
+  const runtime = await openPublishedOperatorRepair(published, keyring, {
+    timeoutMs: 20,
+    loadSDK: async () => ({getStore(options) {
+      if (options.name.includes('operator-audit')) {
+        return {setJSON: () => new Promise(() => {}), getWithMetadata: async () => null};
+      }
+      const store = base.getStore(options);
+      return {
+        setJSON: async (...args) => { repairCalls += 1; return store.setJSON(...args); },
+        get: async (...args) => { repairCalls += 1; return store.get(...args); },
+        delete: store.delete, list: store.list
+      };
+    }}),
+    fetchImpl: async () => new Response('{}'), authorize: async () => authorized()
+  });
+  assert.deepEqual(await runtime.execute(command), {state: 'unverified'});
+  assert.equal(repairCalls, 0);
+});
+
 test('verified audit transport rejects unexpected PUT success before readback', async () => {
   let auditReads = 0;
   const base = fakeSDK();

@@ -278,6 +278,62 @@ test('verified transport accepts only explicit conditional-write outcomes', asyn
   assert.deepEqual(seen.slice(0, 3), ['GET', 'PUT', 'PUT']);
 });
 
+test('installed SDK preserves EU strong reads and conditional CAS headers', async t => {
+  assert.equal(require('@netlify/blobs/package.json').version, '11.1.1');
+  const {getStore} = await import('@netlify/blobs');
+  const requests = [];
+  let stored = null;
+  let etag = null;
+  let writes = 0;
+  t.mock.method(globalThis, 'fetch', () => { throw new Error('No real network allowed'); });
+  const transport = verifiedOperatorAuditFetch(async (input, options) => {
+    const url = new URL(input);
+    requests.push({url, method: options.method, headers: options.headers});
+    if (options.method === 'put') {
+      writes += 1;
+      stored = JSON.parse(options.body);
+      etag = `synthetic-etag-${writes}`;
+      return new Response(null, {status: 200, headers: {etag}});
+    }
+    if (options.method === 'get' && stored !== null) {
+      return Response.json(stored, {headers: {etag}});
+    }
+    return new Response(null, {status: 404});
+  });
+  const audit = createNetlifyOperatorAudit({
+    environment: 'production', clock: () => base, randomUUID: () => claimIds[0],
+    getStore: options => getStore({
+      ...options, siteID: 'synthetic-site', token: 'synthetic-not-a-credential',
+      edgeURL: 'https://cached.example.invalid',
+      uncachedEdgeURL: 'https://strong.example.invalid', fetch: transport
+    })
+  });
+  const claim = await audit.claim(started());
+  assert.equal(claim.state, 'claimed');
+  assert.deepEqual(await audit.complete(completed(claim.claim_id)), {recorded: true});
+  assert.deepEqual(requests.map(request => request.method), ['put', 'get', 'get', 'put', 'get']);
+  assert.equal(requests[0].headers['if-none-match'], '*');
+  assert.equal(requests[3].headers['if-match'], 'synthetic-etag-1');
+  assert.ok(requests.filter(request => request.method === 'get')
+    .every(request => request.url.hostname === 'strong.example.invalid'));
+  assert.ok(requests.every(request => request.url.pathname.includes('/region:eu-central-1/')));
+  assert.ok(requests.every(request => request.url.pathname.includes(
+    '/site:cobro-pilot-operator-audit-production-v1'
+  )));
+});
+
+test('SDK method discovery rejects accessors without invoking them', () => {
+  let reads = 0;
+  assert.throws(() => createNetlifyOperatorAudit({
+    environment: 'test',
+    getStore: () => Object.defineProperties({}, {
+      setJSON: {get() { reads += 1; return async () => ({modified: false}); }},
+      getWithMetadata: {value: async () => null}
+    })
+  }), /Unsupported operator audit adapter/);
+  assert.equal(reads, 0);
+});
+
 test('operator gate composes with the adapter using only synthetic collaborators', async () => {
   const f = fixture();
   const gate = createPilotOperatorRepair({
