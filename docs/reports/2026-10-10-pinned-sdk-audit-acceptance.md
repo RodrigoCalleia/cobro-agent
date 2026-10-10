@@ -14,7 +14,7 @@ A separate runtime regression confirms that a stalled audit claim consumes the s
 - Complete repository suite: **294/294 passed**.
 - Static build passed with exactly two demo assets.
 - Independent pre-implementation audit identified the installed-SDK and per-stage timeout evidence as the correct next gap. Coordinator execution then exposed and corrected the SDK store-shape defect.
-- Netlify preview for the preceding hardening commit `e31b05a` is green; this commit requires its own preview check.
+- Netlify reports a green deploy preview for product commit `a1b72a7`.
 
 ## Boundary and next
 
