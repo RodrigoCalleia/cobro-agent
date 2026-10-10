@@ -25,4 +25,4 @@ Next coverage should isolate stalled repair and stalled terminal persistence, in
 
 ## Integration observation
 
-After the product preview succeeded, GitHub reported PR #7 as not mergeable against the current `main`. No rebase or conflict resolution was attempted in this cycle because the long-lived branch contains concurrent product and documentation history that must be reconciled explicitly. The latest documentation-only head still requires its own preview status.
+A later GitHub refresh reported PR #7 clean and mergeable, with `main` as merge base, 44 commits ahead and zero behind. The transient non-mergeable signal was not acted on. Independent comparison found a semantic merge risk instead: three current `main` documents appeared as removals. They are restored byte-for-byte in the follow-up integration-safety commit recorded in the workboard.

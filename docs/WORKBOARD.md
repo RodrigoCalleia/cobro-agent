@@ -525,4 +525,12 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - Netlify reports a green deploy preview for product commit a1b72a7. No route, scheduler, provider record, real operator/customer identity, capture, outreach or payment was enabled. Spend/revenue remain USD0/USD0.
 - Next: cover stalled repair and stalled terminal persistence, including late resolution and replay. Report: docs/reports/2026-10-10-pinned-sdk-audit-acceptance.md.
 
-- Integration observation: GitHub currently reports PR #7 as not mergeable against current main. Reconcile the long-lived branch without dropping concurrent work before merge; the latest documentation-only head still requires its own preview status.
+
+## Runtime terminal deadlines and merge safety — 2026-10-10
+
+- Two runtime regressions cover the remaining shared-deadline stages. A stalled repair returns unverified, appends no terminal audit and cannot continue after late resolution. A stalled terminal CAS also returns unverified; if the uncertain write later becomes durable, replay reads the terminal result without repeating repair.
+- Coordinator verification passed 296/296 tests and the static build produced exactly two assets.
+- Independent review confirmed PR #7 is currently clean, 44 commits ahead and zero behind main; rebaseable false is a history-shape limitation, not a textual conflict.
+- The same review found a semantic merge hazard: three current main documents appeared as deletions. This cycle restores docs/PLAYBOOK_VALIDACION_COMERCIAL.md, docs/reports/2026-10-07-commercial-validation-playbook.md and docs/reports/2026-10-08-mobile-readiness-accessibility.md byte-for-byte from main.
+- Before merge, repeat the compare and require zero unapproved removed files plus a green preview for the new head. No route, scheduler, capture, real repair, customer data, outreach or payment was enabled. Spend/revenue remain USD0/USD0.
+- Report: docs/reports/2026-10-10-runtime-timeouts-merge-safety.md.

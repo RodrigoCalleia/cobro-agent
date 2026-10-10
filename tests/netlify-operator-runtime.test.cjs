@@ -30,6 +30,74 @@ function authorized(now = Date.now()) {
     expires_at: new Date(now + 120000).toISOString()};
 }
 
+function stagedSDK({stallRepair = false, stallTerminal = false} = {}) {
+  const stores = new Map();
+  let auditWrites = 0;
+  let releaseRepair;
+  let releaseTerminal;
+  const record = {
+    contact_email: 'synthetic@example.invalid', business_name: 'Synthetic Agency',
+    contact_permission: true, request_id: command.request_id,
+    received_at: new Date(Date.now() - 1000).toISOString(), notice_version: 'synthetic-v1'
+  };
+  function storeFor(name) {
+    if (stores.has(name)) return stores.get(name);
+    const data = new Map(); let etag = 0;
+    if (name.includes('operator-audit')) {
+      const store = {
+        async setJSON(key, value, condition) {
+          auditWrites += 1;
+          const write = () => {
+            const current = data.get(key);
+            if (condition.onlyIfNew && current) return {modified: false};
+            if (condition.onlyIfMatch && (!current || current.etag !== condition.onlyIfMatch)) {
+              return {modified: false};
+            }
+            etag += 1;
+            data.set(key, {value: structuredClone(value), etag: `audit-${etag}`});
+            return {modified: true, etag: `audit-${etag}`};
+          };
+          if (stallTerminal && value.events.length === 2) {
+            return new Promise(resolve => { releaseTerminal = () => resolve(write()); });
+          }
+          return write();
+        },
+        async getWithMetadata(key) {
+          const current = data.get(key);
+          return current ? {data: structuredClone(current.value), etag: current.etag, metadata: {}} : null;
+        }
+      };
+      stores.set(name, store); return store;
+    }
+    const store = {
+      async setJSON(key, value, condition) {
+        const current = data.get(key);
+        if (condition?.onlyIfNew && current) return {modified: false};
+        data.set(key, structuredClone(value)); return {modified: true};
+      },
+      async get(key) {
+        if (stallRepair && name.includes('interest') && key === `requests/${command.request_id}`) {
+          return new Promise(resolve => { releaseRepair = () => resolve(structuredClone(record)); });
+        }
+        const value = data.get(key);
+        return value === undefined ? null : structuredClone(value);
+      },
+      async delete(key) { return {deleted: data.delete(key)}; },
+      async *list({prefix = ''} = {}) {
+        yield {blobs: [...data.keys()].filter(key => key.startsWith(prefix)).map(key => ({key})), directories: []};
+      }
+    };
+    if (name.includes('interest')) data.set(`requests/${command.request_id}`, record);
+    stores.set(name, store); return store;
+  }
+  return {
+    sdk: {getStore: options => storeFor(options.name)},
+    releaseRepair: () => releaseRepair?.(),
+    releaseTerminal: () => releaseTerminal?.(),
+    auditWrites: () => auditWrites
+  };
+}
+
 test('opens only for the published production site and shares the deadline with authorization', async () => {
   let calls = 0;
   const runtime = await openPublishedOperatorRepair(published, keyring, {
@@ -87,6 +155,36 @@ test('a stalled audit claim consumes the shared budget and cannot start repair s
   });
   assert.deepEqual(await runtime.execute(command), {state: 'unverified'});
   assert.equal(repairCalls, 0);
+});
+
+test('a stalled repair cannot append a terminal audit even after late resolution', async () => {
+  const staged = stagedSDK({stallRepair: true});
+  const runtime = await openPublishedOperatorRepair(published, keyring, {
+    timeoutMs: 20, loadSDK: async () => staged.sdk,
+    fetchImpl: async () => new Response('{}'), authorize: async () => authorized()
+  });
+  assert.deepEqual(await runtime.execute(command), {state: 'unverified'});
+  assert.equal(staged.auditWrites(), 1);
+  staged.releaseRepair();
+  await new Promise(resolve => setTimeout(resolve, 30));
+  assert.equal(staged.auditWrites(), 1);
+});
+
+test('a stalled terminal write returns unverified and a durable late write is replay-safe', async () => {
+  const staged = stagedSDK({stallTerminal: true});
+  const options = {
+    timeoutMs: 20, loadSDK: async () => staged.sdk,
+    fetchImpl: async () => new Response('{}'), authorize: async () => authorized()
+  };
+  const runtime = await openPublishedOperatorRepair(published, keyring, options);
+  assert.deepEqual(await runtime.execute(command), {state: 'unverified'});
+  assert.equal(staged.auditWrites(), 2);
+  staged.releaseTerminal();
+  await new Promise(resolve => setTimeout(resolve, 30));
+  const replay = await openPublishedOperatorRepair(published, keyring, {...options, timeoutMs: 1000});
+  assert.deepEqual(await replay.execute(command), {state: 'completed', outcome: 'indexed-confirmed'});
+  // Replay performs one create-only claim probe, then reads the durable terminal event.
+  assert.equal(staged.auditWrites(), 3);
 });
 
 test('verified audit transport rejects unexpected PUT success before readback', async () => {
