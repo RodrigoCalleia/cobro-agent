@@ -21,3 +21,8 @@ A separate runtime regression confirms that a stalled audit claim consumes the s
 All SDK traffic was synthetic and in-process; no real provider record, credential, identity, customer data or repair was used. No route, scheduler or capture path imports this operator runtime. Capture and real repairs remain disabled.
 
 Next coverage should isolate stalled repair and stalled terminal persistence, including late resolution and replay behavior. Recorded spend **USD 0**; recorded revenue **USD 0**; verified leads/customers **0**.
+
+
+## Integration observation
+
+After the product preview succeeded, GitHub reported PR #7 as not mergeable against the current `main`. No rebase or conflict resolution was attempted in this cycle because the long-lived branch contains concurrent product and documentation history that must be reconciled explicitly. The latest documentation-only head still requires its own preview status.

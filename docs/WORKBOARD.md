@@ -524,3 +524,5 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - Independent audit selected SDK-backed CAS and per-stage timeout evidence as the highest-value gap. Coordinator verification: 22/22 focused tests, 294/294 full tests and a static build with exactly two assets.
 - Netlify reports a green deploy preview for product commit a1b72a7. No route, scheduler, provider record, real operator/customer identity, capture, outreach or payment was enabled. Spend/revenue remain USD0/USD0.
 - Next: cover stalled repair and stalled terminal persistence, including late resolution and replay. Report: docs/reports/2026-10-10-pinned-sdk-audit-acceptance.md.
+
+- Integration observation: GitHub currently reports PR #7 as not mergeable against current main. Reconcile the long-lived branch without dropping concurrent work before merge; the latest documentation-only head still requires its own preview status.
