@@ -546,3 +546,16 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - Production deploy status for merge commit c86f14d was not yet reported by GitHub at closeout; do not infer publication from the successful PR preview.
 - Spend/revenue remain USD0/USD0; verified leads/customers remain 0.
 - Report: docs/reports/2026-10-10-pr7-integration.md.
+
+
+## Production demo drift verification — 2026-10-10
+
+- The refreshed public site at https://cobro-agent-rodrigo.netlify.app/ still shows the older `Cobro · prototipo` / `cobro.` experience and the old action labels.
+- Merged `main` at `cea02c8` contains the new `Rondacobro · simulación B2B` visual, product-status card and updated workspace/action copy. Therefore the latest integrated revision is not yet proven published.
+- Independent read-only review confirmed production is stale but could not determine whether the cause is a missing build, incorrect branch/publish directory or older production assignment.
+- The available Netlify dashboard requires authentication, so the production deploy ID/log and retry controls could not be inspected. GitHub reports no commit status for `cea02c8`; do not infer deployment.
+- The observed old production remains explicitly demo-only: no email, payments, registration or storage is presented as connected, and no capture input was observed. This cycle did not call the disabled capture endpoint or execute any repair/provider write.
+- No code changed, so the already accepted 296-test suite was not repeated without new product evidence.
+- Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
+- [Verification report](reports/2026-10-10-production-demo-verification.md).
+- Next: authenticate to the existing Netlify project, inspect the production assignment, rebuild/promote merged `main` while keeping capture and repairs disabled, then verify the public Rondacobro markers on desktop/mobile.
