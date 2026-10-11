@@ -572,3 +572,16 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
 - [Cycle report](reports/2026-10-10-netlify-production-recovery.md).
 - Next: obtain authenticated access to the existing Netlify project, execute the bounded recovery and record deploy ID/source commit/public evidence before declaring publication.
+
+## Draft PR #8 port to current Rondacobro — 2026-10-10
+
+- Reconciled the existing draft follow-up simulation with current `main` using a two-parent merge candidate; no competing product PR was created.
+- The sole textual conflict was `index.html`. Resolution preserves the current Rondacobro identity, hero, pilot, metrics, workspace and blue focus system while porting only the fictional follow-up modal/status/handlers.
+- Unpaid demo invoices can change or clear dispute, promise and last-contact context; the same invoice is recalculated while identity, amount and due date remain fixed. Paid invoices stay protected.
+- Accessibility port includes 44px controls, a named/focusable horizontal invoice region, invoice-specific action names and focus restoration after save.
+- Complete suite: **309/309 passed**. Static build produced exactly two public demo assets. Independent review ran **9/9** synthetic helper probes and approved the minimum-delta approach.
+- No public capture, provider write, storage, repair route, scheduler, email, payment or real data was connected.
+- Netlify reports a successful preview build for the reconciled PR head at `https://deploy-preview-8--cobro-agent-rodrigo.netlify.app`, but unauthenticated access redirects to Team Protection. Hosted desktop and native mobile/touch acceptance therefore remain unverified; PR #8 stays draft and its preview must not be promoted to production.
+- Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
+- [Cycle report](reports/2026-10-10-followup-port-main.md).
+- Next: use authorized preview access to inspect desktop and narrow mobile behavior; keep production recovery separate.
