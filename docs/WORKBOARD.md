@@ -588,3 +588,13 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - No code or provider configuration changed. Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
 - [Cycle report](reports/2026-10-16-tiendanube-market-entry.md).
 - Next: build the smallest private integration contract and threat/privacy checklist before requesting app homologation or public listing.
+
+
+## Tiendanube private integration contract — 2026-10-16
+
+- Added [minimum private integration contract](TIENDANUBE_PRIVATE_INTEGRATION.md) covering OAuth installation boundaries, minimum order-read scope, normalization, merchant approval, audit, privacy separation, idempotency and one shared abortable deadline.
+- Added [cycle report](reports/2026-10-16-tiendanube-private-contract.md). This is documentation only: no code, route, OAuth, real storage, messaging, billing or provider account was activated.
+- Acceptance is explicitly synthetic first: invalid authorization/store binding fails closed; pagination/rate limits do not duplicate; approvals do not send; timeout returns unverified; fixtures/logs are synthetic.
+- Verification: no product suite rerun because no code changed. Independent contract audit completed with no critical architectural blocker.
+- Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
+- Next: implement only a disconnected adapter with synthetic fixtures; do not request credentials or pursue homologation until privacy/support gates are satisfied.
