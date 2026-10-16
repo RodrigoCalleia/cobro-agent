@@ -572,3 +572,19 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
 - [Cycle report](reports/2026-10-10-netlify-production-recovery.md).
 - Next: obtain authenticated access to the existing Netlify project, execute the bounded recovery and record deploy ID/source commit/public evidence before declaring publication.
+
+
+## Tiendanube/Nuvemshop market-entry research — 2026-10-16
+
+- Independent research and audit confirm that Rondacobro is technically viable as a Tiendanube/Nuvemshop app, but no app account, OAuth installation, customer data, billing or public listing was activated in this cycle.
+- Official developer overview: [Tiendanube API and publication](https://tiendanube.dev/overview).
+- Official partner program: [Socios Tecnológicos](https://www.tiendanube.com/socios/tecnologicos). It provides app visibility, technical support and a commission model; participation requires approved integrations, quality and local-language support.
+- MVP boundary: backend/Admin app only. Request the minimum scopes, starting with order reads; do not request payment or write scopes until a demonstrated use case requires them.
+- Proposed flow: OAuth installation → read orders → classify follow-up candidates → merchant review/approval → simulated or authorized follow-up → audit record.
+- Do not poll continuously; use webhooks, pagination and rate-limit handling. Do not send customer messages from Tiendanube alone; email/WhatsApp require a separate consented integration.
+- Homologation prerequisites include a sequence diagram, demo video, validation access and a complete testable flow. Apps that only use the API/Admin do not require NubeSDK; storefront or checkout script injection does.
+- Expansion order: Tiendanube Argentina pilot → Nuvemshop Brazil with Portuguese/local compliance → Chile/Colombia/Mexico → Shopify/WooCommerce → other marketplaces.
+- Independent audit: strategy approved with no critical blocker; current blockers are real OAuth/backend installation, app-specific privacy policy, developer/Partner Portal account, demo store and a complete support/contact path.
+- No code or provider configuration changed. Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
+- [Cycle report](reports/2026-10-16-tiendanube-market-entry.md).
+- Next: build the smallest private integration contract and threat/privacy checklist before requesting app homologation or public listing.
