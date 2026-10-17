@@ -4,7 +4,7 @@ const MAX_ORDERS = 100;
 const idPattern = /^[1-9][0-9]{0,63}$/u;
 const statusPattern = /^[a-z][a-z0-9_-]{0,31}$/u;
 const currencyPattern = /^[A-Z]{3}$/u;
-const isoPattern = /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$/u;
+const isoPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?Z$/u;
 
 function invalid(message) { throw new TypeError(message); }
 function requiredString(value, pattern, name) {
@@ -18,7 +18,7 @@ function optionalIso(value, name) {
   return value;
 }
 function normalizeMoney(value, name) {
-  if (typeof value !== 'string' || !/^\\d{1,12}(?:\\.\\d{1,2})?$/u.test(value)) invalid('Invalid ' + name);
+  if (typeof value !== 'string' || !/^\d{1,12}(?:\.\d{1,2})?$/u.test(value)) invalid('Invalid ' + name);
   return value;
 }
 
@@ -62,7 +62,7 @@ function normalizeTiendanubeOrders(payload, {storeId, hashCustomer} = {}) {
   });
   const next = payload.paging && payload.paging.next_url;
   if (next !== undefined && next !== null &&
-      (typeof next !== 'string' || next.length > 2048 || !/^https:\\/\\/(?:api\\.)?(?:tiendanube|nuvemshop)\\.com\\//u.test(next))) {
+      (typeof next !== 'string' || next.length > 2048 || !/^https:\/\/(?:api\.)?(?:tiendanube|nuvemshop)\.com\//u.test(next))) {
     invalid('Invalid pagination URL');
   }
   return Object.freeze({store_id: storeId, orders: Object.freeze(orders), next_url: next ?? null});
