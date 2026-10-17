@@ -69,11 +69,14 @@ function normalizeTiendanubeOrders(payload, {storeId, provider = 'tiendanube', h
     });
   });
   const next = payload.paging && payload.paging.next_url;
-  if (next !== undefined && next !== null &&
-      (typeof next !== 'string' || next.length > 2048 || !/^https:\\/\\/(?:api\\.)?(?:tiendanube|nuvemshop)\\.com\\//u.test(next))) {
-    invalid('Invalid pagination URL');
+  if (next !== undefined && next !== null) {
+    let parsed;
+    try { parsed = new URL(next); } catch { invalid('Invalid pagination URL'); }
+    const allowedHost = provider === 'nuvemshop' ? 'api.nuvemshop.com' : 'api.tiendanube.com';
+    if (parsed.protocol !== 'https:' || parsed.hostname !== allowedHost ||
+        parsed.username || parsed.password || next.length > 2048) invalid('Invalid pagination URL');
   }
-  return Object.freeze({store_id: storeId, orders: Object.freeze(orders), next_url: next ?? null});
+  return Object.freeze({store_id: storeId, orders: Object.freeze(orders), has_next_page: next !== undefined && next !== null});
 }
 
 module.exports = {normalizeTiendanubeOrders, MAX_ORDERS};
