@@ -607,4 +607,4 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - Focused tests cover seven acceptance/rejection cases and passed **7/7** from the exact branch source under Node 22. Exact-branch full suite then passed **303/303** under Node 24; PR #12 remains draft.
 - No real provider data, app account, credentials, leads or customers. Spend USD 0; revenue USD 0; verified leads/customers 0.
 - Report: [2026-10-17 Tiendanube synthetic order adapter](reports/2026-10-17-tiendanube-order-adapter.md).
-- Next: run the exact-clone full suite and independent review; keep authorization and production activation blocked until privacy/support/homologation prerequisites are met.
+- Next: close the independent final review, then decide whether PR #12 is ready for review; keep authorization and production activation blocked until privacy/support/homologation prerequisites are met.
