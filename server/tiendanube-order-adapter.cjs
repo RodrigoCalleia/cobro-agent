@@ -4,7 +4,7 @@ const MAX_ORDERS = 100;
 const idPattern = /^[1-9][0-9]{0,63}$/u;
 const statusPattern = /^[a-z][a-z0-9_-]{0,31}$/u;
 const currencyPattern = /^[A-Z]{3}$/u;
-const isoPattern = /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$/u;
+const isoPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?Z$/u;
 
 function invalid(message) { throw new TypeError(message); }
 function plainObject(value, name) {
@@ -19,13 +19,13 @@ function requiredString(value, pattern, name) {
 function optionalIso(value, name) {
   if (value === undefined || value === null) return null;
   requiredString(value, isoPattern, name);
-  const match = value.match(/^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(?:\\.\\d{1,6})?Z$/u);
+  const match = value.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d{1,6})?Z$/u);
   const instant = Date.parse(value);
   if (!match || !Number.isFinite(instant) || new Date(instant).toISOString().slice(0, 19) !== value.slice(0, 19)) invalid('Invalid ' + name);
   return value;
 }
 function normalizeMoney(value, name) {
-  if (typeof value !== 'string' || !/^\\d{1,12}(?:\\.\\d{1,2})?$/u.test(value)) invalid('Invalid ' + name);
+  if (typeof value !== 'string' || !/^\d{1,12}(?:\.\d{1,2})?$/u.test(value)) invalid('Invalid ' + name);
   return value;
 }
 
