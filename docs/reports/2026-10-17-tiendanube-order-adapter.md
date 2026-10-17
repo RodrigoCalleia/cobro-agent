@@ -9,7 +9,7 @@
 ## Verification
 - Focused adapter tests: 7/7 expected cases.
 - This change is prepared through the existing private integration branch and remains synthetic only.
-- Focused tests were executed from the exact branch source via Node 22: **7/7 passed** after the independent audit fixes. The full repository suite must still run from an exact clone before merge.
+- Focused tests were executed from the exact branch source via Node 22: **7/7 passed** after the independent audit fixes. The exact-branch full repository suite then passed **303/303** under Node 24.
 
 ## Accounting and blockers
 - Spend USD 0; revenue USD 0; verified leads/customers 0.
