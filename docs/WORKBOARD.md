@@ -598,3 +598,13 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - Verification: no product suite rerun because no code changed. Independent contract audit completed with no critical architectural blocker.
 - Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
 - Next: implement only a disconnected adapter with synthetic fixtures; do not request credentials or pursue homologation until privacy/support gates are satisfied.
+
+
+## Tiendanube synthetic order adapter — 2026-10-17
+
+- Continued PR #12 with a disconnected pure adapter for bounded read-only order pages; it binds every normalized record to a store and omits raw customer email/PII.
+- Added strict validation for IDs, duplicate pages, status, money/currency, timestamps, provider-domain pagination and a 100-order page cap. Customer references require an injected one-way hash; no default hashing, network, OAuth, webhook, storage, message or billing path exists.
+- Focused tests cover seven acceptance/rejection cases. Full repository suite must run from an exact clone before merge; PR #12 remains draft.
+- No real provider data, app account, credentials, leads or customers. Spend USD 0; revenue USD 0; verified leads/customers 0.
+- Report: [2026-10-17 Tiendanube synthetic order adapter](reports/2026-10-17-tiendanube-order-adapter.md).
+- Next: run the exact-clone full suite and independent review; keep authorization and production activation blocked until privacy/support/homologation prerequisites are met.
