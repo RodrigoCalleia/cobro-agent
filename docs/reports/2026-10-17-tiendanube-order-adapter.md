@@ -13,4 +13,4 @@
 
 ## Accounting and blockers
 - Spend USD 0; revenue USD 0; verified leads/customers 0.
-- Still blocked on developer/Partner Portal access, real OAuth installation, privacy/support/contact material, demo store and homologation. Keep PR #12 draft.
+- Still blocked on developer/Partner Portal access, real OAuth installation, privacy/support/contact material, demo store and homologation. Keep PR #12 draft pending the independent final review; do not request OAuth or provider access yet.
