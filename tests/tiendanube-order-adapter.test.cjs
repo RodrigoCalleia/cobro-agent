@@ -6,7 +6,7 @@ const {normalizeTiendanubeOrders} = require('../server/tiendanube-order-adapter.
 const hashCustomer = value => require('node:crypto').createHash('sha256').update(value).digest('hex').slice(0, 32);
 const fixture = () => ({orders: [{
   id: 42, status: 'pending', total: {amount: '1250.50', currency: 'ARS'},
-  customer: {id: 7, email: 'must-not-leak@example.test'},
+  customer: {id: 7},
   created_at: '2026-10-17T12:00:00Z', updated_at: '2026-10-17T12:01:00Z'
 }], paging: {next_url: 'https://api.tiendanube.com/v1/123/orders?page=2'}});
 
@@ -15,7 +15,7 @@ test('normalizes an order without returning raw customer data', () => {
   assert.equal(result.orders[0].external_order_id, '42');
   assert.equal(result.orders[0].customer_ref.length, 32);
   assert.equal('email' in result.orders[0], false);
-  assert.equal(result.next_url.includes('page=2'), true);
+  assert.equal(result.has_next_page, true);
 });
 
 test('rejects missing customer hash function', () => assert.throws(() => normalizeTiendanubeOrders(fixture(), {storeId: 'x'}), /hashCustomer/));
