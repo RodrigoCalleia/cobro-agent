@@ -588,3 +588,23 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - No code or provider configuration changed. Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
 - [Cycle report](reports/2026-10-16-tiendanube-market-entry.md).
 - Next: build the smallest private integration contract and threat/privacy checklist before requesting app homologation or public listing.
+
+
+## Tiendanube private integration contract — 2026-10-16
+
+- Added [minimum private integration contract](TIENDANUBE_PRIVATE_INTEGRATION.md) covering OAuth installation boundaries, minimum order-read scope, normalization, merchant approval, audit, privacy separation, idempotency and one shared abortable deadline.
+- Added [cycle report](reports/2026-10-16-tiendanube-private-contract.md). This is documentation only: no code, route, OAuth, real storage, messaging, billing or provider account was activated.
+- Acceptance is explicitly synthetic first: invalid authorization/store binding fails closed; pagination/rate limits do not duplicate; approvals do not send; timeout returns unverified; fixtures/logs are synthetic.
+- Verification: no product suite rerun because no code changed. Independent contract audit completed with no critical architectural blocker.
+- Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
+- Next: implement only a disconnected adapter with synthetic fixtures; do not request credentials or pursue homologation until privacy/support gates are satisfied.
+
+
+## Tiendanube synthetic order adapter — 2026-10-17
+
+- Continued PR #12 with a disconnected pure adapter for bounded read-only order pages; it binds every normalized record to a store and omits raw customer email/PII.
+- Added strict validation for plain objects, provider IDs, duplicate pages, status, money/currency, calendar timestamps, provider-domain pagination and a 100-order page cap. Customer references require an injected one-way hash; raw email is excluded and only a boolean pagination marker is returned. No default hashing, network, OAuth, webhook, storage, message or billing path exists.
+- Focused tests cover seven acceptance/rejection cases and passed **7/7** from the exact branch source under Node 22. Exact-branch full suite then passed **303/303** under Node 24; PR #12 remains draft.
+- No real provider data, app account, credentials, leads or customers. Spend USD 0; revenue USD 0; verified leads/customers 0.
+- Report: [2026-10-17 Tiendanube synthetic order adapter](reports/2026-10-17-tiendanube-order-adapter.md).
+- Next: close the independent final review, then decide whether PR #12 is ready for review; keep authorization and production activation blocked until privacy/support/homologation prerequisites are met.
