@@ -15,7 +15,7 @@ PR: #13 (draft, abierto)
 - PR #13 continúa abierto y draft.
 - La lista actual de archivos modificados del PR es: `docs/PROSPECT_MAP_PROTOCOL.md`, `docs/ROADMAP_VALIDACION_COMERCIAL.md`, `docs/WORKBOARD.md`, `docs/reports/2026-10-25-gesinco-benchmark.md` y `docs/reports/2026-10-25-prospect-map-protocol.md`.
 - El cambio es exclusivamente documental; no requiere suite de código.
-- El preview de Netlify del PR fue reportado como listo para el commit `dc9bb4b`; se lo trata sólo como preview documental, no como despliegue del MVP ni integración en `main`.
+- Netlify reportó un preview listo para el commit anterior `dc9bb4b`; tras los commits de este ciclo no se verificó un preview nuevo. En cualquier caso, se trata sólo de un preview documental, no de un despliegue del MVP ni una integración en `main`.
 - No se enviaron mensajes, no se agregaron contactos y no se usaron datos de deudores.
 
 ## Estado del roadmap
