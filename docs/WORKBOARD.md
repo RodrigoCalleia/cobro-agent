@@ -591,7 +591,8 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 
 ## Market-entry benchmarking — 2026-10-25
 
-- Added [benchmark report](reports/2026-10-25-gesinco-benchmark.md) covering public signals from GESINCO, Gutnova, Cobrofy, Debitia and Caudo.
+- Added [benchmark report](reports/2026-10-25-gesinco-benchmark.md) covering 10 public references: GESINCO, Cobrofy, Debitia, Caudo, Gutnova, Tiendanube/Nuvemshop, Webflow ADV, NexoSmart, Sistemas Plenario and Credituls.
+- The 10-reference benchmark milestone is complete; prospect map, interviews, trials and paid pilot remain at 0 and are not implied by this research.
 - GESINCO is treated as a benchmark of professional recupero, scale, trust and reporting—not as a prospect. Cobrofy and Debitia benchmark SaaS automation and multichannel product scope.
 - Product implication: position Rondacobro in early-stage B2B follow-up with human approval, explanations, traceability and low-friction onboarding, rather than competing directly for late-stage recovery portfolios.
 - No private debtor data, personal contacts, outreach, customer evidence, payments or configuration changes were used. Spend USD 0; revenue USD 0; verified leads/customers 0.
