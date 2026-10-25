@@ -64,7 +64,7 @@ Solicitar 20 minutos, sin vender ni pedir datos reales al inicio.
 
 Registrar respuestas de forma agregada y con autorización. Un dolor cuenta como recurrente sólo cuando aparece en tres entrevistas independientes y se conserva evidencia resumida.
 
-## Gatos de validación comercial
+## Hitos de validación comercial
 
 - **Entrevista:** conversación realizada y registrada en el espacio privado autorizado.
 - **Dolor confirmado:** mismo problema observado en tres organizaciones independientes.
