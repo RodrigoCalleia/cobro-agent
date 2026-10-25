@@ -595,4 +595,5 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - GESINCO is treated as a benchmark of professional recupero, scale, trust and reporting—not as a prospect. Cobrofy and Debitia benchmark SaaS automation and multichannel product scope.
 - Product implication: position Rondacobro in early-stage B2B follow-up with human approval, explanations, traceability and low-friction onboarding, rather than competing directly for late-stage recovery portfolios.
 - No private debtor data, personal contacts, outreach, customer evidence, payments or configuration changes were used. Spend USD 0; revenue USD 0; verified leads/customers 0.
-- Branch: `research/benchmark-gesinco-2026-10-25`. PR pending creation after review.
+- Branch: `research/benchmark-gesinco-2026-10-25`. [PR #13](https://github.com/RodrigoCalleia/cobro-agent/pull/13) remains draft.
+- Definitive commercial decision recorded in [ROADMAP_VALIDACION_COMERCIAL.md](ROADMAP_VALIDACION_COMERCIAL.md): validate a narrow early-B2B-follow-up wedge before OAuth, messaging, payments or broad integrations.
