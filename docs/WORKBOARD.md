@@ -598,4 +598,4 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - No private debtor data, personal contacts, outreach, customer evidence, payments or configuration changes were used. Spend USD 0; revenue USD 0; verified leads/customers 0.
 - Branch: `research/benchmark-gesinco-2026-10-25`. [PR #13](https://github.com/RodrigoCalleia/cobro-agent/pull/13) remains draft.
 - Definitive commercial decision recorded in [ROADMAP_VALIDACION_COMERCIAL.md](ROADMAP_VALIDACION_COMERCIAL.md): validate a narrow early-B2B-follow-up wedge before OAuth, messaging, payments or broad integrations.
-- Added [prospect-map and interview protocol](PROSPECT_MAP_PROTOCOL.md) for private execution. Actual prospect records remain outside this public repository; verified counts remain 0/30 prospects and 0/10 interviews.
+- Added [prospect-map and interview protocol](PROSPECT_MAP_PROTOCOL.md) for private execution. Actual prospect records remain outside this public repository; verified counts remain 0/30 prospects and 0/10 interviews. [Cycle report](reports/2026-10-25-prospect-map-protocol.md).
