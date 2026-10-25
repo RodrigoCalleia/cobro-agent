@@ -93,3 +93,46 @@ Esto es una hipótesis, no una afirmación validada.
 - Gasto registrado: USD 0.
 - Ingresos registrados: USD 0.
 - Clientes/leads verificados: 0.
+
+## Segunda ronda de benchmarking — 2026-10-25
+
+Se agregaron tres referencias públicas para no limitar el mapa a GESINCO:
+
+### Caudo — automatización simple para empresas y cuotas
+
+Fuente: https://caudo.app/
+
+- Promete recordatorios automáticos por WhatsApp y links de pago de Mercado Pago.
+- Comunica alta simplicidad de configuración y prueba inicial sin tarjeta.
+- Presenta calendarios, segmentación, historial y exportación.
+
+Lectura: compite por facilidad y ejecución automática. Rondacobro no debe copiar el envío automático sin antes resolver consentimiento, aprobación y trazabilidad.
+
+### Debitia — plataforma integral de cuentas por cobrar
+
+Fuentes: https://debitia.com.ar/ y https://debitia.com.ar/programa-de-cuentas-por-cobrar/
+
+- Comunica estrategias automáticas, priorización, canales digitales, tableros y reportes.
+- Se posiciona para múltiples industrias y tamaños de empresa.
+- Afirma operar con más de 200 clientes en Latinoamérica en una página institucional; esto es una afirmación del proveedor, no una métrica auditada por Rondacobro.
+
+Lectura: es un benchmark de amplitud funcional y operación integral, no un modelo que debamos replicar en el MVP.
+
+### Gutnova — recupero tecnológico de carteras
+
+Fuente: https://gutnova.ar/
+
+- Se presenta como tecnología aplicada a recupero de cartera para bancos, fintech, telecomunicaciones, retailers y seguros.
+
+Lectura: refuerza la separación entre recupero profesional/enterprise y el nicho inicial de seguimiento temprano para PyMEs.
+
+## Decisión actualizada
+
+El mapa competitivo confirma dos espacios distintos:
+
+1. Recupero profesional y carteras grandes: GESINCO y Gutnova.
+2. Automatización de cuentas por cobrar: Cobrofy, Debitia y Caudo.
+
+Rondacobro seguirá entrando por un tercer ángulo: control temprano de facturas B2B con datos simples, aprobación humana, explicación de la prioridad y auditoría. La automatización de WhatsApp, pagos y plataformas externas queda después de validar disposición de pago.
+
+No se incorporaron contactos personales, datos de deudores, clientes, pagos ni métricas propias. Gasto USD 0; ingresos USD 0; leads/clientes verificados 0.
