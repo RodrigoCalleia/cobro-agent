@@ -136,3 +136,55 @@ El mapa competitivo confirma dos espacios distintos:
 Rondacobro seguirá entrando por un tercer ángulo: control temprano de facturas B2B con datos simples, aprobación humana, explicación de la prioridad y auditoría. La automatización de WhatsApp, pagos y plataformas externas queda después de validar disposición de pago.
 
 No se incorporaron contactos personales, datos de deudores, clientes, pagos ni métricas propias. Gasto USD 0; ingresos USD 0; leads/clientes verificados 0.
+
+## Tercera ronda: cierre de 10 referentes — 2026-10-25
+
+Se completó el objetivo de 10 referentes públicos documentados. Los cuatro nuevos benchmarks son:
+
+### Webflow ADV
+
+Fuente: https://webflow.com.ar/cobranzas/
+
+- Plataforma configurable para administrar recupero de punta a punta.
+- Reúne carteras, deudas, legajos, estrategias, contactos, promesas, pagos y reportes con trazabilidad.
+
+Lectura: benchmark de suite integral y configurable para organizaciones con operación de cobranzas propia o de terceros.
+
+### NexoSmart
+
+Fuentes: https://www.nexosmart.com.ar/soluciones/sistema-cobranzas/ y https://www.nexosmart.com.ar/soluciones/agente-ia-cobranza-whatsapp/
+
+- Comunica segmentación por antigüedad y monto, recordatorios escalonados, links de pago y dashboard.
+- También presenta agentes de IA por WhatsApp con reglas, aprobación de casos sensibles y derivación humana.
+
+Lectura: benchmark de automatización conversacional; confirma que aprobación humana y derivación pueden ser diferenciadores, pero no justifican construir WhatsApp antes de validar pago.
+
+### Sistemas Plenario
+
+Fuentes: https://sistemasplenario.com.ar/ y https://sistemasplenario.com.ar/modulos/motor-cobranza.html
+
+- Suite para financieras y fintech con cuentas corrientes, motor de cobranza, motor de decisión, contabilidad y reporting.
+- Su motor revisa cartera y define cuotas a gestionar dentro de una operación financiera más amplia.
+
+Lectura: benchmark enterprise/financiero; fuera del alcance inicial de Rondacobro.
+
+### Credituls
+
+Fuentes: https://credituls.com/ y https://credituls.com/plataforma/cobranzas-y-recupero/
+
+- Plataforma que conecta créditos, cobranzas y gestión financiera para financieras, mutuales y cooperativas.
+- Presenta módulos de cartera, cobranzas, reportes y cumplimiento.
+
+Lectura: benchmark vertical para entidades reguladas o especializadas, no objetivo inicial.
+
+## Cierre del mapa de referentes
+
+Referentes documentados: 10 (GESINCO, Cobrofy, Debitia, Caudo, Gutnova, Tiendanube/Nuvemshop, Webflow ADV, NexoSmart, Sistemas Plenario y Credituls).
+
+El mapa confirma tres capas:
+
+1. Recupero profesional y carteras grandes.
+2. Plataformas integrales para entidades financieras.
+3. Automatización de cuentas por cobrar para PyMEs y equipos pequeños.
+
+Rondacobro permanece en una cuarta posición de entrada: seguimiento temprano B2B, con importación simple, priorización, aprobación humana, borradores y auditoría. No se agregaron prospectos, contactos, clientes, pagos ni métricas propias. Gasto USD 0; ingresos USD 0; leads/clientes verificados 0.
