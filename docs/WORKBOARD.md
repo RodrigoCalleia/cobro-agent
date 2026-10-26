@@ -123,6 +123,15 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - [Cycle report](reports/2026-10-06-storage-deadline.md).
 - Next: verify the unavailable handler with authenticated project access, inspect checks/source/main and integrate PR #7 when its acceptance requirement passes. Continue privacy/contact and parsing/rate/notice/retry/retention prerequisites before enabling capture.
 
+## CSV import preparation — 2026-10-26
+
+PR #14 adds a local CSV import control to the fictional invoice demo, accepting `id,client,amount,due,promise,state`. Imported rows are validated by the existing deterministic engine; invalid and duplicate rows are skipped. Data stays in browser memory; there is no endpoint, persistence, contact capture, email delivery, real invoice operation or billing.
+
+- Isolated branch: `product/csv-import-2026-10-26`; PR: https://github.com/RodrigoCalleia/cobro-agent/pull/14.
+- Embedded JavaScript syntax passed; Netlify deploy preview status is successful at https://deploy-preview-14--cobro-agent-rodrigo.netlify.app.
+- Full Node suite and manual mobile/desktop verification remain pending. Keep PR #14 draft and do not call this integrated or production-deployed until those checks pass and the PR is merged.
+- Spend USD 0; revenue USD 0; no customer/contact data.
+
 ## Working roles
 
 - Coordinator: select the next useful task, integrate bounded work, check evidence and report.
