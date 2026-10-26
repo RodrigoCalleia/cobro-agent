@@ -22,3 +22,11 @@ This is an MVP preparation step for the agreed CSV/Excel workflow. It does not c
 The PR is still open and draft. Manual mobile/desktop visual verification remains pending. Do not describe CSV import as integrated or deployed to production until those checks pass and the PR is merged.
 
 Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+
+## Visual verification attempt — 2026-10-26
+
+- The requested public preview URL was opened read-only, but Netlify Team Protection redirected it to a sign-in wall ("This site is private"). No preview UI could be inspected from this session.
+- The existing public production URL remained reachable and showed the older `Cobro · prototipo` experience; it does not contain the PR #14 CSV control. This is expected because PR #14 is not merged or deployed, and is not evidence of a failed CSV implementation.
+- Desktop/mobile visual acceptance therefore remains **not verified**. Do not merge or call the feature integrated/deployed until an authorized preview session is available and both viewport checks pass.
+- No login was attempted, no settings were changed, and no external message or spend occurred.
