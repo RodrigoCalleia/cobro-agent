@@ -598,3 +598,15 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - No code or provider configuration changed. Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
 - [Cycle report](reports/2026-10-16-tiendanube-market-entry.md).
 - Next: build the smallest private integration contract and threat/privacy checklist before requesting app homologation or public listing.
+
+
+## CSV import hardening — 2026-10-26
+
+Continued PR #14 on its isolated branch.
+
+- The local CSV parser now accepts quoted fields and commas inside quoted values; the UI shows the expected column format beside the import control.
+- No backend, persistence, contacts, messaging, payment or real-invoice behavior was added.
+- Exact head `ad2f2fc` passed a repeat full suite at **296/296** and static build with two assets. The first run had one intermittent existing runtime timeout test failure; it did not reproduce on immediate repeat and is recorded in the cycle report.
+- PR #14 remains draft/unmerged. Netlify Team Protection still blocks visual desktop/mobile acceptance, and production is not claimed updated.
+- Spend/revenue remain USD0/USD0.
+- Report: [CSV import hardening](reports/2026-10-26-csv-import.md).
