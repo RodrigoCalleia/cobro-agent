@@ -30,3 +30,12 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - The existing public production URL remained reachable and showed the older `Cobro · prototipo` experience; it does not contain the PR #14 CSV control. This is expected because PR #14 is not merged or deployed, and is not evidence of a failed CSV implementation.
 - Desktop/mobile visual acceptance therefore remains **not verified**. Do not merge or call the feature integrated/deployed until an authorized preview session is available and both viewport checks pass.
 - No login was attempted, no settings were changed, and no external message or spend occurred.
+
+
+## Follow-up hardening — 2026-10-26
+
+- Improved the local parser to accept quoted CSV fields and preserve commas inside quoted values.
+- Added an inline format hint next to the import control.
+- Change commit: `06265c3f5094e7fd35f6dcd1e1caad2bf6e7bd6a`.
+- This remains browser-local and does not alter contact, persistence, messaging, payment or backend scope.
+- The full suite and static build should be rerun from this exact head before merge; visual desktop/mobile acceptance remains blocked by Netlify Team Protection.
