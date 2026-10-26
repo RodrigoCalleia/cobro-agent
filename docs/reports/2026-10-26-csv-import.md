@@ -14,9 +14,11 @@ This is an MVP preparation step for the agreed CSV/Excel workflow. It does not c
 - Netlify deploy preview status: successful
 - Preview: https://deploy-preview-14--cobro-agent-rodrigo.netlify.app
 - Embedded JavaScript syntax check: passed for both script blocks
+- Full Node suite: 296/296 passed after installing the declared dependency set with `npm install --ignore-scripts --no-audit --no-fund`
+- Static build: passed; exactly two demo assets produced in `dist`
 
 ## Limits and next step
 
-The PR is still open and draft. Full Node suite execution and manual mobile/desktop visual verification remain pending. Do not describe CSV import as integrated or deployed to production until those checks pass and the PR is merged.
+The PR is still open and draft. Manual mobile/desktop visual verification remains pending. Do not describe CSV import as integrated or deployed to production until those checks pass and the PR is merged.
 
 Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
