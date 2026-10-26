@@ -129,7 +129,8 @@ PR #14 adds a local CSV import control to the fictional invoice demo, accepting 
 
 - Isolated branch: `product/csv-import-2026-10-26`; PR: https://github.com/RodrigoCalleia/cobro-agent/pull/14.
 - Embedded JavaScript syntax passed; Netlify deploy preview status is successful at https://deploy-preview-14--cobro-agent-rodrigo.netlify.app.
-- Full Node suite and manual mobile/desktop verification remain pending. Keep PR #14 draft and do not call this integrated or production-deployed until those checks pass and the PR is merged.
+- Full Node suite passed 296/296 after installing the declared dependency set; static build passed with exactly two demo assets.
+- Manual mobile/desktop verification remains pending. Keep PR #14 draft and do not call this integrated or production-deployed until visual checks pass and the PR is merged.
 - Spend USD 0; revenue USD 0; no customer/contact data.
 
 ## Working roles
