@@ -39,3 +39,11 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Change commit: `06265c3f5094e7fd35f6dcd1e1caad2bf6e7bd6a`.
 - This remains browser-local and does not alter contact, persistence, messaging, payment or backend scope.
 - The full suite and static build should be rerun from this exact head before merge; visual desktop/mobile acceptance remains blocked by Netlify Team Protection.
+
+
+## Verification after hardening — 2026-10-26
+
+- Exact branch head tested: `ad2f2fc55aff8e6535500f9146a2dc7e86f53ae7`.
+- First full-suite run had one intermittent failure in the existing Netlify contact-rights runtime test; the static build passed.
+- Immediate repeat on the same head passed **296/296** tests.
+- This confirms no reproducible regression from the CSV parser hardening, but the test remains timing-sensitive and should be watched in CI/merge review.
