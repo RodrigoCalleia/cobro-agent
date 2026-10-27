@@ -621,3 +621,12 @@ Continued PR #14 on its isolated branch.
 - Purpose: reduce setup friction for the first MVP CSV/Excel walkthroughs while visual acceptance remains blocked.
 - Verification pending: rerun the exact full suite/build after this head and complete authorized desktop/mobile preview review before integration.
 - PR #14 remains draft/unmerged; spend/revenue remain USD0/USD0.
+
+
+## Verification after CSV template — 2026-10-27
+
+- Exact branch head `3f7542a2567bbed37b864bc9bfee97393bb1e68a` passed local verification with declared dependencies installed.
+- Full Node suite: **296/296 passed**, 0 failed.
+- Static build: **passed**, exactly two demo assets.
+- Netlify combined status for this head is successful; visual desktop/mobile review remains blocked by Team Protection.
+- PR #14 remains draft/unmerged; this does not authorize production publication or contact activation.
