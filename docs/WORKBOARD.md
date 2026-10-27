@@ -645,3 +645,9 @@ Continued PR #14 on its isolated branch.
 - El cambio mejora el walkthrough y no amplía el alcance: no hay backend, persistencia, contactos, mensajería, pagos ni datos reales.
 - Commit: [2d2bb4a](https://github.com/RodrigoCalleia/cobro-agent/commit/2d2bb4a697bc4aa80ff1d35ea45b262fa6168bfc).
 - Requiere nueva suite/build por cambio de código; no declarar integración ni despliegue hasta verificar y completar revisión visual autorizada.
+
+## Verificación dirigida de CSV feedback — 2026-10-27
+
+- El nuevo head conserva `csvStatus` con `aria-live="polite"` y elimina el alert del importador.
+- La evaluación sintáctica del script inline pasó.
+- La suite completa/build deben ejecutarse sobre este head antes de integrar; preview de Netlify sigue en procesamiento y la revisión visual requiere acceso autorizado.
