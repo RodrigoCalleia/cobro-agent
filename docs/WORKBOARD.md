@@ -610,3 +610,14 @@ Continued PR #14 on its isolated branch.
 - PR #14 remains draft/unmerged. Netlify Team Protection still blocks visual desktop/mobile acceptance, and production is not claimed updated.
 - Spend/revenue remain USD0/USD0.
 - Report: [CSV import hardening](reports/2026-10-26-csv-import.md).
+
+
+## CSV template follow-up — 2026-10-27
+
+Continued PR #14 on its isolated branch.
+
+- Added a browser-local “Descargar plantilla” action next to the CSV importer, using fictional example values only.
+- The template preserves the documented columns and does not upload, persist, contact, message, bill or process real invoices.
+- Purpose: reduce setup friction for the first MVP CSV/Excel walkthroughs while visual acceptance remains blocked.
+- Verification pending: rerun the exact full suite/build after this head and complete authorized desktop/mobile preview review before integration.
+- PR #14 remains draft/unmerged; spend/revenue remain USD0/USD0.
