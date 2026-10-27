@@ -638,3 +638,10 @@ Continued PR #14 on its isolated branch.
 - It explicitly excludes personal/contact/debtor data, outreach, public capture, WhatsApp, payments, OAuth, Tiendanube and large integrations until authorized and validated.
 - This is preparation for interviews, not customer or demand evidence. No code behavior changed; the prior verification remains 296/296 tests and a two-asset build.
 - PR #14 remains draft/unmerged; visual desktop/mobile review remains blocked by Netlify Team Protection. Spend/revenue remain USD0/USD0.
+
+## CSV feedback accesible — 2026-10-27
+
+- PR #14 ahora muestra el resultado del procesamiento CSV en un mensaje persistente `aria-live="polite"`, en lugar de depender sólo de un `alert`.
+- El cambio mejora el walkthrough y no amplía el alcance: no hay backend, persistencia, contactos, mensajería, pagos ni datos reales.
+- Commit: [2d2bb4a](https://github.com/RodrigoCalleia/cobro-agent/commit/2d2bb4a697bc4aa80ff1d35ea45b262fa6168bfc).
+- Requiere nueva suite/build por cambio de código; no declarar integración ni despliegue hasta verificar y completar revisión visual autorizada.
