@@ -47,3 +47,11 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - First full-suite run had one intermittent failure in the existing Netlify contact-rights runtime test; the static build passed.
 - Immediate repeat on the same head passed **296/296** tests.
 - This confirms no reproducible regression from the CSV parser hardening, but the test remains timing-sensitive and should be watched in CI/merge review.
+
+
+## CSV template follow-up — 2026-10-27
+
+- Added a browser-local **Descargar plantilla** action beside the CSV importer.
+- The generated file contains only fictional example values and the documented columns; it does not upload, persist, contact, or send data.
+- This reduces setup friction for the first MVP walkthroughs while preserving the no-backend boundary.
+- The branch remains unmerged and visual desktop/mobile acceptance is still pending.
