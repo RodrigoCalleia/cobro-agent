@@ -74,3 +74,12 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Es un cambio documental; no modifica el producto ni habilita operación real. No se repitió la suite porque no hubo cambio de código: la evidencia vigente sigue siendo 296/296 tests y build de dos assets.
 - PR #14 sigue draft/unmerged; la revisión visual desktop/mobile continúa bloqueada por Netlify Team Protection.
 - Gasto: USD 0. Ingresos: USD 0. Clientes/contactos: 0.
+
+## Resultado de importación accesible — 2026-10-27
+
+- Reemplacé el `window.alert` del importador CSV por un mensaje persistente `aria-live="polite"` en la interfaz.
+- El resultado informa cuántas facturas válidas se agregaron y que las filas inválidas o duplicadas fueron omitidas.
+- Esto mejora la demo para lectores de pantalla y evita perder el resultado del procesamiento; no agrega backend, persistencia, contactos, mensajes, pagos ni datos reales.
+- Cambio de código: [2d2bb4a](https://github.com/RodrigoCalleia/cobro-agent/commit/2d2bb4a697bc4aa80ff1d35ea45b262fa6168bfc).
+- Verificación pendiente: ejecutar la suite/build sobre este nuevo head antes de integrar. La revisión visual desktop/mobile continúa bloqueada por Team Protection.
+- Gasto: USD 0. Ingresos: USD 0.
