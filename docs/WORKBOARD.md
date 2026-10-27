@@ -630,3 +630,11 @@ Continued PR #14 on its isolated branch.
 - Static build: **passed**, exactly two demo assets.
 - Netlify combined status for this head is successful; visual desktop/mobile review remains blocked by Team Protection.
 - PR #14 remains draft/unmerged; this does not authorize production publication or contact activation.
+
+## MVP validation walkthrough — 2026-10-27
+
+- Added [docs/VALIDATION_WALKTHROUGH.md](VALIDATION_WALKTHROUGH.md) to PR #14's isolated branch.
+- The document provides a 10–15 minute walkthrough for the CSV/Excel MVP and strict evidence rules for interest, pain, test and payment.
+- It explicitly excludes personal/contact/debtor data, outreach, public capture, WhatsApp, payments, OAuth, Tiendanube and large integrations until authorized and validated.
+- This is preparation for interviews, not customer or demand evidence. No code behavior changed; the prior verification remains 296/296 tests and a two-asset build.
+- PR #14 remains draft/unmerged; visual desktop/mobile review remains blocked by Netlify Team Protection. Spend/revenue remain USD0/USD0.
