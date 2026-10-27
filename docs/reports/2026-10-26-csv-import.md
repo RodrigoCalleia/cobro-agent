@@ -90,3 +90,12 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - El bloque JavaScript inline pasó evaluación sintáctica con `new Function`.
 - Se confirmó que el `window.alert` anterior del importador ya no está presente.
 - La suite completa y el build quedan pendientes sobre este nuevo head; no se declara integración ni despliegue.
+
+## Verificación de head actual — 2026-10-27
+
+- Head revisado: `6b2bcbf5d17936f67a59a887181292a8f2bf86d9`.
+- GitHub Combined Status reporta `netlify/cobro-agent-rodrigo/deploy-preview: success`.
+- No hay ejecuciones de GitHub Actions asociadas al head.
+- La fuente `index.html` actual conserva el feedback `aria-live="polite"` y el script inline ya pasó la evaluación sintáctica dirigida.
+- No se afirma una nueva suite completa/build local: esta sesión no dispone de checkout ejecutable ni de un workflow remoto para correr `npm test`/`npm run build`. La última evidencia completa sigue siendo 296/296 tests y build de dos assets en el head anterior.
+- La revisión visual sigue bloqueada por Netlify Team Protection; PR #14 permanece draft/unmerged.
