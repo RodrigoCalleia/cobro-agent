@@ -83,3 +83,10 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Cambio de código: [2d2bb4a](https://github.com/RodrigoCalleia/cobro-agent/commit/2d2bb4a697bc4aa80ff1d35ea45b262fa6168bfc).
 - Verificación pendiente: ejecutar la suite/build sobre este nuevo head antes de integrar. La revisión visual desktop/mobile continúa bloqueada por Team Protection.
 - Gasto: USD 0. Ingresos: USD 0.
+
+## Verificación dirigida de feedback accesible — 2026-10-27
+
+- Se volvió a leer el head de `index.html` y se confirmó el nodo `csvStatus` con `aria-live="polite"`.
+- El bloque JavaScript inline pasó evaluación sintáctica con `new Function`.
+- Se confirmó que el `window.alert` anterior del importador ya no está presente.
+- La suite completa y el build quedan pendientes sobre este nuevo head; no se declara integración ni despliegue.
