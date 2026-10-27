@@ -65,3 +65,12 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Static build: **passed**, producing exactly two demo assets.
 - This verification covers the template follow-up head; no product behavior beyond the browser-local CSV/template scope was enabled.
 - Netlify combined status for the same head: **success**. Visual desktop/mobile inspection remains blocked by Team Protection.
+
+## Walkthrough de validación — 2026-10-27
+
+- Se agregó [docs/VALIDATION_WALKTHROUGH.md](../VALIDATION_WALKTHROUGH.md) para preparar demostraciones controladas del MVP CSV/Excel.
+- Incluye un guion de 10–15 minutos y criterios separados para interés, dolor, prueba y pago; no convierte visitas, benchmarking u opiniones en evidencia.
+- Mantiene fuera del repositorio contactos, datos personales/deudores, outreach, captura pública, WhatsApp, pagos, OAuth, Tiendanube e integraciones grandes.
+- Es un cambio documental; no modifica el producto ni habilita operación real. No se repitió la suite porque no hubo cambio de código: la evidencia vigente sigue siendo 296/296 tests y build de dos assets.
+- PR #14 sigue draft/unmerged; la revisión visual desktop/mobile continúa bloqueada por Netlify Team Protection.
+- Gasto: USD 0. Ingresos: USD 0. Clientes/contactos: 0.
