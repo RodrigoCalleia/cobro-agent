@@ -55,3 +55,13 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - The generated file contains only fictional example values and the documented columns; it does not upload, persist, contact, or send data.
 - This reduces setup friction for the first MVP walkthroughs while preserving the no-backend boundary.
 - The branch remains unmerged and visual desktop/mobile acceptance is still pending.
+
+
+## Verification after CSV template — 2026-10-27
+
+- Exact branch head verified locally: `3f7542a2567bbed37b864bc9bfee97393bb1e68a`.
+- Installed declared dependencies with `npm install --ignore-scripts --no-audit --no-fund` (no paid service or subscription).
+- Full Node suite: **296/296 passed**, 0 failed.
+- Static build: **passed**, producing exactly two demo assets.
+- This verification covers the template follow-up head; no product behavior beyond the browser-local CSV/template scope was enabled.
+- Netlify combined status for the same head: **success**. Visual desktop/mobile inspection remains blocked by Team Protection.
