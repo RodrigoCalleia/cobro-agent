@@ -651,3 +651,11 @@ Continued PR #14 on its isolated branch.
 - El nuevo head conserva `csvStatus` con `aria-live="polite"` y elimina el alert del importador.
 - La evaluación sintáctica del script inline pasó.
 - La suite completa/build deben ejecutarse sobre este head antes de integrar; preview de Netlify sigue en procesamiento y la revisión visual requiere acceso autorizado.
+
+## Estado de verificación del head actual — 2026-10-27
+
+- Head de PR #14 revisado: `6b2bcbf`.
+- Status remoto de Netlify: **success** para el deploy preview.
+- GitHub Actions: no hay workflows asociados para ejecutar la suite.
+- Verificación dirigida del script: aprobada; no se declara nueva suite completa ni build local porque no hay checkout ejecutable disponible en esta sesión.
+- Mantener PR #14 sin integrar hasta contar con suite/build reproducibles y revisión visual autorizada.
