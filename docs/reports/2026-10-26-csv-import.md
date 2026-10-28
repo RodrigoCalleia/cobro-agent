@@ -99,3 +99,13 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - La fuente `index.html` actual conserva el feedback `aria-live="polite"` y el script inline ya pasó la evaluación sintáctica dirigida.
 - No se afirma una nueva suite completa/build local: esta sesión no dispone de checkout ejecutable ni de un workflow remoto para correr `npm test`/`npm run build`. La última evidencia completa sigue siendo 296/296 tests y build de dos assets en el head anterior.
 - La revisión visual sigue bloqueada por Netlify Team Protection; PR #14 permanece draft/unmerged.
+
+
+## CSV escaped-quote hardening — 2026-10-28
+
+- Continued PR #14 on the isolated branch with a bounded parser fix for common CSV quoting edge cases.
+- The browser-local parser now preserves commas inside quoted fields, decodes escaped double quotes represented by two consecutive quote characters, and strips a UTF-8 BOM.
+- Targeted verification on branch head `47d916e` passed syntax evaluation and parsed quoted-comma and escaped-quote fixtures as expected.
+- This does not add backend, persistence, contacts, messaging, payments or real-invoice behavior.
+- Full suite/build on this new code head and authorized desktop/mobile visual review remain pending. PR #14 stays draft/unmerged; production is not claimed updated.
+- Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
