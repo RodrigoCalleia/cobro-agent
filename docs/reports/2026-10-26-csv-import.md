@@ -158,3 +158,13 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Verificación local en el nuevo head: npm test 296/296, npm run build aprobado con exactamente dos assets; no hay datos, contactos, mensajería ni persistencia reales.
 - PR #14 sigue draft/unmerged; main y producción no cambiaron. La revisión visual desktop/mobile continúa bloqueada por Netlify Team Protection.
 - Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+
+## Cockpit de visión de caja — 2026-10-28
+
+- Se agregó una primera capa orientada a decisión: proyección ficticia de cobros a 7 y 30 días, monto en riesgo y ranking de las tres facturas que requieren atención.
+- Cada prioridad muestra cliente/factura, días hasta o desde vencimiento, decisión del motor e importe. Todo continúa en memoria del navegador; no hay envíos, persistencia, contactos ni pagos.
+- Producto: [eb76a3e](https://github.com/RodrigoCalleia/cobro-agent/commit/eb76a3e536fa6b565acc08ed69e21e5a6a5bf345).
+- Verificación local: npm test 296/296 y npm run build aprobado con exactamente dos assets.
+- La rama es nueva y aislada desde PR #14; no está integrada ni desplegada en producción. Revisión visual autorizada sigue pendiente.
+- Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
