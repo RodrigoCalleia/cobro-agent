@@ -187,3 +187,12 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Documento: [pilot interview kit](../validation/pilot-interview-kit-2026-10-28.md).
 - No se enviaron mensajes ni se agregaron clientes; el precio de US$29 por 30 días continúa siendo una hipótesis.
 - Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+
+## Reconciliación del mapa de referentes — 2026-10-28
+
+- La revisión completa de PR #13 confirma 10 referentes públicos documentados: GESINCO, Cobrofy, Debitia, Caudo, Gutnova, Tiendanube/Nuvemshop, Webflow ADV, NexoSmart, Sistemas Plenario y Credituls.
+- Este hito está preparado/documentado; no equivale a clientes, prospectos, entrevistas ni demanda validada.
+- Se corrige el resumen anterior de 3 referentes como información desactualizada.
+- Prospectos verificados, entrevistas, dolores, pruebas y pilotos pagos permanecen en 0.
+- No hubo contactos ni cambios de `main`. Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
