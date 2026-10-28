@@ -694,3 +694,13 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - Spend/revenue remain USD0/USD0.
 
 Report: [CSV import report](reports/2026-10-26-csv-import.md).
+
+## CSV unescaped-quote guard — 2026-10-28
+
+- Continued PR #14 on the existing isolated branch after an independent parser audit.
+- Fixed a data-integrity defect where an unescaped quote inside an unquoted field silently changed imported text; the parser now rejects that malformed file instead of importing altered customer data.
+- Product commit: [7449e98](https://github.com/RodrigoCalleia/cobro-agent/commit/7449e98a317c35bf9c5903616eb1c93a9f7028b4).
+- Targeted verification passed: valid quoted-comma fixture imported; malformed unescaped-quote fixture was rejected; script evaluation passed.
+- Full suite/build on the new head and authorized desktop/mobile preview review remain pending. PR #14 stays draft/unmerged; main and production are unchanged.
+- Spend/revenue remain USD0/USD0; no contacts, messages, customer or real-invoice data.
+- Report: [CSV import report](reports/2026-10-26-csv-import.md).
