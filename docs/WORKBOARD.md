@@ -704,3 +704,13 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - Full suite/build on the new head and authorized desktop/mobile preview review remain pending. PR #14 stays draft/unmerged; main and production are unchanged.
 - Spend/revenue remain USD0/USD0; no contacts, messages, customer or real-invoice data.
 - Report: [CSV import report](reports/2026-10-26-csv-import.md).
+
+
+## Verificación tras guard de comillas no escapadas — 2026-10-28
+
+- Head exacto `4dfe1c680608ef5480f06e521252cd9a2f77d9d8` verificado localmente con las dependencias declaradas instaladas sin scripts ni auditoría.
+- Suite Node completa: **296/296**; build estático: **aprobado**, exactamente dos assets.
+- La evidencia cubre el nuevo rechazo fail-closed de comillas no escapadas; el producto sigue siendo navegador-local y ficticio.
+- Netlify Team Protection aún impide revisión visual desktop/mobile. PR #14 permanece draft/unmerged; `main` y producción no cambian.
+- Spend/revenue: USD0/USD0; sin contactos, mensajes ni datos reales.
+- Reporte: [CSV import report](reports/2026-10-26-csv-import.md).
