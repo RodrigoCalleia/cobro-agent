@@ -109,3 +109,12 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - This does not add backend, persistence, contacts, messaging, payments or real-invoice behavior.
 - Full suite/build on this new code head and authorized desktop/mobile visual review remain pending. PR #14 stays draft/unmerged; production is not claimed updated.
 - Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+## CSV duplicate-ID guard — 2026-10-28
+
+- Independent review found a data-integrity gap: duplicate invoice IDs repeated within one CSV could both pass the filter because only the pre-existing invoice list was checked.
+- Fixed the browser-local importer to track seen IDs in a Set seeded from existing invoices and updated as each row is accepted.
+- Product commit: [1b45fd7](https://github.com/RodrigoCalleia/cobro-agent/commit/1b45fd75ff802b966e47bb60e860bf238a77170e).
+- Targeted verification passed parser syntax, quoted-comma/escaped-quote fixtures and duplicate filtering for existing and same-file IDs.
+- Full suite/build on this new code head and authorized desktop/mobile review remain pending. PR #14 remains draft/unmerged; production is not claimed updated.
+- Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
