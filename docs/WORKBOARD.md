@@ -725,3 +725,13 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - PR #14 permanece draft/unmerged; main y producción no cambian. Revisión visual autorizada desktop/mobile sigue bloqueada por Netlify Team Protection.
 - Spend/revenue: USD0/USD0; sin contactos, mensajes ni datos reales.
 - Reporte: [CSV import report](reports/2026-10-26-csv-import.md).
+
+
+## Cockpit de visión de caja — 2026-10-28
+
+- Nueva rama aislada `product/cockpit-forecast-2026-10-28`, basada en el trabajo CSV de PR #14.
+- La demo ahora muestra proyección ficticia a 7/30 días, monto en riesgo y tres prioridades con explicación temporal, para que el usuario vea una decisión y no sólo filas.
+- Producto: [eb76a3e](https://github.com/RodrigoCalleia/cobro-agent/commit/eb76a3e536fa6b565acc08ed69e21e5a6a5bf345).
+- Verificado localmente: npm test 296/296; build estático aprobado con dos assets.
+- No integrado ni desplegado en producción; revisión visual autorizada pendiente. Sin contactos, mensajes, datos reales, gasto ni ingresos.
+- Reporte: [CSV import report](reports/2026-10-26-csv-import.md).
