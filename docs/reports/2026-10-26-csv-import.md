@@ -147,3 +147,14 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Esta verificación cubre el guard de comillas no escapadas y no amplía el límite navegador-local: no hay backend, persistencia, contactos, mensajería, pagos ni facturas reales.
 - La revisión visual desktop/mobile sigue pendiente por Netlify Team Protection; PR #14 continúa draft/unmerged y producción no se declara actualizada.
 - Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+
+## Rechazo de texto tras comilla de cierre — 2026-10-28
+
+- Auditoría independiente reprodujo que una comilla de cierre seguida de texto ("ACME" North) se aceptaba y alteraba silenciosamente el nombre importado.
+- El parser ahora exige coma o fin de registro después de una comilla de cierre; el archivo malformado se rechaza sin importar filas alteradas. Los campos con comas entrecomillados y comillas escapadas continúan soportados.
+- Producto: [80edb9a](https://github.com/RodrigoCalleia/cobro-agent/commit/80edb9a901bc00169a0213f58e02833617c892d4).
+- Regresión dirigida: fixture malformado rechazado y fixture válido con coma entrecomillada preservado.
+- Verificación local en el nuevo head: npm test 296/296, npm run build aprobado con exactamente dos assets; no hay datos, contactos, mensajería ni persistencia reales.
+- PR #14 sigue draft/unmerged; main y producción no cambiaron. La revisión visual desktop/mobile continúa bloqueada por Netlify Team Protection.
+- Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
