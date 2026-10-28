@@ -762,3 +762,12 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - El resumen anterior que mencionaba 3 referentes queda corregido como snapshot desactualizado.
 - Prospectos verificados, entrevistas, dolores, pruebas y pilotos pagos permanecen en 0.
 - No se modifican `main`, PR #13 ni datos privados. Gasto e ingresos: USD0/USD0.
+
+
+## Guard responsive de prioridades — 2026-10-28
+
+- Auditoría independiente confirmó la lógica del cockpit; se corrigió un riesgo potencial de desborde móvil para nombres largos en la lista de prioridades.
+- Producto: [ab3d2e8](https://github.com/RodrigoCalleia/cobro-agent/commit/ab3d2e8e3b3d8157a34756095692ba507952cb70).
+- Verificación: repetición inmediata 296/296; build aprobado con 2 assets. La primera corrida tuvo el timeout intermitente conocido y no se tomó como resultado final.
+- PR #15 sigue draft, no integrado ni desplegado; sin contactos, mensajes, gasto ni ingresos.
+- Reporte: [CSV import report](reports/2026-10-26-csv-import.md).
