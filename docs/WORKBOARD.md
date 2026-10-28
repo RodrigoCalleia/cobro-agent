@@ -745,3 +745,11 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - Verificado: npm test 296/296; build estático aprobado con dos assets.
 - PR #15 sigue draft, dependiente de PR #14; no integrado ni desplegado. Sin contactos, mensajes, gasto ni ingresos.
 - Reporte: [CSV import report](reports/2026-10-26-csv-import.md).
+
+
+## Kit de validación comercial — 2026-10-28
+
+- Se agregó un guion de 10 entrevistas, criterios de prueba y condiciones explícitas del piloto de US$29.
+- El documento diferencia evidencia preparada de evidencia validada: no inventa clientes, respuestas, dolores ni pagos.
+- Documento: [pilot interview kit](validation/pilot-interview-kit-2026-10-28.md).
+- Próxima acción comercial permitida: validar manualmente los 10 prioritarios del mapa y registrar respuestas reales; no hay outreach automático.
