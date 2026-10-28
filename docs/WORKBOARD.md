@@ -753,3 +753,12 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - El documento diferencia evidencia preparada de evidencia validada: no inventa clientes, respuestas, dolores ni pagos.
 - Documento: [pilot interview kit](validation/pilot-interview-kit-2026-10-28.md).
 - Próxima acción comercial permitida: validar manualmente los 10 prioritarios del mapa y registrar respuestas reales; no hay outreach automático.
+
+
+## Reconciliación del mapa de referentes — 2026-10-28
+
+- Revisión completa de PR #13 confirma que el benchmarking documenta 10 referencias públicas: GESINCO, Cobrofy, Debitia, Caudo, Gutnova, Tiendanube/Nuvemshop, Webflow ADV, NexoSmart, Sistemas Plenario y Credituls.
+- El hito de 10 referentes está preparado/documentado, pero no representa clientes, prospectos ni demanda validada.
+- El resumen anterior que mencionaba 3 referentes queda corregido como snapshot desactualizado.
+- Prospectos verificados, entrevistas, dolores, pruebas y pilotos pagos permanecen en 0.
+- No se modifican `main`, PR #13 ni datos privados. Gasto e ingresos: USD0/USD0.
