@@ -136,3 +136,14 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Targeted verification on blob `f91082b`: valid quoted-comma fixture parsed one row; malformed unescaped-quote fixture parsed zero rows; script evaluation passed with the existing decision stub.
 - Full suite/build on this new code head and authorized desktop/mobile visual review remain pending. PR #14 remains draft/unmerged; production is not claimed updated.
 - Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+
+## Verificación tras guard de comillas no escapadas — 2026-10-28
+
+- Head exacto verificado localmente: `4dfe1c680608ef5480f06e521252cd9a2f77d9d8`.
+- Se instaló el conjunto de dependencias declarado sin scripts, auditoría ni fondos: `npm install --ignore-scripts --no-audit --no-fund`.
+- Suite Node completa: **296/296 aprobada**, 0 fallos.
+- Build estático: **aprobado**, con exactamente dos assets de demo.
+- Esta verificación cubre el guard de comillas no escapadas y no amplía el límite navegador-local: no hay backend, persistencia, contactos, mensajería, pagos ni facturas reales.
+- La revisión visual desktop/mobile sigue pendiente por Netlify Team Protection; PR #14 continúa draft/unmerged y producción no se declara actualizada.
+- Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
