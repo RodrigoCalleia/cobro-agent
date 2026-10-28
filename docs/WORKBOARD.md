@@ -735,3 +735,13 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - Verificado localmente: npm test 296/296; build estático aprobado con dos assets.
 - No integrado ni desplegado en producción; revisión visual autorizada pendiente. Sin contactos, mensajes, datos reales, gasto ni ingresos.
 - Reporte: [CSV import report](reports/2026-10-26-csv-import.md).
+
+
+## Prioridad explicable y borrador revisable — 2026-10-28
+
+- El cockpit ahora permite abrir cada prioridad y ver su motivo, importe y un borrador contextual para revisión humana.
+- El borrador no se envía ni se persiste; la demo sigue aislada y sin datos reales.
+- Producto: [2654e37](https://github.com/RodrigoCalleia/cobro-agent/commit/2654e37a753bebb517a1cf0221c6adf3f283227b).
+- Verificado: npm test 296/296; build estático aprobado con dos assets.
+- PR #15 sigue draft, dependiente de PR #14; no integrado ni desplegado. Sin contactos, mensajes, gasto ni ingresos.
+- Reporte: [CSV import report](reports/2026-10-26-csv-import.md).
