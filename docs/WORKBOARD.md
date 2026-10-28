@@ -123,6 +123,16 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - [Cycle report](reports/2026-10-06-storage-deadline.md).
 - Next: verify the unavailable handler with authenticated project access, inspect checks/source/main and integrate PR #7 when its acceptance requirement passes. Continue privacy/contact and parsing/rate/notice/retry/retention prerequisites before enabling capture.
 
+## CSV import preparation — 2026-10-26
+
+PR #14 adds a local CSV import control to the fictional invoice demo, accepting `id,client,amount,due,promise,state`. Imported rows are validated by the existing deterministic engine; invalid and duplicate rows are skipped. Data stays in browser memory; there is no endpoint, persistence, contact capture, email delivery, real invoice operation or billing.
+
+- Isolated branch: `product/csv-import-2026-10-26`; PR: https://github.com/RodrigoCalleia/cobro-agent/pull/14.
+- Embedded JavaScript syntax passed; Netlify deploy preview status is successful at https://deploy-preview-14--cobro-agent-rodrigo.netlify.app.
+- Full Node suite passed 296/296 after installing the declared dependency set; static build passed with exactly two demo assets.
+- Manual mobile/desktop verification remains pending. Keep PR #14 draft and do not call this integrated or production-deployed until visual checks pass and the PR is merged.
+- Spend USD 0; revenue USD 0; no customer/contact data.
+
 ## Working roles
 
 - Coordinator: select the next useful task, integrate bounded work, check evidence and report.
@@ -588,3 +598,130 @@ Continued open [PR #7](https://github.com/RodrigoCalleia/cobro-agent/pull/7) on 
 - No code or provider configuration changed. Spend **USD 0**, revenue **USD 0**, verified leads/customers **0**.
 - [Cycle report](reports/2026-10-16-tiendanube-market-entry.md).
 - Next: build the smallest private integration contract and threat/privacy checklist before requesting app homologation or public listing.
+
+
+## CSV import hardening — 2026-10-26
+
+Continued PR #14 on its isolated branch.
+
+- The local CSV parser now accepts quoted fields and commas inside quoted values; the UI shows the expected column format beside the import control.
+- No backend, persistence, contacts, messaging, payment or real-invoice behavior was added.
+- Exact head `ad2f2fc` passed a repeat full suite at **296/296** and static build with two assets. The first run had one intermittent existing runtime timeout test failure; it did not reproduce on immediate repeat and is recorded in the cycle report.
+- PR #14 remains draft/unmerged. Netlify Team Protection still blocks visual desktop/mobile acceptance, and production is not claimed updated.
+- Spend/revenue remain USD0/USD0.
+- Report: [CSV import hardening](reports/2026-10-26-csv-import.md).
+
+
+## CSV template follow-up — 2026-10-27
+
+Continued PR #14 on its isolated branch.
+
+- Added a browser-local “Descargar plantilla” action next to the CSV importer, using fictional example values only.
+- The template preserves the documented columns and does not upload, persist, contact, message, bill or process real invoices.
+- Purpose: reduce setup friction for the first MVP CSV/Excel walkthroughs while visual acceptance remains blocked.
+- Verification pending: rerun the exact full suite/build after this head and complete authorized desktop/mobile preview review before integration.
+- PR #14 remains draft/unmerged; spend/revenue remain USD0/USD0.
+
+
+## Verification after CSV template — 2026-10-27
+
+- Exact branch head `3f7542a2567bbed37b864bc9bfee97393bb1e68a` passed local verification with declared dependencies installed.
+- Full Node suite: **296/296 passed**, 0 failed.
+- Static build: **passed**, exactly two demo assets.
+- Netlify combined status for this head is successful; visual desktop/mobile review remains blocked by Team Protection.
+- PR #14 remains draft/unmerged; this does not authorize production publication or contact activation.
+
+## MVP validation walkthrough — 2026-10-27
+
+- Added [docs/VALIDATION_WALKTHROUGH.md](VALIDATION_WALKTHROUGH.md) to PR #14's isolated branch.
+- The document provides a 10–15 minute walkthrough for the CSV/Excel MVP and strict evidence rules for interest, pain, test and payment.
+- It explicitly excludes personal/contact/debtor data, outreach, public capture, WhatsApp, payments, OAuth, Tiendanube and large integrations until authorized and validated.
+- This is preparation for interviews, not customer or demand evidence. No code behavior changed; the prior verification remains 296/296 tests and a two-asset build.
+- PR #14 remains draft/unmerged; visual desktop/mobile review remains blocked by Netlify Team Protection. Spend/revenue remain USD0/USD0.
+
+## CSV feedback accesible — 2026-10-27
+
+- PR #14 ahora muestra el resultado del procesamiento CSV en un mensaje persistente `aria-live="polite"`, en lugar de depender sólo de un `alert`.
+- El cambio mejora el walkthrough y no amplía el alcance: no hay backend, persistencia, contactos, mensajería, pagos ni datos reales.
+- Commit: [2d2bb4a](https://github.com/RodrigoCalleia/cobro-agent/commit/2d2bb4a697bc4aa80ff1d35ea45b262fa6168bfc).
+- Requiere nueva suite/build por cambio de código; no declarar integración ni despliegue hasta verificar y completar revisión visual autorizada.
+
+## Verificación dirigida de CSV feedback — 2026-10-27
+
+- El nuevo head conserva `csvStatus` con `aria-live="polite"` y elimina el alert del importador.
+- La evaluación sintáctica del script inline pasó.
+- La suite completa/build deben ejecutarse sobre este head antes de integrar; preview de Netlify sigue en procesamiento y la revisión visual requiere acceso autorizado.
+
+## Estado de verificación del head actual — 2026-10-27
+
+- Head de PR #14 revisado: `6b2bcbf`.
+- Status remoto de Netlify: **success** para el deploy preview.
+- GitHub Actions: no hay workflows asociados para ejecutar la suite.
+- Verificación dirigida del script: aprobada; no se declara nueva suite completa ni build local porque no hay checkout ejecutable disponible en esta sesión.
+- Mantener PR #14 sin integrar hasta contar con suite/build reproducibles y revisión visual autorizada.
+
+
+## CSV escaped-quote hardening — 2026-10-28
+
+Continued PR #14 on its isolated branch with a bounded parser-hardening fix.
+
+- The browser-local CSV parser now preserves commas inside quoted fields and escaped double quotes (two consecutive quote characters) inside quoted values, and strips a UTF-8 BOM when present.
+- Targeted verification on branch head 47d916e passed syntax evaluation and parsed both quoted-comma and escaped-quote fixtures correctly.
+- No backend, persistence, contacts, messaging, payments or real-invoice behavior was added.
+- The full suite/build remain pending on this new code head; Netlify Team Protection still blocks desktop/mobile visual acceptance. PR #14 remains draft/unmerged and production is not claimed updated.
+- Spend/revenue remain USD0/USD0.
+
+Report: [CSV import report](reports/2026-10-26-csv-import.md).
+
+## CSV duplicate-ID guard — 2026-10-28
+
+- Independent audit found that duplicate invoice IDs repeated within one uploaded CSV were not deduplicated because filtering only compared against the pre-existing invoice list.
+- Fixed the browser-local import path to seed a Set from existing IDs and add each accepted imported ID while filtering. Duplicate IDs in the same file are now skipped consistently with the user-facing status message.
+- Product commit: [1b45fd7](https://github.com/RodrigoCalleia/cobro-agent/commit/1b45fd75ff802b966e47bb60e860bf238a77170e).
+- Targeted verification passed parser syntax, quoted-field fixtures and duplicate filtering (existing and same-file IDs).
+- Full suite/build on this new code head and authorized desktop/mobile visual review remain pending. PR #14 remains draft/unmerged and production is not claimed updated.
+- Spend/revenue remain USD0/USD0.
+
+Report: [CSV import report](reports/2026-10-26-csv-import.md).
+
+## CSV malformed-quote guard — 2026-10-28
+
+- Independent parser audit found that an unclosed quoted field could be silently accepted as a valid invoice row.
+- Added a fail-closed guard: if the CSV ends while a quoted field is still open, the import returns no rows instead of importing malformed data.
+- Product commit: [ad07185](https://github.com/RodrigoCalleia/cobro-agent/commit/ad071854ce96ec668b170ac2a15a232abe00ed47).
+- Targeted verification passed syntax evaluation, valid quoted-field fixtures and rejection of an unclosed-quote fixture.
+- Full suite/build on this new code head and authorized desktop/mobile visual review remain pending. PR #14 remains draft/unmerged and production is not claimed updated.
+- Spend/revenue remain USD0/USD0.
+
+Report: [CSV import report](reports/2026-10-26-csv-import.md).
+
+## CSV unescaped-quote guard — 2026-10-28
+
+- Continued PR #14 on the existing isolated branch after an independent parser audit.
+- Fixed a data-integrity defect where an unescaped quote inside an unquoted field silently changed imported text; the parser now rejects that malformed file instead of importing altered customer data.
+- Product commit: [7449e98](https://github.com/RodrigoCalleia/cobro-agent/commit/7449e98a317c35bf9c5903616eb1c93a9f7028b4).
+- Targeted verification passed: valid quoted-comma fixture imported; malformed unescaped-quote fixture was rejected; script evaluation passed.
+- Full suite/build on the new head and authorized desktop/mobile preview review remain pending. PR #14 stays draft/unmerged; main and production are unchanged.
+- Spend/revenue remain USD0/USD0; no contacts, messages, customer or real-invoice data.
+- Report: [CSV import report](reports/2026-10-26-csv-import.md).
+
+
+## Verificación tras guard de comillas no escapadas — 2026-10-28
+
+- Head exacto `4dfe1c680608ef5480f06e521252cd9a2f77d9d8` verificado localmente con las dependencias declaradas instaladas sin scripts ni auditoría.
+- Suite Node completa: **296/296**; build estático: **aprobado**, exactamente dos assets.
+- La evidencia cubre el nuevo rechazo fail-closed de comillas no escapadas; el producto sigue siendo navegador-local y ficticio.
+- Netlify Team Protection aún impide revisión visual desktop/mobile. PR #14 permanece draft/unmerged; `main` y producción no cambian.
+- Spend/revenue: USD0/USD0; sin contactos, mensajes ni datos reales.
+- Reporte: [CSV import report](reports/2026-10-26-csv-import.md).
+
+
+## Rechazo de texto tras comilla de cierre — 2026-10-28
+
+- Se continuó PR #14 en la rama aislada después de una auditoría independiente.
+- Corregido un defecto de integridad: el parser CSV aceptaba texto después de una comilla de cierre y podía cambiar silenciosamente el nombre del cliente importado. Ahora rechaza ese archivo malformado.
+- Producto: [80edb9a](https://github.com/RodrigoCalleia/cobro-agent/commit/80edb9a901bc00169a0213f58e02833617c892d4).
+- Regresión dirigida y suite/build verificados: fixture inválido rechazado, fixture válido preservado, npm test 296/296 y build estático aprobado con dos assets.
+- PR #14 permanece draft/unmerged; main y producción no cambian. Revisión visual autorizada desktop/mobile sigue bloqueada por Netlify Team Protection.
+- Spend/revenue: USD0/USD0; sin contactos, mensajes ni datos reales.
+- Reporte: [CSV import report](reports/2026-10-26-csv-import.md).
