@@ -168,3 +168,13 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Verificación local: npm test 296/296 y npm run build aprobado con exactamente dos assets.
 - La rama es nueva y aislada desde PR #14; no está integrada ni desplegada en producción. Revisión visual autorizada sigue pendiente.
 - Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+
+## Prioridad explicable y borrador revisable — 2026-10-28
+
+- Cada prioridad del cockpit ahora abre un detalle con importe, vencimiento, decisión del motor y un borrador de acción contextual.
+- El borrador es sólo texto de simulación y muestra explícitamente que requiere aprobación humana; no se envía ni se guarda.
+- Producto: [2654e37](https://github.com/RodrigoCalleia/cobro-agent/commit/2654e37a753bebb517a1cf0221c6adf3f283227b).
+- Verificación local posterior: npm test 296/296; npm run build aprobado con exactamente dos assets.
+- PR #15 continúa draft y dependiente del trabajo CSV de PR #14; no integrado ni desplegado. Revisión visual sigue pendiente.
+- Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
