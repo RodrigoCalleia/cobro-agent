@@ -659,3 +659,16 @@ Continued PR #14 on its isolated branch.
 - GitHub Actions: no hay workflows asociados para ejecutar la suite.
 - Verificación dirigida del script: aprobada; no se declara nueva suite completa ni build local porque no hay checkout ejecutable disponible en esta sesión.
 - Mantener PR #14 sin integrar hasta contar con suite/build reproducibles y revisión visual autorizada.
+
+
+## CSV escaped-quote hardening — 2026-10-28
+
+Continued PR #14 on its isolated branch with a bounded parser-hardening fix.
+
+- The browser-local CSV parser now preserves commas inside quoted fields and escaped double quotes (two consecutive quote characters) inside quoted values, and strips a UTF-8 BOM when present.
+- Targeted verification on branch head 47d916e passed syntax evaluation and parsed both quoted-comma and escaped-quote fixtures correctly.
+- No backend, persistence, contacts, messaging, payments or real-invoice behavior was added.
+- The full suite/build remain pending on this new code head; Netlify Team Protection still blocks desktop/mobile visual acceptance. PR #14 remains draft/unmerged and production is not claimed updated.
+- Spend/revenue remain USD0/USD0.
+
+Report: [CSV import report](reports/2026-10-26-csv-import.md).
