@@ -714,3 +714,14 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - Netlify Team Protection aún impide revisión visual desktop/mobile. PR #14 permanece draft/unmerged; `main` y producción no cambian.
 - Spend/revenue: USD0/USD0; sin contactos, mensajes ni datos reales.
 - Reporte: [CSV import report](reports/2026-10-26-csv-import.md).
+
+
+## Rechazo de texto tras comilla de cierre — 2026-10-28
+
+- Se continuó PR #14 en la rama aislada después de una auditoría independiente.
+- Corregido un defecto de integridad: el parser CSV aceptaba texto después de una comilla de cierre y podía cambiar silenciosamente el nombre del cliente importado. Ahora rechaza ese archivo malformado.
+- Producto: [80edb9a](https://github.com/RodrigoCalleia/cobro-agent/commit/80edb9a901bc00169a0213f58e02833617c892d4).
+- Regresión dirigida y suite/build verificados: fixture inválido rechazado, fixture válido preservado, npm test 296/296 y build estático aprobado con dos assets.
+- PR #14 permanece draft/unmerged; main y producción no cambian. Revisión visual autorizada desktop/mobile sigue bloqueada por Netlify Team Protection.
+- Spend/revenue: USD0/USD0; sin contactos, mensajes ni datos reales.
+- Reporte: [CSV import report](reports/2026-10-26-csv-import.md).
