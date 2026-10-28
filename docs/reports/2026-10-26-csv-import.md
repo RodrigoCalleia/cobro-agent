@@ -118,3 +118,12 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Targeted verification passed parser syntax, quoted-comma/escaped-quote fixtures and duplicate filtering for existing and same-file IDs.
 - Full suite/build on this new code head and authorized desktop/mobile review remain pending. PR #14 remains draft/unmerged; production is not claimed updated.
 - Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+## CSV malformed-quote guard — 2026-10-28
+
+- Independent parser audit found that an unclosed quoted field could be silently accepted as a valid invoice row.
+- Added a fail-closed guard: when parsing ends with an open quoted field, the browser-local import returns no rows rather than importing malformed data.
+- Product commit: [ad07185](https://github.com/RodrigoCalleia/cobro-agent/commit/ad071854ce96ec668b170ac2a15a232abe00ed47).
+- Targeted verification passed syntax evaluation, valid quoted-field fixtures and rejection of an unclosed-quote fixture.
+- Full suite/build on this new code head and authorized desktop/mobile review remain pending. PR #14 remains draft/unmerged; production is not claimed updated.
+- Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
