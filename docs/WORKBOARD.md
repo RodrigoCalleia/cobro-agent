@@ -683,3 +683,14 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - Spend/revenue remain USD0/USD0.
 
 Report: [CSV import report](reports/2026-10-26-csv-import.md).
+
+## CSV malformed-quote guard — 2026-10-28
+
+- Independent parser audit found that an unclosed quoted field could be silently accepted as a valid invoice row.
+- Added a fail-closed guard: if the CSV ends while a quoted field is still open, the import returns no rows instead of importing malformed data.
+- Product commit: [ad07185](https://github.com/RodrigoCalleia/cobro-agent/commit/ad071854ce96ec668b170ac2a15a232abe00ed47).
+- Targeted verification passed syntax evaluation, valid quoted-field fixtures and rejection of an unclosed-quote fixture.
+- Full suite/build on this new code head and authorized desktop/mobile visual review remain pending. PR #14 remains draft/unmerged and production is not claimed updated.
+- Spend/revenue remain USD0/USD0.
+
+Report: [CSV import report](reports/2026-10-26-csv-import.md).
