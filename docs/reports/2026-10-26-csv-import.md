@@ -196,3 +196,12 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Se corrige el resumen anterior de 3 referentes como información desactualizada.
 - Prospectos verificados, entrevistas, dolores, pruebas y pilotos pagos permanecen en 0.
 - No hubo contactos ni cambios de `main`. Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+
+## Guard responsive de prioridades — 2026-10-28
+
+- Auditoría independiente no encontró defectos funcionales en proyección, ranking ni borradores; señaló un riesgo potencial de desborde en pantallas muy angostas con nombres largos.
+- Se agregó `min-width: 0` y ajuste de texto en cada prioridad para evitar scroll horizontal innecesario.
+- Producto: [ab3d2e8](https://github.com/RodrigoCalleia/cobro-agent/commit/ab3d2e8e3b3d8157a34756095692ba507952cb70).
+- Primera corrida local: 295/296 por un timeout intermitente ya conocido del runtime Netlify; repetición inmediata: **296/296**. Build estático: aprobado con 2 assets.
+- No hubo cambios en `main`, despliegue, contactos ni datos reales. Spend: USD 0. Revenue: USD 0.
