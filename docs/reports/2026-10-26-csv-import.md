@@ -127,3 +127,12 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Targeted verification passed syntax evaluation, valid quoted-field fixtures and rejection of an unclosed-quote fixture.
 - Full suite/build on this new code head and authorized desktop/mobile review remain pending. PR #14 remains draft/unmerged; production is not claimed updated.
 - Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+## CSV unescaped-quote guard — 2026-10-28
+
+- Independent parser audit found that an unescaped double quote inside an unquoted field was silently removed, changing imported customer text (for example, `ACME "North"` became `ACME North`).
+- The browser-local parser now fails closed when a quote appears after existing unquoted field content; valid quoted commas and escaped double quotes remain supported.
+- Product commit: [7449e98](https://github.com/RodrigoCalleia/cobro-agent/commit/7449e98a317c35bf9c5903616eb1c93a9f7028b4).
+- Targeted verification on blob `f91082b`: valid quoted-comma fixture parsed one row; malformed unescaped-quote fixture parsed zero rows; script evaluation passed with the existing decision stub.
+- Full suite/build on this new code head and authorized desktop/mobile visual review remain pending. PR #14 remains draft/unmerged; production is not claimed updated.
+- Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
