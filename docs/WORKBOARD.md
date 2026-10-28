@@ -672,3 +672,14 @@ Continued PR #14 on its isolated branch with a bounded parser-hardening fix.
 - Spend/revenue remain USD0/USD0.
 
 Report: [CSV import report](reports/2026-10-26-csv-import.md).
+
+## CSV duplicate-ID guard — 2026-10-28
+
+- Independent audit found that duplicate invoice IDs repeated within one uploaded CSV were not deduplicated because filtering only compared against the pre-existing invoice list.
+- Fixed the browser-local import path to seed a Set from existing IDs and add each accepted imported ID while filtering. Duplicate IDs in the same file are now skipped consistently with the user-facing status message.
+- Product commit: [1b45fd7](https://github.com/RodrigoCalleia/cobro-agent/commit/1b45fd75ff802b966e47bb60e860bf238a77170e).
+- Targeted verification passed parser syntax, quoted-field fixtures and duplicate filtering (existing and same-file IDs).
+- Full suite/build on this new code head and authorized desktop/mobile visual review remain pending. PR #14 remains draft/unmerged and production is not claimed updated.
+- Spend/revenue remain USD0/USD0.
+
+Report: [CSV import report](reports/2026-10-26-csv-import.md).
