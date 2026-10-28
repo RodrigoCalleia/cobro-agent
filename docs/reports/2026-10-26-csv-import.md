@@ -178,3 +178,12 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Verificación local posterior: npm test 296/296; npm run build aprobado con exactamente dos assets.
 - PR #15 continúa draft y dependiente del trabajo CSV de PR #14; no integrado ni desplegado. Revisión visual sigue pendiente.
 - Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+
+## Kit de validación comercial — 2026-10-28
+
+- Se preparó un guion de 10 entrevistas, una prueba controlada del cockpit y criterios para considerar evidencia de valor.
+- Se preserva el estado real: 30 candidatos de mapa sin contacto verificado, 10 prioritarios como objetivo, 0 entrevistas, 0 dolores confirmados, 0 pruebas y 0 pilotos pagos.
+- Documento: [pilot interview kit](../validation/pilot-interview-kit-2026-10-28.md).
+- No se enviaron mensajes ni se agregaron clientes; el precio de US$29 por 30 días continúa siendo una hipótesis.
+- Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
