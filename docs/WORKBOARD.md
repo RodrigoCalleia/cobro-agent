@@ -830,3 +830,10 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - Requisitos: usuario SSH dedicado sin root, Node >=22.12.0, checkout por commit, pruebas/build, revisión desktop/móvil y separación de `main`/producción.
 - Los agentes se definen como tareas acotadas: coordinación, implementación, QA, revisión de despliegue y validación comercial. No son procesos permanentes y no acceden al otro sistema.
 - Auditoría independiente aprobada. No se entregó acceso ni se hizo despliegue; no cambian contactos, clientes, pruebas, pilotos, gastos ni ingresos.
+
+
+## Aislamiento del VPS compartido — 2026-10-29
+
+- El VPS aloja CEO IA; Rondacobro usará directorio, usuario, grupo, puerto, servicio y logs propios, sin reutilizar claves ni `.env`.
+- Un reinicio puede requerir recuperación manual de pocos minutos: comprobar CEO IA, iniciar staging de Rondacobro, verificar URL y commit. No se modifica el arranque ni se agrega supervisor persistente sin autorización separada.
+- El runbook actualizado no entrega acceso ni toca el sistema existente. Spend/revenue: USD0/USD0.
