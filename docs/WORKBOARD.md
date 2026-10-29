@@ -797,3 +797,12 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - Auditoría independiente confirmó alineación con el roadmap y ausencia de riesgos relevantes de privacidad.
 - Estado comercial no cambia: 30 candidatos preparados, 10 prioritarios objetivo, 10 referentes documentados, 0 entrevistas, 0 dolores, 0 pruebas y 0 pilotos pagos. Spend/revenue: USD0/USD0.
 - Reporte: [2026-10-26-csv-import.md](reports/2026-10-26-csv-import.md).
+
+
+## Revisión visual informada por el propietario — 2026-10-29
+
+- El propietario compartió una captura de la vista pública actual y confirmó que “está todo igual”.
+- La captura muestra la demo anterior de producción (filas, métricas ficticias y acciones locales); no muestra el cockpit de PR #15 ni la importación CSV de PR #14.
+- Por lo tanto, la revisión confirma que producción no cambió, pero no constituye aceptación visual del preview protegido de PR #15.
+- PR #15 sigue draft, dependiente de PR #14; main permanece sin integrar estas mejoras.
+- Próximo paso: abrir el preview de PR #15 con acceso autorizado y verificar desktop/móvil sobre esa rama, o mantener el bloqueo explícito.
