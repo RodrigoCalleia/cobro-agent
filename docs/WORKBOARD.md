@@ -788,3 +788,12 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - Verificación: **297/297 tests** y build estático con 2 assets.
 - PR #15 sigue draft, no integrada ni desplegada; no se agregaron contactos, clientes ni datos reales. Spend/revenue: USD0/USD0.
 - Reporte: [2026-10-26-csv-import.md](reports/2026-10-26-csv-import.md).
+
+
+## Scorecard de validación — 2026-10-29
+
+- Se agregó [interview-scorecard-2026-10-29.md](validation/interview-scorecard-2026-10-29.md) como plantilla anónima para comparar entrevistas y pruebas sin datos personales.
+- Incluye reglas estrictas para contar entrevistas, dolores recurrentes, pruebas y pilotos; no convierte resultados en porcentajes sin denominador real.
+- Auditoría independiente confirmó alineación con el roadmap y ausencia de riesgos relevantes de privacidad.
+- Estado comercial no cambia: 30 candidatos preparados, 10 prioritarios objetivo, 10 referentes documentados, 0 entrevistas, 0 dolores, 0 pruebas y 0 pilotos pagos. Spend/revenue: USD0/USD0.
+- Reporte: [2026-10-26-csv-import.md](reports/2026-10-26-csv-import.md).
