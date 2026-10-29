@@ -60,3 +60,16 @@ El staging cuenta como verificado sólo si:
 ## Estado
 
 Este runbook no entrega acceso ni despliega nada. Queda pendiente que el propietario habilite un usuario SSH dedicado y una URL/puerto de staging, sin entregar secretos en el repositorio.
+
+
+## Convivencia con CEO IA y reinicios del VPS
+
+El VPS ya aloja CEO IA. Rondacobro debe mantenerse completamente separado:
+
+- Directorio sugerido: `/srv/rondacobro-staging/`; nunca usar el directorio de CEO IA.
+- Usuario y grupo propios, sin reutilizar permisos, claves ni archivos `.env` de CEO IA.
+- Puerto y nombre de servicio propios, por ejemplo `rondacobro-staging`; no reemplazar ni reiniciar el servicio de CEO IA.
+- Logs y archivos temporales en rutas propias, con límites de tamaño y sin payloads personales.
+- El checkout debe quedar fijado al commit revisado, no a una rama mutable.
+
+Si un reinicio del VPS detiene los procesos, se acepta una recuperación manual de pocos minutos en esta fase. El procedimiento será: comprobar que CEO IA esté operativo, iniciar sólo el servicio de staging de Rondacobro, verificar la URL y registrar el commit servido. No se agregará un supervisor persistente ni se modificará el arranque del sistema sin autorización separada.
