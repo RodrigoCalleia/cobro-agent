@@ -241,3 +241,10 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Esto confirma que producción sigue mostrando la versión previa y no valida visualmente PR #15/PR #14.
 - No se inició sesión, no se cambió configuración y no se enviaron mensajes. La aceptación del preview de PR #15 continúa pendiente por Team Protection.
 - No cambian los datos comerciales: 30 candidatos preparados, 10 prioritarios objetivo, 10 referentes documentados, 0 entrevistas, 0 dolores, 0 pruebas y 0 pilotos pagos. Spend/revenue: USD 0/USD 0.
+
+
+## Auditoría de evidencia visual — 2026-10-29
+
+- Auditoría independiente de lectura confirmó que la captura del propietario corresponde a la demo pública anterior y no al preview de PR #15.
+- La documentación distingue correctamente producción sin cockpit de la aceptación visual aún pendiente del preview protegido.
+- Los conteos permanecen sin cambios: 30 candidatos, 10 prioritarios objetivo, 10 referentes públicos, 0 entrevistas, 0 dolores, 0 pruebas, 0 pilotos pagos; gasto/ingresos USD 0/USD 0.
