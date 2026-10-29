@@ -158,3 +158,143 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Verificación local en el nuevo head: npm test 296/296, npm run build aprobado con exactamente dos assets; no hay datos, contactos, mensajería ni persistencia reales.
 - PR #14 sigue draft/unmerged; main y producción no cambiaron. La revisión visual desktop/mobile continúa bloqueada por Netlify Team Protection.
 - Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+
+## Cockpit de visión de caja — 2026-10-28
+
+- Se agregó una primera capa orientada a decisión: proyección ficticia de cobros a 7 y 30 días, monto en riesgo y ranking de las tres facturas que requieren atención.
+- Cada prioridad muestra cliente/factura, días hasta o desde vencimiento, decisión del motor e importe. Todo continúa en memoria del navegador; no hay envíos, persistencia, contactos ni pagos.
+- Producto: [eb76a3e](https://github.com/RodrigoCalleia/cobro-agent/commit/eb76a3e536fa6b565acc08ed69e21e5a6a5bf345).
+- Verificación local: npm test 296/296 y npm run build aprobado con exactamente dos assets.
+- La rama es nueva y aislada desde PR #14; no está integrada ni desplegada en producción. Revisión visual autorizada sigue pendiente.
+- Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+
+## Prioridad explicable y borrador revisable — 2026-10-28
+
+- Cada prioridad del cockpit ahora abre un detalle con importe, vencimiento, decisión del motor y un borrador de acción contextual.
+- El borrador es sólo texto de simulación y muestra explícitamente que requiere aprobación humana; no se envía ni se guarda.
+- Producto: [2654e37](https://github.com/RodrigoCalleia/cobro-agent/commit/2654e37a753bebb517a1cf0221c6adf3f283227b).
+- Verificación local posterior: npm test 296/296; npm run build aprobado con exactamente dos assets.
+- PR #15 continúa draft y dependiente del trabajo CSV de PR #14; no integrado ni desplegado. Revisión visual sigue pendiente.
+- Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+
+## Kit de validación comercial — 2026-10-28
+
+- Se preparó un guion de 10 entrevistas, una prueba controlada del cockpit y criterios para considerar evidencia de valor.
+- Se preserva el estado real: 30 candidatos de mapa sin contacto verificado, 10 prioritarios como objetivo, 0 entrevistas, 0 dolores confirmados, 0 pruebas y 0 pilotos pagos.
+- Documento: [pilot interview kit](../validation/pilot-interview-kit-2026-10-28.md).
+- No se enviaron mensajes ni se agregaron clientes; el precio de US$29 por 30 días continúa siendo una hipótesis.
+- Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+
+## Reconciliación del mapa de referentes — 2026-10-28
+
+- La revisión completa de PR #13 confirma 10 referentes públicos documentados: GESINCO, Cobrofy, Debitia, Caudo, Gutnova, Tiendanube/Nuvemshop, Webflow ADV, NexoSmart, Sistemas Plenario y Credituls.
+- Este hito está preparado/documentado; no equivale a clientes, prospectos, entrevistas ni demanda validada.
+- Se corrige el resumen anterior de 3 referentes como información desactualizada.
+- Prospectos verificados, entrevistas, dolores, pruebas y pilotos pagos permanecen en 0.
+- No hubo contactos ni cambios de `main`. Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
+
+
+## Guard responsive de prioridades — 2026-10-28
+
+- Auditoría independiente no encontró defectos funcionales en proyección, ranking ni borradores; señaló un riesgo potencial de desborde en pantallas muy angostas con nombres largos.
+- Se agregó `min-width: 0` y ajuste de texto en cada prioridad para evitar scroll horizontal innecesario.
+- Producto: [ab3d2e8](https://github.com/RodrigoCalleia/cobro-agent/commit/ab3d2e8e3b3d8157a34756095692ba507952cb70).
+- Primera corrida local: 295/296 por un timeout intermitente ya conocido del runtime Netlify; repetición inmediata: **296/296**. Build estático: aprobado con 2 assets.
+- No hubo cambios en `main`, despliegue, contactos ni datos reales. Spend: USD 0. Revenue: USD 0.
+
+
+## Exportación de plan revisable — 2026-10-29
+
+- El cockpit ahora permite descargar un plan local con las tres prioridades actuales, importe, vencimiento, decisión, borrador y marca explícita de aprobación humana.
+- La exportación genera `rondacobro-plan-seguimiento.json` en el navegador; no envía mensajes, no persiste datos y no llama a servicios externos.
+- Producto: [6025380](https://github.com/RodrigoCalleia/cobro-agent/commit/60253801b2a69a359e81de46d0ec5a45db1555da).
+- Verificación en el nuevo head: **296/296 tests**, build estático aprobado con exactamente 2 assets.
+- PR #15 continúa draft, no integrada ni desplegada; la revisión visual autorizada permanece pendiente.
+- No hubo contactos, clientes, datos reales, gasto ni ingresos. Spend: USD 0. Revenue: USD 0.
+
+
+## Regresión de exportación local — 2026-10-29
+
+- Se agregó una prueba de fuente para proteger el contrato de la exportación del plan: botón local, nombre de archivo, marca `requiresHumanApproval` y ausencia de `fetch`/XMLHttpRequest.
+- Producto de prueba: [5d90adf](https://github.com/RodrigoCalleia/cobro-agent/commit/5d90adf73bd94fb7febbe5ff5e111e67a07765f0).
+- Verificación del head: **297/297 tests**, build estático aprobado con exactamente 2 assets.
+- La prueba no simula contactos ni envíos; sólo evita regresiones accidentales del límite local.
+- PR #15 sigue draft, no integrada ni desplegada; sin clientes, contactos, gasto ni ingresos. Spend: USD 0. Revenue: USD 0.
+
+
+## Scorecard de validación — 2026-10-29
+
+- Se agregó una plantilla anónima para registrar entrevistas y pruebas sin publicar contactos ni datos personales: [interview scorecard](../validation/interview-scorecard-2026-10-29.md).
+- Define campos comparables, reglas de conteo y criterios observables del MVP; mantiene US$29/30 días como hipótesis.
+- Auditoría independiente de privacidad y roadmap: apto para uso; sin hallazgos relevantes.
+- No contiene clientes ni resultados: entrevistas 0, dolores 0, pruebas 0, pilotos pagos 0.
+- No hubo mensajes, gasto ni ingresos. Spend: USD 0. Revenue: USD 0.
+
+
+## Revisión visual informada por el propietario — 2026-10-29
+
+- Se recibió una captura de la vista pública actual con la demo anterior: no aparecen el cockpit de visión de caja ni el control de importación CSV.
+- Esto confirma que producción sigue mostrando la versión previa y no valida visualmente PR #15/PR #14.
+- No se inició sesión, no se cambió configuración y no se enviaron mensajes. La aceptación del preview de PR #15 continúa pendiente por Team Protection.
+- No cambian los datos comerciales: 30 candidatos preparados, 10 prioritarios objetivo, 10 referentes documentados, 0 entrevistas, 0 dolores, 0 pruebas y 0 pilotos pagos. Spend/revenue: USD 0/USD 0.
+
+
+## Auditoría de evidencia visual — 2026-10-29
+
+- Auditoría independiente de lectura confirmó que la captura del propietario corresponde a la demo pública anterior y no al preview de PR #15.
+- La documentación distingue correctamente producción sin cockpit de la aceptación visual aún pendiente del preview protegido.
+- Los conteos permanecen sin cambios: 30 candidatos, 10 prioritarios objetivo, 10 referentes públicos, 0 entrevistas, 0 dolores, 0 pruebas, 0 pilotos pagos; gasto/ingresos USD 0/USD 0.
+
+
+## Preparación de outreach autorizado — 2026-10-29
+
+- Se agregó [outreach-drafts-2026-10-29.md](../validation/outreach-drafts-2026-10-29.md) con dos invitaciones genéricas, un único seguimiento y checklist de autorización.
+- Es preparación comercial: no se enviaron mensajes y no contiene contactos, datos personales ni claims de clientes o métricas.
+- Auditoría independiente: aprobado; exige autorización del propietario por organización, destinatario y canal, y no habilita automatización.
+- Recomendación previa a cualquier envío: confirmar base legal/consentimiento y mecanismo de baja del canal.
+- El estado verificable no cambia: 30 candidatos preparados, 10 prioritarios objetivo, 10 referentes documentados, 0 entrevistas, 0 dolores, 0 pruebas y 0 pilotos pagos. Spend/revenue: USD 0/USD 0.
+
+
+## Checklist de entrega de prueba/piloto — 2026-10-29
+
+- Se agregó [pilot-handoff-checklist-2026-10-29.md](../validation/pilot-handoff-checklist-2026-10-29.md) para ejecutar validaciones manuales con autorización, IDs anónimos y datos ficticios o voluntariamente entregados.
+- Define cuándo una prueba cuenta, qué evidencia observable registrar y las condiciones para presentar la hipótesis de US$29 por 30 días.
+- Auditoría independiente aprobada: no habilita contacto, cobro, persistencia ni oferta activa.
+- El estado inicial permanece en 0 pruebas y 0 pilotos pagos; gasto/ingresos USD 0/USD 0.
+
+
+## Runbook de staging en VPS — 2026-10-29
+
+- Se agregó [DEPLOYMENT_VPS.md](../DEPLOYMENT_VPS.md) para preparar un preview aislado en un VPS autorizado.
+- Define usuario SSH dedicado sin root, Node >=22.12.0, checkout fijado a commit, pruebas/build, verificación desktop/móvil y separación estricta de producción.
+- Define agentes como tareas acotadas de coordinación, implementación, QA, despliegue y validación comercial; no son procesos permanentes y no acceden al otro sistema del VPS.
+- Auditoría independiente aprobada: sin secretos, credenciales ni sobreafirmaciones.
+- El documento no entrega acceso ni despliega nada. No cambian clientes, pruebas, pilotos, gasto ni ingresos: USD 0/USD 0.
+
+
+## Aislamiento del VPS compartido — 2026-10-29
+
+- El propietario confirmó que el VPS aloja CEO IA y que Rondacobro deberá usar una carpeta independiente.
+- Se actualizó [DEPLOYMENT_VPS.md](../DEPLOYMENT_VPS.md) con directorio, usuario, grupo, puerto, servicio y logs separados; no se reutilizan claves ni `.env` de CEO IA.
+- Los reinicios del VPS se tratan como recuperación manual de pocos minutos: comprobar CEO IA, iniciar sólo el staging de Rondacobro, verificar URL y commit. No se agrega supervisor persistente ni se modifica el arranque sin autorización separada.
+- Auditoría documental: sin acceso al VPS ni cambios al sistema existente. Spend/revenue: USD 0/USD 0.
+
+
+## Handoff de acceso al VPS — 2026-10-29
+
+- Se agregó [VPS_ACCESS_HANDOFF.md](../VPS_ACCESS_HANDOFF.md) con los datos técnicos mínimos para un usuario dedicado, sin root, secretos ni acceso a CEO IA.
+- Incluye preflight de aislamiento, primera puesta en marcha por commit, pruebas/build, checklist visual y recuperación manual después de reinicio.
+- Auditoría independiente aprobada: no solicita credenciales sensibles ni declara despliegue.
+- Aún no se recibió acceso ni se tocó el VPS. Spend/revenue: USD 0/USD 0.
+
+
+## Reconciliación de checklist del preview — 2026-10-29
+
+- Se incorpora al reporte la checklist [preview-acceptance-2026-10-29.md](../validation/preview-acceptance-2026-10-29.md), correspondiente al head de la PR #15.
+- La checklist no declara aceptación: requiere URL autorizada, commit identificado y comprobaciones desktop/móvil. La captura pública del propietario sólo confirma que producción no cambió y no valida el preview.
+- PR #15 continúa draft, sin integración ni despliegue; el acceso al preview protegido o un staging VPS autorizado sigue siendo el bloqueo principal.
+- No se recibieron credenciales, no hubo mensajes a terceros y no cambian los conteos comerciales: 30 candidatos preparados, 10 prioritarios objetivo, 10 referentes documentados, 0 entrevistas, 0 dolores, 0 pruebas y 0 pilotos pagos. Spend/revenue: USD 0/USD 0.
