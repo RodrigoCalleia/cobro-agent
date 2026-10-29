@@ -274,3 +274,11 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Define agentes como tareas acotadas de coordinación, implementación, QA, despliegue y validación comercial; no son procesos permanentes y no acceden al otro sistema del VPS.
 - Auditoría independiente aprobada: sin secretos, credenciales ni sobreafirmaciones.
 - El documento no entrega acceso ni despliega nada. No cambian clientes, pruebas, pilotos, gasto ni ingresos: USD 0/USD 0.
+
+
+## Aislamiento del VPS compartido — 2026-10-29
+
+- El propietario confirmó que el VPS aloja CEO IA y que Rondacobro deberá usar una carpeta independiente.
+- Se actualizó [DEPLOYMENT_VPS.md](../DEPLOYMENT_VPS.md) con directorio, usuario, grupo, puerto, servicio y logs separados; no se reutilizan claves ni `.env` de CEO IA.
+- Los reinicios del VPS se tratan como recuperación manual de pocos minutos: comprobar CEO IA, iniciar sólo el staging de Rondacobro, verificar URL y commit. No se agrega supervisor persistente ni se modifica el arranque sin autorización separada.
+- Auditoría documental: sin acceso al VPS ni cambios al sistema existente. Spend/revenue: USD 0/USD 0.
