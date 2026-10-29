@@ -780,3 +780,11 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - Producto: [6025380](https://github.com/RodrigoCalleia/cobro-agent/commit/60253801b2a69a359e81de46d0ec5a45db1555da). Reporte: [2026-10-26-csv-import.md](reports/2026-10-26-csv-import.md).
 - Verificación: **296/296 tests** y build estático con 2 assets. PR #15 sigue draft, no integrada ni desplegada; revisión visual autorizada pendiente.
 - Prospectos, entrevistas, dolores, pruebas, pilotos, contactos, gasto e ingresos no cambian: 30 candidatos preparados, 10 prioritarios objetivo, 10 referentes documentados en PR #13, y 0/0/0/0 en validación comercial. Spend/revenue: USD0/USD0.
+
+
+## Regresión de exportación local — 2026-10-29
+
+- Se agregó la prueba [5d90adf](https://github.com/RodrigoCalleia/cobro-agent/commit/5d90adf73bd94fb7febbe5ff5e111e67a07765f0) para impedir que el plan local pierda su botón, archivo JSON, aprobación humana explícita o límite sin llamadas externas.
+- Verificación: **297/297 tests** y build estático con 2 assets.
+- PR #15 sigue draft, no integrada ni desplegada; no se agregaron contactos, clientes ni datos reales. Spend/revenue: USD0/USD0.
+- Reporte: [2026-10-26-csv-import.md](reports/2026-10-26-csv-import.md).
