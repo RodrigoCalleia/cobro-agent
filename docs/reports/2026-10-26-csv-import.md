@@ -290,3 +290,11 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Incluye preflight de aislamiento, primera puesta en marcha por commit, pruebas/build, checklist visual y recuperación manual después de reinicio.
 - Auditoría independiente aprobada: no solicita credenciales sensibles ni declara despliegue.
 - Aún no se recibió acceso ni se tocó el VPS. Spend/revenue: USD 0/USD 0.
+
+
+## Reconciliación de checklist del preview — 2026-10-29
+
+- Se incorpora al reporte la checklist [preview-acceptance-2026-10-29.md](../validation/preview-acceptance-2026-10-29.md), correspondiente al head de la PR #15.
+- La checklist no declara aceptación: requiere URL autorizada, commit identificado y comprobaciones desktop/móvil. La captura pública del propietario sólo confirma que producción no cambió y no valida el preview.
+- PR #15 continúa draft, sin integración ni despliegue; el acceso al preview protegido o un staging VPS autorizado sigue siendo el bloqueo principal.
+- No se recibieron credenciales, no hubo mensajes a terceros y no cambian los conteos comerciales: 30 candidatos preparados, 10 prioritarios objetivo, 10 referentes documentados, 0 entrevistas, 0 dolores, 0 pruebas y 0 pilotos pagos. Spend/revenue: USD 0/USD 0.
