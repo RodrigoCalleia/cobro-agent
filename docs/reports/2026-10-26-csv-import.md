@@ -233,3 +233,11 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Auditoría independiente de privacidad y roadmap: apto para uso; sin hallazgos relevantes.
 - No contiene clientes ni resultados: entrevistas 0, dolores 0, pruebas 0, pilotos pagos 0.
 - No hubo mensajes, gasto ni ingresos. Spend: USD 0. Revenue: USD 0.
+
+
+## Revisión visual informada por el propietario — 2026-10-29
+
+- Se recibió una captura de la vista pública actual con la demo anterior: no aparecen el cockpit de visión de caja ni el control de importación CSV.
+- Esto confirma que producción sigue mostrando la versión previa y no valida visualmente PR #15/PR #14.
+- No se inició sesión, no se cambió configuración y no se enviaron mensajes. La aceptación del preview de PR #15 continúa pendiente por Team Protection.
+- No cambian los datos comerciales: 30 candidatos preparados, 10 prioritarios objetivo, 10 referentes documentados, 0 entrevistas, 0 dolores, 0 pruebas y 0 pilotos pagos. Spend/revenue: USD 0/USD 0.
