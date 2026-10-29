@@ -224,3 +224,12 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Verificación del head: **297/297 tests**, build estático aprobado con exactamente 2 assets.
 - La prueba no simula contactos ni envíos; sólo evita regresiones accidentales del límite local.
 - PR #15 sigue draft, no integrada ni desplegada; sin clientes, contactos, gasto ni ingresos. Spend: USD 0. Revenue: USD 0.
+
+
+## Scorecard de validación — 2026-10-29
+
+- Se agregó una plantilla anónima para registrar entrevistas y pruebas sin publicar contactos ni datos personales: [interview scorecard](../validation/interview-scorecard-2026-10-29.md).
+- Define campos comparables, reglas de conteo y criterios observables del MVP; mantiene US$29/30 días como hipótesis.
+- Auditoría independiente de privacidad y roadmap: apto para uso; sin hallazgos relevantes.
+- No contiene clientes ni resultados: entrevistas 0, dolores 0, pruebas 0, pilotos pagos 0.
+- No hubo mensajes, gasto ni ingresos. Spend: USD 0. Revenue: USD 0.
