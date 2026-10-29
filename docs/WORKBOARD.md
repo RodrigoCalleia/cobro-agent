@@ -837,3 +837,10 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - El VPS aloja CEO IA; Rondacobro usará directorio, usuario, grupo, puerto, servicio y logs propios, sin reutilizar claves ni `.env`.
 - Un reinicio puede requerir recuperación manual de pocos minutos: comprobar CEO IA, iniciar staging de Rondacobro, verificar URL y commit. No se modifica el arranque ni se agrega supervisor persistente sin autorización separada.
 - El runbook actualizado no entrega acceso ni toca el sistema existente. Spend/revenue: USD0/USD0.
+
+
+## Handoff de acceso al VPS — 2026-10-29
+
+- Se agregó [VPS_ACCESS_HANDOFF.md](VPS_ACCESS_HANDOFF.md) con datos técnicos mínimos para un usuario dedicado y una carpeta independiente de CEO IA.
+- El flujo fija commit, ejecuta npm test/build, exige checklist visual y contempla recuperación manual después de reinicios.
+- Auditoría independiente aprobada. No se recibieron credenciales ni se tocó el VPS; spend/revenue USD0/USD0.
