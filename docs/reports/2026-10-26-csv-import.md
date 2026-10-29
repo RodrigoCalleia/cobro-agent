@@ -282,3 +282,11 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Se actualizó [DEPLOYMENT_VPS.md](../DEPLOYMENT_VPS.md) con directorio, usuario, grupo, puerto, servicio y logs separados; no se reutilizan claves ni `.env` de CEO IA.
 - Los reinicios del VPS se tratan como recuperación manual de pocos minutos: comprobar CEO IA, iniciar sólo el staging de Rondacobro, verificar URL y commit. No se agrega supervisor persistente ni se modifica el arranque sin autorización separada.
 - Auditoría documental: sin acceso al VPS ni cambios al sistema existente. Spend/revenue: USD 0/USD 0.
+
+
+## Handoff de acceso al VPS — 2026-10-29
+
+- Se agregó [VPS_ACCESS_HANDOFF.md](../VPS_ACCESS_HANDOFF.md) con los datos técnicos mínimos para un usuario dedicado, sin root, secretos ni acceso a CEO IA.
+- Incluye preflight de aislamiento, primera puesta en marcha por commit, pruebas/build, checklist visual y recuperación manual después de reinicio.
+- Auditoría independiente aprobada: no solicita credenciales sensibles ni declara despliegue.
+- Aún no se recibió acceso ni se tocó el VPS. Spend/revenue: USD 0/USD 0.
