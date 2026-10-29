@@ -248,3 +248,12 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Auditoría independiente de lectura confirmó que la captura del propietario corresponde a la demo pública anterior y no al preview de PR #15.
 - La documentación distingue correctamente producción sin cockpit de la aceptación visual aún pendiente del preview protegido.
 - Los conteos permanecen sin cambios: 30 candidatos, 10 prioritarios objetivo, 10 referentes públicos, 0 entrevistas, 0 dolores, 0 pruebas, 0 pilotos pagos; gasto/ingresos USD 0/USD 0.
+
+
+## Preparación de outreach autorizado — 2026-10-29
+
+- Se agregó [outreach-drafts-2026-10-29.md](../validation/outreach-drafts-2026-10-29.md) con dos invitaciones genéricas, un único seguimiento y checklist de autorización.
+- Es preparación comercial: no se enviaron mensajes y no contiene contactos, datos personales ni claims de clientes o métricas.
+- Auditoría independiente: aprobado; exige autorización del propietario por organización, destinatario y canal, y no habilita automatización.
+- Recomendación previa a cualquier envío: confirmar base legal/consentimiento y mecanismo de baja del canal.
+- El estado verificable no cambia: 30 candidatos preparados, 10 prioritarios objetivo, 10 referentes documentados, 0 entrevistas, 0 dolores, 0 pruebas y 0 pilotos pagos. Spend/revenue: USD 0/USD 0.
