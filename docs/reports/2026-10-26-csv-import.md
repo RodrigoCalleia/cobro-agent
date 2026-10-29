@@ -215,3 +215,12 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Verificación en el nuevo head: **296/296 tests**, build estático aprobado con exactamente 2 assets.
 - PR #15 continúa draft, no integrada ni desplegada; la revisión visual autorizada permanece pendiente.
 - No hubo contactos, clientes, datos reales, gasto ni ingresos. Spend: USD 0. Revenue: USD 0.
+
+
+## Regresión de exportación local — 2026-10-29
+
+- Se agregó una prueba de fuente para proteger el contrato de la exportación del plan: botón local, nombre de archivo, marca `requiresHumanApproval` y ausencia de `fetch`/XMLHttpRequest.
+- Producto de prueba: [5d90adf](https://github.com/RodrigoCalleia/cobro-agent/commit/5d90adf73bd94fb7febbe5ff5e111e67a07765f0).
+- Verificación del head: **297/297 tests**, build estático aprobado con exactamente 2 assets.
+- La prueba no simula contactos ni envíos; sólo evita regresiones accidentales del límite local.
+- PR #15 sigue draft, no integrada ni desplegada; sin clientes, contactos, gasto ni ingresos. Spend: USD 0. Revenue: USD 0.
