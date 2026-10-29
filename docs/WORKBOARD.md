@@ -822,3 +822,11 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - La prueba sólo cuenta con participante real, autorización, resultado observable y decisión de repetir. El piloto de US$29 queda condicionado a dos pruebas reales, tres organizaciones con dolor recurrente y aceptación explícita.
 - Auditoría independiente aprobó el documento; no habilita contacto, cobro, persistencia ni oferta activa.
 - Estado comercial: 0 pruebas, 0 pilotos pagos; gasto/ingresos USD0/USD0.
+
+
+## Runbook de staging en VPS — 2026-10-29
+
+- Se agregó [DEPLOYMENT_VPS.md](DEPLOYMENT_VPS.md) para preparar una URL de preview aislada si el propietario habilita un VPS.
+- Requisitos: usuario SSH dedicado sin root, Node >=22.12.0, checkout por commit, pruebas/build, revisión desktop/móvil y separación de `main`/producción.
+- Los agentes se definen como tareas acotadas: coordinación, implementación, QA, revisión de despliegue y validación comercial. No son procesos permanentes y no acceden al otro sistema.
+- Auditoría independiente aprobada. No se entregó acceso ni se hizo despliegue; no cambian contactos, clientes, pruebas, pilotos, gastos ni ingresos.
