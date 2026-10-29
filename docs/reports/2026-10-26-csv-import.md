@@ -265,3 +265,12 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Define cuándo una prueba cuenta, qué evidencia observable registrar y las condiciones para presentar la hipótesis de US$29 por 30 días.
 - Auditoría independiente aprobada: no habilita contacto, cobro, persistencia ni oferta activa.
 - El estado inicial permanece en 0 pruebas y 0 pilotos pagos; gasto/ingresos USD 0/USD 0.
+
+
+## Runbook de staging en VPS — 2026-10-29
+
+- Se agregó [DEPLOYMENT_VPS.md](../DEPLOYMENT_VPS.md) para preparar un preview aislado en un VPS autorizado.
+- Define usuario SSH dedicado sin root, Node >=22.12.0, checkout fijado a commit, pruebas/build, verificación desktop/móvil y separación estricta de producción.
+- Define agentes como tareas acotadas de coordinación, implementación, QA, despliegue y validación comercial; no son procesos permanentes y no acceden al otro sistema del VPS.
+- Auditoría independiente aprobada: sin secretos, credenciales ni sobreafirmaciones.
+- El documento no entrega acceso ni despliega nada. No cambian clientes, pruebas, pilotos, gasto ni ingresos: USD 0/USD 0.
