@@ -844,3 +844,12 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - Se agregó [VPS_ACCESS_HANDOFF.md](VPS_ACCESS_HANDOFF.md) con datos técnicos mínimos para un usuario dedicado y una carpeta independiente de CEO IA.
 - El flujo fija commit, ejecuta npm test/build, exige checklist visual y contempla recuperación manual después de reinicios.
 - Auditoría independiente aprobada. No se recibieron credenciales ni se tocó el VPS; spend/revenue USD0/USD0.
+
+
+## Checklist de aceptación del preview — 2026-10-29
+
+- Se reconcilia el checklist [preview-acceptance-2026-10-29.md](validation/preview-acceptance-2026-10-29.md), agregado en el head de la PR #15.
+- La checklist exige URL autorizada, commit servido identificado, verificación desktop/móvil y comprobación de que cockpit, CSV, borradores y exportación local corresponden a la rama.
+- La captura aportada por el propietario sólo verifica que producción sigue mostrando la demo anterior; no es aceptación del preview protegido.
+- PR #15 sigue draft, sin integrar ni desplegar; la aceptación visual queda pendiente de acceso al preview o de staging VPS autorizado. No se recibieron credenciales ni se modificó producción.
+- Estado comercial: 30 candidatos preparados, 10 prioritarios objetivo, 10 referentes documentados en PR #13; 0 entrevistas, 0 dolores, 0 pruebas y 0 pilotos pagos. Spend/revenue: USD 0/USD 0.
