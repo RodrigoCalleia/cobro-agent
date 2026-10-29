@@ -814,3 +814,11 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - El documento exige autorización explícita del propietario para organización, destinatario y canal; no envía mensajes ni contiene contactos o datos personales.
 - Auditoría independiente aprobó privacidad y alineación con el roadmap. Antes de cualquier envío se debe confirmar base legal/consentimiento y mecanismo de baja.
 - Estado comercial permanece: 30 candidatos preparados, 10 prioritarios objetivo, 10 referentes documentados, 0 entrevistas, 0 dolores, 0 pruebas y 0 pilotos pagos. Spend/revenue: USD0/USD0.
+
+
+## Checklist de entrega de prueba/piloto — 2026-10-29
+
+- Se agregó [pilot-handoff-checklist-2026-10-29.md](validation/pilot-handoff-checklist-2026-10-29.md) para convertir una conversación autorizada en evidencia auditable sin publicar datos personales.
+- La prueba sólo cuenta con participante real, autorización, resultado observable y decisión de repetir. El piloto de US$29 queda condicionado a dos pruebas reales, tres organizaciones con dolor recurrente y aceptación explícita.
+- Auditoría independiente aprobó el documento; no habilita contacto, cobro, persistencia ni oferta activa.
+- Estado comercial: 0 pruebas, 0 pilotos pagos; gasto/ingresos USD0/USD0.
