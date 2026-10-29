@@ -257,3 +257,11 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Auditoría independiente: aprobado; exige autorización del propietario por organización, destinatario y canal, y no habilita automatización.
 - Recomendación previa a cualquier envío: confirmar base legal/consentimiento y mecanismo de baja del canal.
 - El estado verificable no cambia: 30 candidatos preparados, 10 prioritarios objetivo, 10 referentes documentados, 0 entrevistas, 0 dolores, 0 pruebas y 0 pilotos pagos. Spend/revenue: USD 0/USD 0.
+
+
+## Checklist de entrega de prueba/piloto — 2026-10-29
+
+- Se agregó [pilot-handoff-checklist-2026-10-29.md](../validation/pilot-handoff-checklist-2026-10-29.md) para ejecutar validaciones manuales con autorización, IDs anónimos y datos ficticios o voluntariamente entregados.
+- Define cuándo una prueba cuenta, qué evidencia observable registrar y las condiciones para presentar la hipótesis de US$29 por 30 días.
+- Auditoría independiente aprobada: no habilita contacto, cobro, persistencia ni oferta activa.
+- El estado inicial permanece en 0 pruebas y 0 pilotos pagos; gasto/ingresos USD 0/USD 0.
