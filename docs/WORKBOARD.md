@@ -806,3 +806,11 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - Por lo tanto, la revisión confirma que producción no cambió, pero no constituye aceptación visual del preview protegido de PR #15.
 - PR #15 sigue draft, dependiente de PR #14; main permanece sin integrar estas mejoras.
 - Próximo paso: abrir el preview de PR #15 con acceso autorizado y verificar desktop/móvil sobre esa rama, o mantener el bloqueo explícito.
+
+
+## Preparación de outreach autorizado — 2026-10-29
+
+- Se agregó [outreach-drafts-2026-10-29.md](validation/outreach-drafts-2026-10-29.md) con invitaciones genéricas para PyMEs B2B, agencias, estudios y consultoras.
+- El documento exige autorización explícita del propietario para organización, destinatario y canal; no envía mensajes ni contiene contactos o datos personales.
+- Auditoría independiente aprobó privacidad y alineación con el roadmap. Antes de cualquier envío se debe confirmar base legal/consentimiento y mecanismo de baja.
+- Estado comercial permanece: 30 candidatos preparados, 10 prioritarios objetivo, 10 referentes documentados, 0 entrevistas, 0 dolores, 0 pruebas y 0 pilotos pagos. Spend/revenue: USD0/USD0.
