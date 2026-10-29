@@ -205,3 +205,13 @@ Spend: USD 0. Revenue: USD 0. Customer/contact data: none.
 - Producto: [ab3d2e8](https://github.com/RodrigoCalleia/cobro-agent/commit/ab3d2e8e3b3d8157a34756095692ba507952cb70).
 - Primera corrida local: 295/296 por un timeout intermitente ya conocido del runtime Netlify; repetición inmediata: **296/296**. Build estático: aprobado con 2 assets.
 - No hubo cambios en `main`, despliegue, contactos ni datos reales. Spend: USD 0. Revenue: USD 0.
+
+
+## Exportación de plan revisable — 2026-10-29
+
+- El cockpit ahora permite descargar un plan local con las tres prioridades actuales, importe, vencimiento, decisión, borrador y marca explícita de aprobación humana.
+- La exportación genera `rondacobro-plan-seguimiento.json` en el navegador; no envía mensajes, no persiste datos y no llama a servicios externos.
+- Producto: [6025380](https://github.com/RodrigoCalleia/cobro-agent/commit/60253801b2a69a359e81de46d0ec5a45db1555da).
+- Verificación en el nuevo head: **296/296 tests**, build estático aprobado con exactamente 2 assets.
+- PR #15 continúa draft, no integrada ni desplegada; la revisión visual autorizada permanece pendiente.
+- No hubo contactos, clientes, datos reales, gasto ni ingresos. Spend: USD 0. Revenue: USD 0.
