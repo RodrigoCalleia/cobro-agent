@@ -771,3 +771,12 @@ Report: [CSV import report](reports/2026-10-26-csv-import.md).
 - Verificación: repetición inmediata 296/296; build aprobado con 2 assets. La primera corrida tuvo el timeout intermitente conocido y no se tomó como resultado final.
 - PR #15 sigue draft, no integrado ni desplegado; sin contactos, mensajes, gasto ni ingresos.
 - Reporte: [CSV import report](reports/2026-10-26-csv-import.md).
+
+
+## Exportación de plan revisable — 2026-10-29
+
+- El cockpit de la PR #15 ahora permite exportar localmente las tres prioridades sugeridas con importe, vencimiento, decisión, borrador contextual y requisito de aprobación humana.
+- El archivo se descarga como `rondacobro-plan-seguimiento.json`; no envía, persiste ni publica datos.
+- Producto: [6025380](https://github.com/RodrigoCalleia/cobro-agent/commit/60253801b2a69a359e81de46d0ec5a45db1555da). Reporte: [2026-10-26-csv-import.md](reports/2026-10-26-csv-import.md).
+- Verificación: **296/296 tests** y build estático con 2 assets. PR #15 sigue draft, no integrada ni desplegada; revisión visual autorizada pendiente.
+- Prospectos, entrevistas, dolores, pruebas, pilotos, contactos, gasto e ingresos no cambian: 30 candidatos preparados, 10 prioritarios objetivo, 10 referentes documentados en PR #13, y 0/0/0/0 en validación comercial. Spend/revenue: USD0/USD0.
